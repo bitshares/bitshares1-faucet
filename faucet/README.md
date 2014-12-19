@@ -60,7 +60,7 @@ https://ssl.reddit.com/prefs/apps/
 Note, redirect uri is required to contain full path, e.g. http://example.com/users/auth/reddit/callback
 
 
-If you are planning to user referral codes, after you specified rpc port, user name and password, run the following command:
+If you are planning to use referral codes, after you specified rpc port, user name and password, run the following command:
 
   $ rake db:seed
 
