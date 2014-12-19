@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Profile</h3>
+      </div>
+      <div class="panel-body">
+        <ul class="list-group">
+          <li class="list-group-item"><%= @user.name %></li>
+          <li class="list-group-item"><%= @user.email %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Identities</h3>
+      </div>
+      <div class="panel-body">
+        <table class="table table-striped col-md-4">
+          <thead>
+            <tr>
+              <th>Provider</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @user.identities.each do |i| %>
+              <tr>
+                <td> <%= i.provider %> </td>
+                <td> <%= i.email %> </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>

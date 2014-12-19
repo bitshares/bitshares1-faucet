@@ -1,0 +1,23 @@
+rpc_port: 5691
+rpc_user: user
+rpc_password: pass
+
+faucet_account: angel
+faucet_refcode_prefix: FT1
+
+oauth:
+  facebook:
+    app_id: 111
+    secret: 222
+  twitter:
+    app_id: 111
+    secret: 222
+  linkedin:
+    app_id: 111
+    secret: 222
+  google:
+    app_id: 111
+    secret: 222
+  github:
+    app_id: 111
+    secret: 222

@@ -1,0 +1,1 @@
+Asset.sync_with_blockchain

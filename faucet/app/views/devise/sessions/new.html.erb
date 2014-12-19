@@ -1,0 +1,15 @@
+<h2>Log in</h2>
+
+<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {role: 'form'}) do |f| %>
+  <div class="form-group">
+    <%= f.input :name, required: false, autofocus: true %>
+  </div>
+  <!--<%#= f.input :email, required: false, autofocus: true %>-->
+  <div class="form-group">
+    <%= f.input :password, required: false %>
+  </div>
+  <%= f.button :submit, "Log in" %>
+<% end %>
+
+<br/>
+<%= render "devise/shared/links" %>

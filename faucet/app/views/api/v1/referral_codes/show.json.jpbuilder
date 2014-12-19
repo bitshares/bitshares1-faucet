@@ -1,0 +1,7 @@
+json.referral_code do
+  json.code @referral.code
+  json.expires_at @referral.expires_at
+  json.status @referral.status
+  json.amount @referral.amount
+  json.asset_id @referral.asset.assetid if @referral.asset
+end

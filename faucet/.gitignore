@@ -1,0 +1,7 @@
+/.bundle
+/log/*.log
+/tmp
+/.idea
+Gemfile.lock
+config/secrets.yml
+config/bitshares.yml
