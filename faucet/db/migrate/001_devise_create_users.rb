@@ -26,6 +26,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.datetime :confirmation_sent_at
 
       t.boolean :is_admin, default: false
+      t.string :newsletter_subscription
 
       t.timestamps
     end

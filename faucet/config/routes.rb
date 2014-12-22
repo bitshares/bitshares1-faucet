@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
   get 'user/profile', to: 'users#profile', as: 'profile'
-  get 'user/bitshares_account', to: 'users#bitshares_account', as: 'bitshares_account'
+  get 'user/register_account', to: 'users#register_account', as: 'register_account'
+  match 'user/bitshares_account', to: 'users#bitshares_account', as: 'bitshares_account', via: [:get, :post]
 
   devise_scope :user do
     get 'sign_out', to: 'devise/sessions#destroy', :as => :sign_out

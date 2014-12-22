@@ -55,7 +55,7 @@ class User < ActiveRecord::Base
       result[:error] = "Account '#{account_name}' is already registered"
       return result
     end
-    if self.bts_accounts.count > 2
+    if self.bts_accounts.count >= Rails.application.config.bitshares.registrations_limit
       result[:error] = 'Account cannot be registered. You are running out of your limit of free account registrations.'
       return result
     end

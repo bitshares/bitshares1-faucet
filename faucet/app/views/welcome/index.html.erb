@@ -39,3 +39,6 @@
   <br/>
   <div class="alert alert-warning" role="alert">Note: This step is only necessary to prevent abuse of the faucet. There is no link whatsoever between these services and your BitShares account.</div>
 </div>
+<% content_for :footer do %>
+  <p>Faucet Balance: <b><%= number_to_currency(@faucet_balance, unit: '') %> <%= @asset.symbol %></b>, you can donate to this faucet by sending <%= @asset.symbol %> to <b><%= @faucet_account %></b> account.</p>
+<% end %>

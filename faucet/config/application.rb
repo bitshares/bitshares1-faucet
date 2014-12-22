@@ -35,7 +35,8 @@ module Hosted
 
     bitshares_conf = ERB.new(File.read("#{Rails.root}/config/bitshares.yml")).result
     config.send("bitshares=", OpenStruct.new(YAML.load(bitshares_conf)))
-    #YAML.load_file("#{Rails.root}/config/bitshares.yml").each { |k,v| config.send("#{k}=", v) }
+
+    config.cache_store = :memory_store, { size: 16.megabytes }
 
   end
 end
