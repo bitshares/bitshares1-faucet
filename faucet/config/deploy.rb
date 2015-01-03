@@ -1,23 +1,18 @@
 require 'mina/git'
 require 'mina/bundler'
-require 'mina/rsync'
 
 set :domain, 'faucet'
 set :user, 'bts'
-
-set :rsync_options, %w[
-  --recursive --delete --delete-excluded
-  --exclude .git*
-  --exclude /config/bitshares.yml
-config/secrets.yml
-]
+set :deploy_to, '/www'
+set :repository, 'https://github.com/BitShares/web_services.git'
 
 task :deploy do
   deploy do
-    invoke "rsync:deploy"
+    invoke :'git:clone'
+    #invoke :'bundle:install'
   end
 end
 
 task :restart do
-  queue 'sudo service restart apache'
+  queue 'sudo service restart nginx'
 end
