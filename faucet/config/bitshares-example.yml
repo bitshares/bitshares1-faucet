@@ -21,3 +21,14 @@ oauth:
   github:
     app_id: 111
     secret: 222
+  reddit:
+    app_id: 111
+    secret: 222
+  weibo:
+    app_id: 111
+    secret: 222
+  qq:
+    app_id: 111
+    secret: 222
+
+registrations_limit: 1
