@@ -99,3 +99,11 @@
 .btn-yahoo:active,.btn-yahoo.active,.open>.dropdown-toggle.btn-yahoo{background-image:none}
 .btn-yahoo.disabled,.btn-yahoo[disabled],fieldset[disabled] .btn-yahoo,.btn-yahoo.disabled:hover,.btn-yahoo[disabled]:hover,fieldset[disabled] .btn-yahoo:hover,.btn-yahoo.disabled:focus,.btn-yahoo[disabled]:focus,fieldset[disabled] .btn-yahoo:focus,.btn-yahoo.disabled:active,.btn-yahoo[disabled]:active,fieldset[disabled] .btn-yahoo:active,.btn-yahoo.disabled.active,.btn-yahoo[disabled].active,fieldset[disabled] .btn-yahoo.active{background-color:#720e9e;border-color:rgba(0,0,0,0.2)}
 .btn-yahoo .badge{color:#720e9e;background-color:#fff}
+/*.btn-tencent-weibo {
+  background:url(http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_5.png) no-repeat !important;
+  text-indent:-9999px;
+}*/
+.btn-tencent-weibo{color:#fff;background-color:#0074C6;border-color:rgba(0,0,0,0.2)}.btn-tencent-weibo:hover,.btn-tencent-weibo:focus,.btn-tencent-weibo:active,.btn-tencent-weibo.active,.open>.dropdown-toggle.btn-tencent-weibo{color:#fff;background-color:#006ABD;border-color:rgba(0,0,0,0.2)}
+.btn-tencent-weibo:active,.btn-tencent-weibo.active,.open>.dropdown-toggle.btn-tencent-weibo{background-image:none}
+.btn-tencent-weibo.disabled,.btn-tencent-weibo[disabled],fieldset[disabled] .btn-tencent-weibo,.btn-tencent-weibo.disabled:hover,.btn-tencent-weibo[disabled]:hover,fieldset[disabled] .btn-tencent-weibo:hover,.btn-tencent-weibo.disabled:focus,.btn-tencent-weibo[disabled]:focus,fieldset[disabled] .btn-tencent-weibo:focus,.btn-tencent-weibo.disabled:active,.btn-tencent-weibo[disabled]:active,fieldset[disabled] .btn-tencent-weibo:active,.btn-tencent-weibo.disabled.active,.btn-tencent-weibo[disabled].active,fieldset[disabled] .btn-tencent-weibo.active{background-color:#0074C6;border-color:rgba(0,0,0,0.2)}
+.btn-tencent-weibo .badge{color:#0074C6;background-color:#fff}

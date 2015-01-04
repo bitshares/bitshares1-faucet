@@ -265,5 +265,6 @@ Devise.setup do |config|
   config.omniauth :google_oauth2, oauth['google']['app_id'], oauth['google']['secret'], { scope: 'email' }
   config.omniauth :github, oauth['github']['app_id'], oauth['github']['secret'], { scope: 'email' }
   config.omniauth :reddit, oauth['reddit']['app_id'], oauth['reddit']['secret'], { scope: 'identity' }
-
+  config.omniauth :weibo, oauth['weibo']['app_id'], oauth['weibo']['secret'], :scope => 'email'
+  config.omniauth :qq, oauth['qq']['app_id'], oauth['qq']['secret'], :scope => 'email'
 end
