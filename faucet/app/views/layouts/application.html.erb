@@ -6,17 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="BitShares Facuet">
-    <meta property="wb:webmaster" content="858567d6f0f2a379" />
-    <meta property="qc:admins" content="657630641535462143012536727" />
-    <!--<link rel="icon" href="../../favicon.ico">-->
+    <% if Rails.application.config.bitshares.meta_wb_webmaster %>
+      <meta property="wb:webmaster" content="<%= Rails.application.config.bitshares.meta_wb_webmaster %>" />
+      <meta property="qc:admins" content="<%= Rails.application.config.bitshares.meta_wb_webmaster %>" />
+    <% end %>
+    <%= favicon_link_tag 'favicon.ico' %>
     <%= csrf_meta_tags %>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries --><!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
   </head>
   <body>
     <% if user_signed_in? %>

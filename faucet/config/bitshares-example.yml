@@ -3,7 +3,8 @@ rpc_user: user
 rpc_password: pass
 
 faucet_account: angel
-faucet_refcode_prefix: FT1
+faucet_refcode_prefix: NNN
+registrations_limit: 1
 
 oauth:
   facebook:
@@ -31,4 +32,5 @@ oauth:
     app_id: 111
     secret: 222
 
-registrations_limit: 1
+meta_wb_webmaster: 111
+meta_qc_admins: 111
