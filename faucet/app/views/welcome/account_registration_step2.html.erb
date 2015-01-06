@@ -1,0 +1,19 @@
+<% if @account.valid? %>
+  <div class="header">
+    <h2 class="logo text-center">You are about to register account <b><%= @account_name %></b>, please authenticate with one of the following identity providers to proceed:</h2>
+    <br/>
+  </div>
+  <%= render partial: 'social_buttons' %>
+<% else %>
+  <div class="header">
+    <h2 class="logo text-center">Please enter correct account name and your public key in the form below:</h2>
+    <br/>
+  </div>
+  <%= render partial: 'register_account_form' %>
+<% end %>
+<br/>
+<br/>
+<br/>
+<div class="text-center">
+  Need help? Read <a href="http://bytemaster.bitshares.org/tutorial/2015/01/03/How-to-Register-a-BitShares-Account/" target="_blank">How to Register a BitShares Account</a>
+</div>

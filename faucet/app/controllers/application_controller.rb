@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
     if session[:pending_registration]
       bitshares_account_path
     else
-      register_account_path
+      profile_path(resource)
     end
   end
 
@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
     if session[:pending_registration]
       bitshares_account_path
     else
-      register_account_path
+      profile_path(resource)
     end
   end
 

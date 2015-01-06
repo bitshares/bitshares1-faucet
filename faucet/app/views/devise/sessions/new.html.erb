@@ -1,15 +1,17 @@
-<h2>Log in</h2>
+<div class="header">
+  <h2 class="logo text-center">Sign in to your faucet account</h2>
+  <br/>
+</div>
 
-<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {role: 'form'}) do |f| %>
-  <div class="form-group">
-    <%= f.input :name, required: false, autofocus: true %>
-  </div>
+<%= render partial: 'welcome/social_buttons' %>
+<%#= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {role: 'form'}) do |f| %>
+  <!--<div class="form-group">-->
+    <%#= f.input :name, required: false, autofocus: true %>
+  <!--</div>-->
   <!--<%#= f.input :email, required: false, autofocus: true %>-->
-  <div class="form-group">
-    <%= f.input :password, required: false %>
-  </div>
-  <%= f.button :submit, "Log in" %>
-<% end %>
+  <!--<div class="form-group">-->
+    <%#= f.input :password, required: false %>
+  <!--</div>-->
+  <%#= f.button :submit, "Log in" %>
+<%# end %>
 
-<br/>
-<%= render "devise/shared/links" %>

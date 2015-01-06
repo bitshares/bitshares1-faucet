@@ -29,7 +29,7 @@
 <% end %>
 
 <% if @reg_status and @reg_status[:error] %>
-  <h4>Please try a different account name</h4>
+  <h4 class="text-center">Please try a different account name</h4>
   <%= simple_form_for(@account, as: 'account', url: bitshares_account_path, html: {role: 'form', class: 'register_account_form'}) do |f| %>
     <div class="form-group">
       <%= f.input :name, required: false, autofocus: true, label: 'Account Name' %>
@@ -41,6 +41,7 @@
   <% end %>
 <% end %>
 
+<% if @reg_status and !@reg_status[:error] %>
 <script>
   window.fbAsyncInit = function () {
     FB.init({
@@ -83,3 +84,4 @@
     FB.ui(obj, callback);
   }
 </script>
+<% end %>

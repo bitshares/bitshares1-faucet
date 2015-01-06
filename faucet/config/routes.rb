@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
 
   root 'welcome#index'
+  post '/account_registration_step2', to: 'welcome#account_registration_step2', as: 'account_registration_step2'
 
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
   get 'user/profile', to: 'users#profile', as: 'profile'
-  get 'user/register_account', to: 'users#register_account', as: 'register_account'
   match 'user/bitshares_account', to: 'users#bitshares_account', as: 'bitshares_account', via: [:get, :post]
 
   devise_scope :user do

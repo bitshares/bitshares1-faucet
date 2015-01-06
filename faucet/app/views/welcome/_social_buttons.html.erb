@@ -1,0 +1,46 @@
+<div class="social-buttons">
+  <div class="row">
+    <div class="col-md-6 cell text-center">
+      <a href="<%= user_omniauth_authorize_path(:facebook) %>" class="btn btn-block btn-lg btn-social btn-facebook">
+        <i class="fa fa-facebook"></i> Sign in with Facebook</a>
+    </div>
+    <div class="col-md-6 cell text-center">
+      <a href="<%= user_omniauth_authorize_path(:twitter) %>" class="btn btn-block btn-lg btn-social btn-twitter">
+        <i class="fa fa-twitter"></i> Sign in with Twitter</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 cell text-center">
+      <a href="<%= user_omniauth_authorize_path(:linkedin) %>" class="btn btn-block btn-lg btn-social btn-linkedin">
+        <i class="fa fa-linkedin"></i> Sign in with LinkedIn</a>
+    </div>
+    <div class="col-md-6 cell text-center">
+      <a href="<%= user_omniauth_authorize_path(:google_oauth2) %>" class="btn btn-block btn-lg btn-social btn-google-plus">
+        <i class="fa fa-google"></i> Sign in with Google</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 cell text-center">
+      <a href="<%= user_omniauth_authorize_path(:github) %>" class="btn  btn-block btn-lg btn-social btn-github">
+        <i class="fa fa-github"></i> Sign in with Github</a>
+    </div>
+    <div class="col-md-6 cell text-center">
+      <a href="<%= user_omniauth_authorize_path(:reddit) %>" class="btn  btn-block btn-lg btn-social btn-reddit">
+        <i class="fa fa-reddit"></i> Sign in with Reddit</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 cell text-center">
+      <a href="<%= user_omniauth_authorize_path(:weibo) %>" class="btn  btn-block btn-lg btn-social btn-pinterest">
+        <i class="fa fa-weibo"></i> 使用 新浪微博 登录</a>
+    </div>
+    <div class="col-md-6 cell text-center">
+      <a href="<%= user_omniauth_authorize_path(:qq) %>" class="btn  btn-block btn-lg btn-social btn-tencent-weibo">
+        <i class="fa fa-tencent-weibo"></i> 使用 QQ 登录</a>
+    </div>
+  </div>
+  <br/>
+  <div class="alert alert-warning" role="alert">Note: This step is only necessary to prevent abuse of the faucet. There
+    is no link whatsoever between these services and your BitShares account.
+  </div>
+</div>
