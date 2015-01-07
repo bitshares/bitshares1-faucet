@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
   root 'welcome#index'
+  get '/test_widget', to: 'welcome#test_widget'
+  get '/w', to: 'welcome#widget'
   post '/account_registration_step2', to: 'welcome#account_registration_step2', as: 'account_registration_step2'
 
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }

@@ -1,15 +1,8 @@
 class WelcomeController < ApplicationController
+  skip_before_filter :verify_authenticity_token, only: [:widget]
 
   def index
-    if params[:r]
-      host = URI.parse(request.original_url).host
-      host = $1 if host =~ /(\w+\.\w+)\z/
-      cookies[:_ref_account] = {
-        value: params[:r],
-        expires: 1.month.from_now,
-        domain: host
-      }
-    end
+    write_referral_cookie(params[:r]) if params[:r]
 
     if params[:account_name] and params[:account_key]
       @account_name = params[:account_name]
@@ -36,10 +29,34 @@ class WelcomeController < ApplicationController
     redirect_to bitshares_account_path if user_signed_in?
   end
 
+  def test_widget
+  end
+
+  def widget
+    logger.debug "widget request from '#{request.referer.inspect}'"
+    response.headers['Content-type'] = 'text/javascript; charset=utf-8'
+    if request.referer.inspect =~ /([^\?]+)\z/
+      query = $1
+      if query =~ /r=([\w\d\.\-]+)/
+        write_referral_cookie($1)
+      end
+    end
+  end
+
   private
 
   def bts_account_params
     params.require(:account).permit(:name, :key)
+  end
+
+  def write_referral_cookie(r)
+    host = URI.parse(request.original_url).host
+    host = $1 if host =~ /(\w+\.\w+)\z/
+    cookies[:_ref_account] = {
+      value: r,
+      expires: 1.month.from_now,
+      domain: host
+    }
   end
 
 end
