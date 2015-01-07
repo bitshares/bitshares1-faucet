@@ -21,7 +21,7 @@ class UsersController < ApplicationController
   private
 
   def do_register(name, key)
-    @reg_status = current_user.register_account(name, key)
+    @reg_status = current_user.register_account(name, key, cookies[:_ref_account])
     if @reg_status[:error]
       flash[:alert] = "We were unable to register account '#{name}' - #{@reg_status[:error]}"
       @account = OpenStruct.new(name: name, key: key)

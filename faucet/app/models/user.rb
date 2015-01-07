@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
     user
   end
 
-  def register_account(account_name, account_key)
+  def register_account(account_name, account_key, referrer=nil)
     logger.debug "---------> registering account #{account_name}, key: #{account_key}"
     sleep(0.4) # this is to prevent bots abuse
     account = self.bts_accounts.where(name: account_name).first
@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
     begin
       BitShares::API::Wallet.add_contact_account(account_name, account_key)
       BitShares::API::Wallet.account_register(account_name, Rails.application.config.bitshares.faucet_account)
-      self.bts_accounts.create(name: account_name, key: account_key)
+      self.bts_accounts.create(name: account_name, key: account_key, referrer: referrer)
     rescue BitShares::API::Rpc::Error => ex
       result[:error] = ex.to_s
       logger.error("!!! Error. Cannot register account #{account_name} - #{ex.to_s}")

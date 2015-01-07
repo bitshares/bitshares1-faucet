@@ -1,6 +1,16 @@
 class WelcomeController < ApplicationController
 
   def index
+    if params[:r]
+      host = URI.parse(request.original_url).host
+      host = $1 if host =~ /(\w+\.\w+)\z/
+      cookies[:_ref_account] = {
+        value: params[:r],
+        expires: 1.month.from_now,
+        domain: host
+      }
+    end
+
     if params[:account_name] and params[:account_key]
       @account_name = params[:account_name]
       session[:pending_registration] = {account_name: params[:account_name], account_key: params[:account_key]}
