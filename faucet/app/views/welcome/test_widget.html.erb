@@ -3,11 +3,12 @@
 
 <div class="pull-right" style="">
   <script>
+      var BTSW = window.BTSW || {};
       (function () {
           var script = document.createElement('script');
           script.type = 'text/javascript';
           script.async = true;
-          script.src = 'http://faucet.bitshares.org/w.js'
+          script.src = 'http://dev.bitsharestestdrive.com:3000/widgets/1/w.js'
           var entry = document.getElementsByTagName('script')[0];
           entry.parentNode.insertBefore(script, entry);
       }());
@@ -15,7 +16,8 @@
 </div>
 
 <div>
-  <div class="links_main">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet
+  <div class="links_main">
+    <a href="#" onclick="BTSW.action('clicked lorem!', 'ipsum');">Lorem ipsum</a> dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet
     ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent
     et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia
     consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur

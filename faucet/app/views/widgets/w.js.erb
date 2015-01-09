@@ -1,0 +1,14 @@
+<%= render partial: 'jsonp.js' %>
+JSONP.init({
+  callbackName: 'callback'
+});
+(function () {
+  var BTSW = window.BTSW || {};
+  (function (BTSW, window, undefined_) {
+    BTSW.action = function (name, value) {
+      JSONP.get('<%= @jsonp_url %>', {name: name, value: value}, function (response) {
+        console.log(response);
+      });
+    }
+  })(BTSW, window);
+}).call(this);

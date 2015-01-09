@@ -32,31 +32,10 @@ class WelcomeController < ApplicationController
   def test_widget
   end
 
-  def widget
-    logger.debug "widget request from '#{request.referer.inspect}'"
-    response.headers['Content-type'] = 'text/javascript; charset=utf-8'
-    if request.referer.inspect =~ /([^\?]+)\z/
-      query = $1
-      if query =~ /r=([\w\d\.\-]+)/
-        write_referral_cookie($1)
-      end
-    end
-  end
-
   private
 
   def bts_account_params
     params.require(:account).permit(:name, :key)
-  end
-
-  def write_referral_cookie(r)
-    host = URI.parse(request.original_url).host
-    host = $1 if host =~ /(\w+\.\w+)\z/
-    cookies[:_ref_account] = {
-      value: r,
-      expires: 1.month.from_now,
-      domain: host
-    }
   end
 
 end

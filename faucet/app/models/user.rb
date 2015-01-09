@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :identities
   has_many :bts_accounts
+  has_many :widgets
 
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
@@ -15,7 +16,7 @@ class User < ActiveRecord::Base
   validates :password, presence: true, length: { minimum: 6 }
   validates_confirmation_of :password
 
-  def self.find_for_oauth(auth, signed_in_resource)
+  def self.find_for_oauth(auth, signed_in_resource, uid)
     #logger.debug "\n-----> auth:\n#{auth.to_yaml}"
     identity = Identity.find_for_oauth(auth)
     user = signed_in_resource ? signed_in_resource : identity.user
@@ -30,7 +31,8 @@ class User < ActiveRecord::Base
         user = User.new(
           name: auth.info.name || auth.extra.raw_info.name,
           email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
-          password: Devise.friendly_token[0,20]
+          password: Devise.friendly_token[0,20],
+          uid: uid
         )
         #user.skip_confirmation!
         user.save!

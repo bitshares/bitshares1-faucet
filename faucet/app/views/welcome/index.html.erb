@@ -24,5 +24,5 @@
   Need help? Read <a href="http://bytemaster.bitshares.org/tutorial/2015/01/03/How-to-Register-a-BitShares-Account/" target="_blank">How to Register a BitShares Account</a>
 </div>
 <% content_for :footer do %>
-  <p>Faucet Balance: <b><%= number_to_currency(@faucet_balance, unit: '') %> <%= @asset.symbol %></b>, you can donate to this faucet by sending <%= @asset.symbol %> to <b><%= @faucet_account %></b> account.</p>
+  <p>Faucet Balance: <b><%= number_to_currency(@faucet_balance, unit: '') %> <%= @asset.symbol %></b>, you can donate to this faucet by sending <%= @asset.symbol %> to <b><a href="bts:<%= @faucet_account %>/transfer"><%= @faucet_account %></a></b> account.</p>
 <% end %>
