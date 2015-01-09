@@ -1,4 +1,4 @@
-<h1>Test Widget</h1>
+<h1><a href="/test_widget">Test Widget</a></h1>
 <br/>
 
 <div class="pull-right" style="">
@@ -8,7 +8,7 @@
           var script = document.createElement('script');
           script.type = 'text/javascript';
           script.async = true;
-          script.src = 'http://dev.bitsharestestdrive.com:3000/widgets/1/w.js'
+          script.src = 'http://dev.bitsharestestdrive.com:3000/widgets/1/w.js?ref='+encodeURIComponent(document.referrer);
           var entry = document.getElementsByTagName('script')[0];
           entry.parentNode.insertBefore(script, entry);
       }());

@@ -13,8 +13,8 @@ class WidgetsController < ApplicationController
     uri = get_uri_and_check_domain(@w, request.referer)
     return unless uri
     qpms = uri.query ? CGI::parse(uri.query) : {}
-    logger.debug "#{uri.host}; #{qpms}"
-    action = create_user_action(@w, qpms, request, 'page_view', request.referer)
+    refurl = params[:ref] ? ActiveRecord::Base::sanitize(params[:ref]) : nil
+    action = create_user_action(@w, qpms, request, 'page_view', request.referer, refurl)
     write_referral_cookie(action.referrer) if action.referrer
   end
 
@@ -60,12 +60,13 @@ class WidgetsController < ApplicationController
     return uri
   end
 
-  def create_user_action(w, qpms, request, action, value)
+  def create_user_action(w, qpms, request, action, value, refurl = nil)
     action = UserAction.new ({
                                 widget_id: w.id,
                                 uid: @uid,
                                 action: action,
                                 value: value,
+                                refurl: refurl,
                                 channel: sanitize_sparam(qpms['channel'], 64),
                                 referrer: sanitize_sparam(qpms['r'], 64),
                                 campaign: sanitize_sparam(qpms['campaign'], 64),
