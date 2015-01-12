@@ -1,7 +1,10 @@
 class User < ActiveRecord::Base
   has_many :identities
   has_many :bts_accounts
+  has_many :dvs_accounts
   has_many :widgets
+
+  @@dvs_rpc_instance = BitShares::API::Rpc.new(Rails.application.config.bitshares.dvs_rpc_port, Rails.application.config.bitshares.dvs_rpc_user, Rails.application.config.bitshares.dvs_rpc_password, logger: Rails.logger)
 
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
@@ -13,7 +16,7 @@ class User < ActiveRecord::Base
 
   validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
   validates :name, presence: true
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: {minimum: 6}
   validates_confirmation_of :password
 
   def self.find_for_oauth(auth, signed_in_resource, uid)
@@ -29,10 +32,10 @@ class User < ActiveRecord::Base
       # Create the user if it's a new registration
       if user.nil?
         user = User.new(
-          name: auth.info.name || auth.extra.raw_info.name,
-          email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
-          password: Devise.friendly_token[0,20],
-          uid: uid
+            name: auth.info.name || auth.extra.raw_info.name,
+            email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
+            password: Devise.friendly_token[0, 20],
+            uid: uid
         )
         #user.skip_confirmation!
         user.save!
@@ -51,8 +54,18 @@ class User < ActiveRecord::Base
   def register_account(account_name, account_key, referrer=nil)
     logger.debug "---------> registering account #{account_name}, key: #{account_key}"
     sleep(0.4) # this is to prevent bots abuse
+    if account_key.start_with?('DVS')
+      register_dvs_account(account_name, account_key, referrer)
+    else
+      register_bts_account(account_name, account_key, referrer)
+    end
+  end
+
+  private
+
+  def register_bts_account(account_name, account_key, referrer)
     account = self.bts_accounts.where(name: account_name).first
-    result = { account_name: account_name }
+    result = {account_name: account_name}
     if account
       result[:error] = "Account '#{account_name}' is already registered"
       return result
@@ -65,6 +78,28 @@ class User < ActiveRecord::Base
       BitShares::API::Wallet.add_contact_account(account_name, account_key)
       BitShares::API::Wallet.account_register(account_name, Rails.application.config.bitshares.faucet_account)
       self.bts_accounts.create(name: account_name, key: account_key, referrer: referrer)
+    rescue BitShares::API::Rpc::Error => ex
+      result[:error] = ex.to_s
+      logger.error("!!! Error. Cannot register account #{account_name} - #{ex.to_s}")
+    end
+    return result
+  end
+
+  def register_dvs_account(account_name, account_key, referrer)
+    account = self.dvs_accounts.where(name: account_name).first
+    result = {account_name: account_name}
+    if account
+      result[:error] = "Account '#{account_name}' is already registered"
+      return result
+    end
+    if self.dvs_accounts.count >= Rails.application.config.bitshares.registrations_limit
+      result[:error] = 'Account cannot be registered. You are running out of your limit of free account registrations.'
+      return result
+    end
+    begin
+      @@dvs_rpc_instance.request('wallet_add_contact_account', [account_name, account_key])
+      @@dvs_rpc_instance.request('wallet_account_register', [account_name, Rails.application.config.bitshares.faucet_account])
+      self.dvs_accounts.create(name: account_name, key: account_key, referrer: referrer)
     rescue BitShares::API::Rpc::Error => ex
       result[:error] = ex.to_s
       logger.error("!!! Error. Cannot register account #{account_name} - #{ex.to_s}")

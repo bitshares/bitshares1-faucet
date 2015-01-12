@@ -1,6 +1,10 @@
-rpc_port: 5691
-rpc_user: user
-rpc_password: pass
+bts_rpc_port: 5691
+bts_rpc_user: user
+bts_rpc_password: pass
+
+dvs_rpc_port: 5691
+dvs_rpc_user: user
+dvs_rpc_password: pass
 
 faucet_account: angel
 faucet_refcode_prefix: NNN

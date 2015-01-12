@@ -1,4 +1,4 @@
-class BtsAccount < ActiveRecord::Base
+class DvsAccount < ActiveRecord::Base
   belongs_to :user
   before_create :generate_ogid
 
