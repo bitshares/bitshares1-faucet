@@ -30,12 +30,13 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6 cell text-center">
+    <div class="col-md-6 cell text-left">
       <!-- <a href="<%= user_omniauth_authorize_path(:weibo) %>" class="btn  btn-block btn-lg btn-social btn-pinterest">
         <i class="fa fa-weibo"></i> 使用 新浪微博 登录</a> -->
-      <a href="<%= user_omniauth_authorize_path(:weibo) %>" class="btn  btn-block btn-xs">
+      <a href="<%= user_omniauth_authorize_path(:weibo) %>" class="btn  btn-block btn-xs" style="display:inline;">
         <img alt="sina logo" src="http://img.t.sinajs.cn/t4/appstyle/open/images/website/loginbtn/loginbtn_01.png">
       </a>
+      <wb:share-button appkey="26DMcp" addition="simple" type="button" language="zh_cn" default_text="我正在使用免费的Faucet服务，帮助我注册账号"></wb:share-button>
     </div>
     <div class="col-md-6 cell text-center">
       <!-- <a href="<%= user_omniauth_authorize_path(:qq) %>" class="btn  btn-block btn-lg btn-social btn-tencent-weibo">
