@@ -11,6 +11,7 @@ class CreateDvsAccounts < ActiveRecord::Migration
     end
 
     add_index :dvs_accounts, [:name], unique: true
+    add_index :dvs_accounts, [:key], unique: true
     add_index :dvs_accounts, [:ogid], unique: true
 
   end

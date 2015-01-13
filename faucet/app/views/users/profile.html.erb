@@ -35,6 +35,58 @@
             <% end %>
           </tbody>
         </table>
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+          <a href="#">Log in with another identity provider</a>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Please select identity provider</h4>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group">
+            <% if !has_identity?('bitshares') %>
+              <% bts_login = bitshares_login_url(); if bts_login %>
+                <li class="list-group-item"><a href="<%= bitshares_login_url %>" class="btn btn-block btn-lg btn-social btn-bitshares"> <%= image_tag('logo-ico.svg', size: '42x42') %> BitShares</a></li>
+              <% end %>
+            <% end %>
+            <% if !has_identity?('facebook') %>
+              <li class="list-group-item"><a href="<%= user_omniauth_authorize_path(:facebook) %>" class="btn btn-block btn-lg btn-social btn-facebook"> <i class="fa fa-facebook"></i> Facebook</a></li>
+            <% end %>
+            <% if !has_identity?('twitter') %>
+              <li class="list-group-item"><a href="<%= user_omniauth_authorize_path(:twitter) %>" class="btn btn-block btn-lg btn-social btn-twitter"> <i class="fa fa-twitter"></i> Twitter</a></li>
+            <% end %>
+            <% if !has_identity?('linkedin') %>
+              <li class="list-group-item"><a href="<%= user_omniauth_authorize_path(:linkedin) %>" class="btn btn-block btn-lg btn-social btn-linkedin"> <i class="fa fa-linkedin"></i> LinkedIn</a></li>
+            <% end %>
+            <% if !has_identity?('google_oauth2') %>
+              <li class="list-group-item"><a href="<%= user_omniauth_authorize_path(:google_oauth2) %>" class="btn btn-block btn-lg btn-social btn-google-plus"> <i class="fa fa-google"></i> Google</a></li>
+            <% end %>
+            <% if !has_identity?('github') %>
+              <li class="list-group-item"><a href="<%= user_omniauth_authorize_path(:github) %>" class="btn  btn-block btn-lg btn-social btn-github"> <i class="fa fa-github"></i> Github</a></li>
+            <% end %>
+            <% if !has_identity?('reddit') %>
+              <li class="list-group-item"><a href="<%= user_omniauth_authorize_path(:reddit) %>" class="btn  btn-block btn-lg btn-social btn-reddit"> <i class="fa fa-reddit"></i> Sign in with Reddit</a></li>
+            <% end %>
+            <% if !has_identity?('weibo') %>
+              <li class="list-group-item"><a href="<%= user_omniauth_authorize_path(:weibo) %>" class="btn  btn-block btn-lg btn-social btn-pinterest"> <i class="fa fa-weibo"></i> 使用 新浪微博 登录</a></li>
+            <% end %>
+            <% if !has_identity?('qq') %>
+              <li class="list-group-item"><a href="<%= user_omniauth_authorize_path(:qq) %>" class="btn  btn-block btn-lg btn-social btn-tencent-weibo"> <i class="fa fa-tencent-weibo"></i> 使用 QQ 登录</a></li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>

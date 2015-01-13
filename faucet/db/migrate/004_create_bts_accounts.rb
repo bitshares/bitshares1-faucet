@@ -11,6 +11,7 @@ class CreateBtsAccounts < ActiveRecord::Migration
     end
 
     add_index :bts_accounts, [:name], unique: true
+    add_index :bts_accounts, [:key], unique: true
     add_index :bts_accounts, [:ogid], unique: true
 
   end

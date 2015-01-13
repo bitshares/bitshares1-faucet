@@ -6,6 +6,10 @@ class User < ActiveRecord::Base
 
   @@dvs_rpc_instance = BitShares::API::Rpc.new(Rails.application.config.bitshares.dvs_rpc_port, Rails.application.config.bitshares.dvs_rpc_user, Rails.application.config.bitshares.dvs_rpc_password, logger: Rails.logger)
 
+  def self.dvs_rpc_instance
+    @@dvs_rpc_instance
+  end
+
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
 
@@ -76,7 +80,7 @@ class User < ActiveRecord::Base
     end
     begin
       BitShares::API::Wallet.add_contact_account(account_name, account_key)
-      BitShares::API::Wallet.account_register(account_name, Rails.application.config.bitshares.faucet_account)
+      BitShares::API::Wallet.account_register(account_name, Rails.application.config.bitshares.bts_faucet_account)
       self.bts_accounts.create(name: account_name, key: account_key, referrer: referrer)
     rescue BitShares::API::Rpc::Error => ex
       result[:error] = ex.to_s
@@ -98,7 +102,7 @@ class User < ActiveRecord::Base
     end
     begin
       @@dvs_rpc_instance.request('wallet_add_contact_account', [account_name, account_key])
-      @@dvs_rpc_instance.request('wallet_account_register', [account_name, Rails.application.config.bitshares.faucet_account])
+      @@dvs_rpc_instance.request('wallet_account_register', [account_name, Rails.application.config.bitshares.dvs_faucet_account])
       self.dvs_accounts.create(name: account_name, key: account_key, referrer: referrer)
     rescue BitShares::API::Rpc::Error => ex
       result[:error] = ex.to_s

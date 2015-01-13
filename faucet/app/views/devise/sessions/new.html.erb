@@ -3,15 +3,25 @@
   <br/>
 </div>
 
+<% bts_login = bitshares_login_url(); if bts_login %>
+  <div class="row">
+    <div class="col-md-4"> </div>
+    <div class="col-md-4 cell text-center">
+      <a href="<%= bitshares_login_url %>" class="btn btn-block btn-lg btn-social btn-bitshares">
+        <%= image_tag('logo-ico.svg', size: '42x42') %> Sign in with BitShares Client</a>
+    </div>
+    <div class="col-md-4"> </div>
+  </div>
+<% end %>
 <%= render partial: 'welcome/social_buttons' %>
 <%#= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {role: 'form'}) do |f| %>
-  <!--<div class="form-group">-->
-    <%#= f.input :name, required: false, autofocus: true %>
-  <!--</div>-->
-  <!--<%#= f.input :email, required: false, autofocus: true %>-->
-  <!--<div class="form-group">-->
-    <%#= f.input :password, required: false %>
-  <!--</div>-->
-  <%#= f.button :submit, "Log in" %>
+<!--<div class="form-group">-->
+<%#= f.input :name, required: false, autofocus: true %>
+<!--</div>-->
+<!--<%#= f.input :email, required: false, autofocus: true %>-->
+<!--<div class="form-group">-->
+<%#= f.input :password, required: false %>
+<!--</div>-->
+<%#= f.button :submit, "Log in" %>
 <%# end %>
 

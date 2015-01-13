@@ -21,6 +21,18 @@ h2 {
   font-weight: 300;
 }
 
+.btn {
+  a, a:hover {
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+.btn:hover, .btn:focus, .btn.focus {
+  color: #fff;
+  text-decoration: none;
+}
+
 .control-group.error {
   label, .help-inline {
     color: #e00;
@@ -62,4 +74,12 @@ h2 {
   width: 320px;
   margin: 0 auto;
   input[type=text] { width: 320px; }
+}
+
+.btn-bitshares {
+  color: #fff;
+  background-color: #01bbf4;
+  &:hover {
+    background-color: #30c7f5;
+  }
 }

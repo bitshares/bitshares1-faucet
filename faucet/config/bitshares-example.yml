@@ -6,7 +6,9 @@ dvs_rpc_port: 5691
 dvs_rpc_user: user
 dvs_rpc_password: pass
 
-faucet_account: angel
+bts_faucet_account: angel
+dvs_faucet_account: angel
+
 faucet_refcode_prefix: NNN
 registrations_limit: 1
 
