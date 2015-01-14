@@ -11,6 +11,7 @@ body {
   font-family: 'OpenSans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 26px;
+  margin-bottom: 60px;
 }
 
 .flash {
@@ -56,7 +57,7 @@ h2 {
 
 .footer {
   text-align: center;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   height: 48px;
