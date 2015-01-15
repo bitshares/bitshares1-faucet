@@ -1,12 +1,13 @@
 <% if @reg_status and !@reg_status[:error] %>
   <div class="alert alert-info" role="alert">Account <strong><%= @reg_status[:account_name] %></strong> was successfully
-    registered.
+    registered. 你的账号名 <strong><%= @reg_status[:account_name] %></strong> 已经注册成功。
   </div>
 
   <br/>
   <div class="social-buttons">
     <h2 class="logo text-center">Now you can share your BitShares account name with your friends so they can send you
       some funds.</h2>
+    <h2 class="logo text-center">现在你可以将你的比特股账号名告诉其他朋友，让他们可以发资金给你。</h2>
     <br/>
     <div class="row">
       <div class="col-md-4">&nbsp;</div>
