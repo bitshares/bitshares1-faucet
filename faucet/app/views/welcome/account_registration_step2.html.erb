@@ -2,11 +2,16 @@
   <div class="header">
     <h2 class="logo text-center">You are about to register account <b><%= @account_name %></b>, please authenticate with one of the following identity providers to proceed:</h2>
     <br/>
+    <h2 class="logo text-center">你将要注册这个帐户名 <b><%= @account_name %></b> , 请用以下任何一种服务的账号登陆并继续这个流程 :</h2>
+    <br/>
   </div>
   <%= render partial: 'social_buttons' %>
   <br/>
   <div class="alert alert-warning" role="alert">Note: This step is only necessary to prevent abuse of the faucet. There
     is no link whatsoever between these services and your BitShares account.
+  </div>
+   <div class="alert alert-warning" role="alert">注意: 这个步骤只是为了防止滥用赠送注册费的行为，你登陆的这些服务商都不会跟你的比特股账号产生任何关联。
+    
   </div>
 <% else %>
   <div class="header">
