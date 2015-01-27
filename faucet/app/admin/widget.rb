@@ -1,4 +1,5 @@
 ActiveAdmin.register Widget do
+  actions :all, except: [:destroy]
   permit_params :allowed_domains
 
   index do

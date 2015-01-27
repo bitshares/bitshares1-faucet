@@ -36,6 +36,10 @@ class WelcomeController < ApplicationController
   def test_widget
   end
 
+  def refscoreboard
+    @refs = BtsAccount.select([:referrer, 'count(*) as count']).group(:referrer).order('count desc')
+  end
+
   def bitshares_login
     client_key = params[:client_key]
     server_key = params[:server_key]

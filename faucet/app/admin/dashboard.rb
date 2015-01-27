@@ -14,7 +14,7 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         panel "Recent BTS Accounts" do
           ul do
-            BtsAccount.order('id desc').limit(20).map do |a|
+            BtsAccount.order('id desc').limit(30).map do |a|
               li ("#{a.created_at.strftime("%F %H:%M")} " + link_to(a.name, admin_bts_account_path(a))).html_safe
             end
           end
@@ -33,7 +33,7 @@ ActiveAdmin.register_page "Dashboard" do
         panel "Recent DVS Accounts" do
           ul do
             DvsAccount.order('id desc').limit(40).map do |a|
-              li link_to(a.name, admin_dvs_account_path(a))
+              li ("#{a.created_at.strftime("%F %H:%M")} " + link_to(a.name, admin_dvs_account_path(a))).html_safe
             end
           end
         end

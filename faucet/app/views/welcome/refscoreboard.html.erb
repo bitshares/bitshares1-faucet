@@ -1,0 +1,12 @@
+<table class="table">
+  <thead>
+    <th>Referrer</th>
+    <th>Accounts</th>
+  </thead>
+<% @refs.each do |r| %>
+  <tr>
+    <td><%= r.referrer ? r.referrer : '[no ref]'%></td>
+    <td><%= r.count %></td>
+  </tr>
+<% end %>
+</table>
