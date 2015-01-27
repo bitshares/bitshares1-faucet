@@ -1,0 +1,8 @@
+%table.table
+  %thead
+    %th Referrer
+    %th Accounts
+  - @refs.each do |r|
+    %tr
+      %td= r.referrer ? r.referrer : '[no ref]'
+      %td= r.count
