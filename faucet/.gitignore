@@ -2,8 +2,8 @@
 /log/*.log
 /tmp
 /.idea
-Gemfile.lock
 config/secrets.yml
 config/bitshares.yml
 .ruby-version
 .ruby-gemset
+.DS_Store
