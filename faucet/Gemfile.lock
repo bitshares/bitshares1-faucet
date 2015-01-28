@@ -1,0 +1,341 @@
+GIT
+  remote: git://github.com/activeadmin/activeadmin.git
+  revision: 82fc7330ce1d253b1e71635d32723e4af684a022
+  specs:
+    activeadmin (1.0.0.pre)
+      arbre (~> 1.0, >= 1.0.2)
+      bourbon
+      coffee-rails
+      formtastic (~> 3.1)
+      formtastic_i18n
+      inherited_resources (~> 1.6)
+      jquery-rails
+      jquery-ui-rails (~> 5.0)
+      kaminari (~> 0.15)
+      rails (>= 3.2, < 5.0)
+      ransack (~> 1.3)
+      sass-rails
+
+GIT
+  remote: git://github.com/dapic/omniauth-qq-oauth2.git
+  revision: eff18ad4710969cb1afa659b32cc655abac2d9aa
+  specs:
+    omniauth-qq-oauth2 (0.4.0)
+
+GIT
+  remote: git://github.com/jackdempsey/omniauth-reddit.git
+  revision: 4e54423f2d8a000e010998b53fa653adb7137baa
+  specs:
+    omniauth-reddit (0.0.2)
+      omniauth-oauth2 (~> 1.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    actionmailer (4.1.8)
+      actionpack (= 4.1.8)
+      actionview (= 4.1.8)
+      mail (~> 2.5, >= 2.5.4)
+    actionpack (4.1.8)
+      actionview (= 4.1.8)
+      activesupport (= 4.1.8)
+      rack (~> 1.5.2)
+      rack-test (~> 0.6.2)
+    actionview (4.1.8)
+      activesupport (= 4.1.8)
+      builder (~> 3.1)
+      erubis (~> 2.7.0)
+    activemodel (4.1.8)
+      activesupport (= 4.1.8)
+      builder (~> 3.1)
+    activerecord (4.1.8)
+      activemodel (= 4.1.8)
+      activesupport (= 4.1.8)
+      arel (~> 5.0.0)
+    activesupport (4.1.8)
+      i18n (~> 0.6, >= 0.6.9)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.1)
+      tzinfo (~> 1.1)
+    admin_view (0.4.0)
+      kaminari (~> 0.15)
+      rails (~> 4.0)
+      ransack (~> 1.2)
+    arbre (1.0.3)
+      activesupport (>= 3.0.0)
+    arel (5.0.1.20140414130214)
+    autoprefixer-rails (5.0.0.3)
+      execjs
+      json
+    awesome_print (1.6.1)
+    bcrypt (3.1.9)
+    bootstrap-sass (3.3.3)
+      autoprefixer-rails (>= 5.0.0.1)
+      sass (>= 3.2.19)
+    bourbon (3.2.4)
+      sass (~> 3.2)
+      thor
+    builder (3.2.2)
+    coderay (1.1.0)
+    coffee-rails (4.0.1)
+      coffee-script (>= 2.2.0)
+      railties (>= 4.0.0, < 5.0)
+    coffee-script (2.3.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.8.0)
+    database_cleaner (1.4.0)
+    devise (3.4.1)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      responders
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
+    diff-lcs (1.2.5)
+    erubis (2.7.0)
+    execjs (2.2.2)
+    factory_girl (4.5.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.5.0)
+      factory_girl (~> 4.5.0)
+      railties (>= 3.0.0)
+    faraday (0.9.1)
+      multipart-post (>= 1.2, < 3)
+    font-awesome-sass (4.2.2)
+      sass (~> 3.2)
+    formtastic (3.1.3)
+      actionpack (>= 3.2.13)
+    formtastic_i18n (0.1.1)
+    haml (4.1.0.beta.1)
+      tilt
+    haml-rails (0.7.0)
+      actionpack (>= 4.0.1)
+      activesupport (>= 4.0.1)
+      haml (>= 3.1, < 5.0)
+      html2haml (>= 1.0.1)
+      railties (>= 4.0.1)
+    has_scope (0.6.0.rc)
+      actionpack (>= 3.2, < 5)
+      activesupport (>= 3.2, < 5)
+    hashie (3.3.2)
+    hike (1.2.3)
+    hpricot (0.8.6)
+    html2haml (1.0.1)
+      erubis (~> 2.7.0)
+      haml (>= 4.0.0.rc.1)
+      hpricot (~> 0.8.6)
+      ruby_parser (~> 3.1.1)
+    i18n (0.7.0)
+    inherited_resources (1.6.0)
+      actionpack (>= 3.2, < 5)
+      has_scope (~> 0.6.0.rc)
+      railties (>= 3.2, < 5)
+      responders
+    jbuilder (2.2.6)
+      activesupport (>= 3.0.0, < 5)
+      multi_json (~> 1.2)
+    jpbuilder (0.2.5)
+      jbuilder
+    jquery-rails (3.1.2)
+      railties (>= 3.0, < 5.0)
+      thor (>= 0.14, < 2.0)
+    jquery-ui-rails (5.0.3)
+      railties (>= 3.2.16)
+    json (1.8.2)
+    jwt (1.2.1)
+    kaminari (0.16.2)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
+    libv8 (3.16.14.7)
+    mail (2.6.3)
+      mime-types (>= 1.16, < 3)
+    method_source (0.8.2)
+    mime-types (2.4.3)
+    mina (0.3.2)
+      open4 (~> 1.3.4)
+      rake
+    minitest (5.5.1)
+    multi_json (1.10.1)
+    multi_xml (0.5.5)
+    multipart-post (2.0.0)
+    mysql2 (0.3.17)
+    netrc (0.10.2)
+    oauth (0.4.7)
+    oauth2 (1.0.0)
+      faraday (>= 0.8, < 0.10)
+      jwt (~> 1.0)
+      multi_json (~> 1.3)
+      multi_xml (~> 0.5)
+      rack (~> 1.2)
+    omniauth (1.2.2)
+      hashie (>= 1.2, < 4)
+      rack (~> 1.0)
+    omniauth-facebook (2.0.0)
+      omniauth-oauth2 (~> 1.2)
+    omniauth-github (1.1.2)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.1)
+    omniauth-google-oauth2 (0.2.6)
+      omniauth (> 1.0)
+      omniauth-oauth2 (~> 1.1)
+    omniauth-linkedin (0.2.0)
+      omniauth-oauth (~> 1.0)
+    omniauth-oauth (1.0.1)
+      oauth
+      omniauth (~> 1.0)
+    omniauth-oauth2 (1.2.0)
+      faraday (>= 0.8, < 0.10)
+      multi_json (~> 1.3)
+      oauth2 (~> 1.0)
+      omniauth (~> 1.2)
+    omniauth-twitter (1.1.0)
+      multi_json (~> 1.3)
+      omniauth-oauth (~> 1.0)
+    omniauth-weibo-oauth2 (0.4.0)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.0)
+    open4 (1.3.4)
+    orm_adapter (0.5.0)
+    polyamorous (1.1.0)
+      activerecord (>= 3.0)
+    pry (0.10.1)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    quiet_assets (1.1.0)
+      railties (>= 3.1, < 5.0)
+    rack (1.5.2)
+    rack-test (0.6.3)
+      rack (>= 1.0)
+    rails (4.1.8)
+      actionmailer (= 4.1.8)
+      actionpack (= 4.1.8)
+      actionview (= 4.1.8)
+      activemodel (= 4.1.8)
+      activerecord (= 4.1.8)
+      activesupport (= 4.1.8)
+      bundler (>= 1.3.0, < 2.0)
+      railties (= 4.1.8)
+      sprockets-rails (~> 2.0)
+    railties (4.1.8)
+      actionpack (= 4.1.8)
+      activesupport (= 4.1.8)
+      rake (>= 0.8.7)
+      thor (>= 0.18.1, < 2.0)
+    rake (10.4.2)
+    ransack (1.6.3)
+      actionpack (>= 3.0)
+      activerecord (>= 3.0)
+      activesupport (>= 3.0)
+      i18n
+      polyamorous (~> 1.1)
+    rdoc (4.2.0)
+      json (~> 1.4)
+    ref (1.0.5)
+    responders (1.1.2)
+      railties (>= 3.2, < 4.2)
+    rest-client (1.7.2)
+      mime-types (>= 1.16, < 3.0)
+      netrc (~> 0.7)
+    rspec-core (3.1.7)
+      rspec-support (~> 3.1.0)
+    rspec-expectations (3.1.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.1.0)
+    rspec-mocks (3.1.3)
+      rspec-support (~> 3.1.0)
+    rspec-rails (3.1.0)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec-core (~> 3.1.0)
+      rspec-expectations (~> 3.1.0)
+      rspec-mocks (~> 3.1.0)
+      rspec-support (~> 3.1.0)
+    rspec-support (3.1.2)
+    ruby_parser (3.1.3)
+      sexp_processor (~> 4.1)
+    sass (3.2.19)
+    sass-rails (4.0.5)
+      railties (>= 4.0.0, < 5.0)
+      sass (~> 3.2.2)
+      sprockets (~> 2.8, < 3.0)
+      sprockets-rails (~> 2.0)
+    sdoc (0.4.1)
+      json (~> 1.7, >= 1.7.7)
+      rdoc (~> 4.0)
+    sexp_processor (4.4.4)
+    simple_form (3.1.0)
+      actionpack (~> 4.0)
+      activemodel (~> 4.0)
+    slop (3.6.0)
+    spring (1.2.0)
+    sprockets (2.12.3)
+      hike (~> 1.2)
+      multi_json (~> 1.0)
+      rack (~> 1.0)
+      tilt (~> 1.1, != 1.3.0)
+    sprockets-rails (2.2.4)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      sprockets (>= 2.8, < 4.0)
+    therubyracer (0.12.1)
+      libv8 (~> 3.16.14.0)
+      ref
+    thor (0.19.1)
+    thread_safe (0.3.4)
+    tilt (1.4.1)
+    turbolinks (2.5.3)
+      coffee-rails
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
+    uglifier (2.7.0)
+      execjs (>= 0.3.0)
+      json (>= 1.8.0)
+    warden (1.2.3)
+      rack (>= 1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activeadmin!
+  admin_view
+  awesome_print
+  bootstrap-sass
+  coffee-rails (~> 4.0.0)
+  database_cleaner
+  devise
+  execjs
+  factory_girl_rails
+  font-awesome-sass
+  haml-rails
+  jbuilder (~> 2.0)
+  jpbuilder
+  jquery-rails
+  kaminari
+  mina
+  mysql2
+  omniauth-facebook
+  omniauth-github
+  omniauth-google-oauth2
+  omniauth-linkedin
+  omniauth-qq-oauth2!
+  omniauth-reddit!
+  omniauth-twitter
+  omniauth-weibo-oauth2
+  pry
+  quiet_assets
+  rails (= 4.1.8)
+  ransack
+  rest-client
+  rspec-rails
+  sass-rails (~> 4.0.3)
+  sdoc (~> 0.4.0)
+  simple_form
+  spring
+  therubyracer
+  turbolinks
+  uglifier (>= 1.3.0)

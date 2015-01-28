@@ -37,7 +37,12 @@ class WelcomeController < ApplicationController
   end
 
   def refscoreboard
-    @refs = BtsAccount.select([:referrer, 'count(*) as count']).group(:referrer).order('count desc')
+    if request.xhr?
+      @refs = BtsAccount.filter(params[:scope]).grouped_by_referrers
+      render '_refs', layout: false
+    else
+      @refs = BtsAccount.grouped_by_referrers
+    end
   end
 
   def bitshares_login

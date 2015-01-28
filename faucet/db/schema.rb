@@ -11,22 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 7) do
-
-  create_table "active_admin_comments", force: true do |t|
-    t.string   "namespace"
-    t.text     "body"
-    t.string   "resource_id",   null: false
-    t.string   "resource_type", null: false
-    t.integer  "author_id"
-    t.string   "author_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
-  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
-  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
+ActiveRecord::Schema.define(version: 6) do
 
   create_table "assets", force: true do |t|
     t.integer  "assetid"
@@ -51,6 +36,7 @@ ActiveRecord::Schema.define(version: 7) do
     t.datetime "updated_at"
   end
 
+  add_index "bts_accounts", ["key"], name: "index_bts_accounts_on_key", unique: true, using: :btree
   add_index "bts_accounts", ["name"], name: "index_bts_accounts_on_name", unique: true, using: :btree
   add_index "bts_accounts", ["ogid"], name: "index_bts_accounts_on_ogid", unique: true, using: :btree
   add_index "bts_accounts", ["user_id"], name: "index_bts_accounts_on_user_id", using: :btree
@@ -65,6 +51,7 @@ ActiveRecord::Schema.define(version: 7) do
     t.datetime "updated_at"
   end
 
+  add_index "dvs_accounts", ["key"], name: "index_dvs_accounts_on_key", unique: true, using: :btree
   add_index "dvs_accounts", ["name"], name: "index_dvs_accounts_on_name", unique: true, using: :btree
   add_index "dvs_accounts", ["ogid"], name: "index_dvs_accounts_on_ogid", unique: true, using: :btree
   add_index "dvs_accounts", ["user_id"], name: "index_dvs_accounts_on_user_id", using: :btree
