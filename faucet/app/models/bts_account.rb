@@ -18,7 +18,7 @@ class BtsAccount < ActiveRecord::Base
   end
 
   def self.filter(scope_name)
-    return self.grouped_by_referrers if scope_name == 'All' || !scope_name.in?(DATE_SCOPES)
+    return self if scope_name == 'All' || !scope_name.in?(DATE_SCOPES)
 
     date = case scope_name
              when 'Today'
@@ -34,7 +34,7 @@ class BtsAccount < ActiveRecord::Base
              when 'Last month'
                1.month.ago
            end
-    self.where('created_at >= ?', date).grouped_by_referrers
+    self.where('created_at >= ?', date)
   end
 
 end

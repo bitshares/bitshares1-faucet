@@ -26,8 +26,17 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 group :development do
   gem 'spring'
   gem 'quiet_assets'
+end
+
+group :development, :test do
   gem 'pry'
   gem 'awesome_print'
+end
+
+group :test do
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'database_cleaner'
 end
 
 gem 'bootstrap-sass'

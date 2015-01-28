@@ -38,7 +38,7 @@ class WelcomeController < ApplicationController
 
   def refscoreboard
     if request.xhr?
-      @refs = BtsAccount.filter(params[:scope])
+      @refs = BtsAccount.filter(params[:scope]).grouped_by_referrers
       render '_refs', layout: false
     else
       @refs = BtsAccount.grouped_by_referrers
