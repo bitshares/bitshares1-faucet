@@ -3,13 +3,11 @@ module Api
     class ReferralCodesController < Api::BaseController
 
       def show
-        @referral = ReferralCode.where(code: params[:id]).first
-        @referral = ReferralCode.new unless @referral
+        @referral = ReferralCode.where(code: params[:id]).first || ReferralCode.new
       end
 
       def redeem
-        @referral = ReferralCode.where(code: params[:referral_code_id]).first
-        @referral = ReferralCode.new unless @referral
+        @referral = ReferralCode.where(code: params[:referral_code_id]).first || ReferralCode.new
         @referral.redeem(params[:account_name], params[:account_key])
         render action: 'show'
       end

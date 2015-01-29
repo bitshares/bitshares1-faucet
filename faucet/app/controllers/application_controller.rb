@@ -51,18 +51,20 @@ class ApplicationController < ActionController::Base
   private
 
   def assign_uid
-    @uid = cookies[:_uid_]
-    if @uid
-      current_user.update_attribute(:uid, @uid) if current_user and current_user.uid != @uid
-      return
+    return unless current_user
+
+    if cookies[:_uid_]
+      @uid = cookies[:_uid_]
+    else
+      @uid = SecureRandom.urlsafe_base64(16)
+      cookies[:_uid_] = {
+          value: @uid,
+          expires: 10.years.from_now,
+          domain: request_domain()
+      }
     end
-    @uid = SecureRandom.urlsafe_base64(16)
-    cookies[:_uid_] = {
-        value: @uid,
-        expires: 10.years.from_now,
-        domain: request_domain()
-    }
-    current_user.update_attribute(:uid, @uid) if current_user and current_user.uid != @uid
+
+    current_user.update_attribute(:uid, @uid) unless current_user.uid == @uid
   end
 
 end
