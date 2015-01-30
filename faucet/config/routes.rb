@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {omniauth_callbacks: 'users/omniauth_callbacks'}
 
   get 'user/profile', to: 'users#profile', as: 'profile'
+  match 'finish_signup/:id', to: 'users#finish_signup', as: 'finish_signup', via: [:get, :patch]
   match 'user/bitshares_account', to: 'users#bitshares_account', as: 'bitshares_account', via: [:get, :post]
 
   devise_scope :user do

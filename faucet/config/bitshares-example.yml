@@ -40,3 +40,12 @@ oauth:
 
 meta_wb_webmaster: 111
 meta_qc_admins: 111
+
+default_url: faucet.bitshares.org
+default_port: 3000
+
+mandrill:
+  host: smtp.mandrillapp.com
+  user_name: user_name
+  password: password
+

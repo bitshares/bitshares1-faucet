@@ -4,23 +4,17 @@ class User < ActiveRecord::Base
   has_many :dvs_accounts
   has_many :widgets
 
-  @@dvs_rpc_instance = BitShares::API::Rpc.new(Rails.application.config.bitshares.dvs_rpc_port, Rails.application.config.bitshares.dvs_rpc_user, Rails.application.config.bitshares.dvs_rpc_password, logger: Rails.logger)
-
-  def self.dvs_rpc_instance
-    @@dvs_rpc_instance
-  end
-
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable
-  devise :omniauthable, :omniauth_providers => [:facebook, :twitter, :linkedin, :google_oauth2, :github, :reddit, :weibo, :qq]
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :confirmable, :omniauthable, :omniauth_providers => [:facebook, :twitter, :linkedin, :google_oauth2, :github, :reddit, :weibo, :qq]
 
   validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
   validates :name, presence: true
-  validates :password, presence: true, length: {minimum: 6}
+  validates :password, presence: true, length: {minimum: 6}, on: :create
+  validates :password, length: {minimum: 6}, allow_blank: true, on: :update
   validates_confirmation_of :password
 
   def self.find_for_oauth(auth, signed_in_resource, uid)
@@ -58,57 +52,18 @@ class User < ActiveRecord::Base
   def register_account(account_name, account_key, referrer=nil)
     logger.debug "---------> registering account #{account_name}, key: #{account_key}"
     sleep(0.4) # this is to prevent bots abuse
-    if account_key.start_with?('DVS')
-      register_dvs_account(account_name, account_key, referrer)
-    else
-      register_bts_account(account_name, account_key, referrer)
-    end
-  end
 
-  private
-
-  def register_bts_account(account_name, account_key, referrer)
     account = self.bts_accounts.where(name: account_name).first
-    result = {account_name: account_name}
-    if account
-      result[:error] = "Account '#{account_name}' is already registered"
-      return result
-    end
-    if self.bts_accounts.count >= Rails.application.config.bitshares.registrations_limit
-      result[:error] = 'Account cannot be registered. You are running out of your limit of free account registrations.'
-      return result
-    end
-    begin
-      BitShares::API::Wallet.add_contact_account(account_name, account_key)
-      BitShares::API::Wallet.account_register(account_name, Rails.application.config.bitshares.bts_faucet_account)
-      self.bts_accounts.create(name: account_name, key: account_key, referrer: referrer)
-    rescue BitShares::API::Rpc::Error => ex
-      result[:error] = ex.to_s
-      logger.error("!!! Error. Cannot register account #{account_name} - #{ex.to_s}")
-    end
-    return result
+    AccountRegistrator.new(self, account).register(account_name, account_key, referrer)
   end
 
-  def register_dvs_account(account_name, account_key, referrer)
-    account = self.dvs_accounts.where(name: account_name).first
-    result = {account_name: account_name}
-    if account
-      result[:error] = "Account '#{account_name}' is already registered"
-      return result
-    end
-    if self.dvs_accounts.count >= Rails.application.config.bitshares.registrations_limit
-      result[:error] = 'Account cannot be registered. You are running out of your limit of free account registrations.'
-      return result
-    end
-    begin
-      @@dvs_rpc_instance.request('wallet_add_contact_account', [account_name, account_key])
-      @@dvs_rpc_instance.request('wallet_account_register', [account_name, Rails.application.config.bitshares.dvs_faucet_account])
-      self.dvs_accounts.create(name: account_name, key: account_key, referrer: referrer)
-    rescue BitShares::API::Rpc::Error => ex
-      result[:error] = ex.to_s
-      logger.error("!!! Error. Cannot register account #{account_name} - #{ex.to_s}")
-    end
-    return result
+  def email_verified?
+    self.email && self.email !~ TEMP_EMAIL_REGEX
+  end
+
+  # skipping devise confirmation to allow our own in after_sign_in_path_for
+  def confirmation_required?
+    false
   end
 
 end

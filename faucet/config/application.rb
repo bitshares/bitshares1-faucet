@@ -38,7 +38,19 @@ module BitSharesFaucet
     bitshares_conf = ERB.new(File.read("#{Rails.root}/config/bitshares.yml")).result
     config.send("bitshares=", OpenStruct.new(YAML.load(bitshares_conf)))
 
-    config.cache_store = :memory_store, { size: 16.megabytes }
+    config.cache_store = :memory_store, {size: 16.megabytes}
+
+    config.action_mailer.default_url_options = {host: Rails.application.config.bitshares.default_url, port: Rails.application.config.bitshares.default_port}
+
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+        address: Rails.application.config.bitshares.mandrill['host'],
+        port: 587,
+        user_name: Rails.application.config.bitshares.mandrill['user_name'],
+        password: Rails.application.config.bitshares.mandrill['password'],
+        authentication: 'plain',
+        enable_starttls_auto: true
+    }
 
   end
 end

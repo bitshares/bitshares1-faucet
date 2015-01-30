@@ -22,19 +22,19 @@ class BtsAccount < ActiveRecord::Base
 
     date = case scope_name
              when 'Today'
-               Date.today
+               Date.today.beginning_of_day..Date.today.end_of_day
              when 'Yesterday'
-               Date.today - 1.day
+               (Date.today - 1.day).beginning_of_day..(Date.today - 1.day).end_of_day
              when 'This week'
-               Date.today.at_beginning_of_week
+               Date.today.at_beginning_of_week..Date.today
              when 'Last week'
-               1.week.ago
+               1.week.ago.at_beginning_of_week..1.week.ago.at_end_of_week
              when 'This month'
-               Date.today.at_beginning_of_month
+               Date.today.at_beginning_of_month..Date.today
              when 'Last month'
-               1.month.ago
+               1.month.ago.at_beginning_of_month..1.month.ago.at_end_of_month
            end
-    self.where('created_at >= ?', date)
+    self.where(created_at: date)
   end
 
 end
