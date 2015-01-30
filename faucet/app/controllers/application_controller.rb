@@ -7,31 +7,27 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :assign_uid
 
-
   def authenticate_admin_user!
-    raise ActiveRecord::RecordNotFound if not (current_user and current_user.is_admin)
+    raise ActiveRecord::RecordNotFound unless current_user and current_user.is_admin
   end
 
   protected
+
+  def after_sign_in_path_for(resource)
+    if resource.email_verified?
+      if session[:pending_registration]
+        bitshares_account_path
+      else
+        profile_path
+      end
+    else
+      finish_signup_path(resource)
+    end
+  end
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
     devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:name, :email, :password, :password_confirmation) }
-  end
-
-  def after_sign_in_path_for(resource)
-    if session[:pending_registration]
-      bitshares_account_path
-    else
-      profile_path(resource)
-    end
-  end
-
-  def after_log_in_path_for(resource)
-    if session[:pending_registration]
-      bitshares_account_path
-    else
-      profile_path(resource)
-    end
   end
 
   def request_domain

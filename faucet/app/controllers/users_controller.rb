@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   before_action :authenticate_user!
+  skip_before_filter :authenticate_user!, only: [:finish_signup]
 
   def profile
     @user = current_user
@@ -18,6 +19,18 @@ class UsersController < ApplicationController
     end
   end
 
+  def finish_signup
+    user = User.find(params[:id])
+    @unconfirmed = user.unconfirmed_email?
+
+    if request.patch? && params[:user] && params[:user][:email]
+      if user.update_attribute(:email, params[:user][:email])
+        sign_in(user, :bypass => true)
+        redirect_to profile_path, notice: 'We sent you a confirmation link. Please confirm your email'
+      end
+    end
+  end
+
   private
 
   def do_register(name, key)
@@ -27,5 +40,4 @@ class UsersController < ApplicationController
       @account = OpenStruct.new(name: name, key: key)
     end
   end
-
 end
