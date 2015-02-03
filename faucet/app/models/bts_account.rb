@@ -26,7 +26,7 @@ class BtsAccount < ActiveRecord::Base
              when 'Yesterday'
                (Date.today - 1.day).beginning_of_day..(Date.today - 1.day).end_of_day
              when 'This week'
-               Date.today.at_beginning_of_week..Date.today
+               Date.today.at_beginning_of_week.beginning_of_day..Date.today.end_of_day
              when 'Last week'
                1.week.ago.at_beginning_of_week..1.week.ago.at_end_of_week
              when 'This month'

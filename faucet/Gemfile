@@ -63,3 +63,6 @@ gem 'mina'
 
 gem 'activeadmin', github: 'activeadmin'
 gem "haml-rails"
+gem 'gibbon'
+gem 'fakeweb'
+gem 'sidekiq'

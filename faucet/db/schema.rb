@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150129161110) do
+ActiveRecord::Schema.define(version: 20150202152543) do
 
   create_table "assets", force: true do |t|
     t.integer  "assetid"
@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(version: 20150129161110) do
     t.datetime "updated_at"
     t.string   "uid",                    limit: 32
     t.string   "unconfirmed_email"
+    t.boolean  "newsletter_subscribed"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

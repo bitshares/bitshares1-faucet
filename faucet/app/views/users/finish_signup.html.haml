@@ -1,7 +1,6 @@
-- if @unconfirmed
+- if current_user.unconfirmed_email?
   Please confirm your email address and your account registration will be finished.
   Click #{link_to 'here', user_confirmation_path} if you want to resend confirmation email
-
 - else
   #add-email.container
     %h1 Add Email
