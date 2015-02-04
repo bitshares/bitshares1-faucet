@@ -49,3 +49,6 @@ mandrill:
   user_name: user_name
   password: password
 
+mailchimp:
+  api_key: 123
+  list_id: 123

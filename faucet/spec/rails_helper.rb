@@ -4,6 +4,13 @@ require 'spec_helper'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
+require 'fakeweb'
+require 'sidekiq/testing'
+
+FakeWeb.allow_net_connect = false
+
+FakeWeb.register_uri(:post, "https://us10.api.mailchimp.com/2.0/lists/subscribe", body: {email: '123@email.ru'}.to_json)
+FakeWeb.register_uri(:post, "https://us10.api.mailchimp.com/2.0/lists/unsubscribe", body: {complete: true}.to_json)
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are

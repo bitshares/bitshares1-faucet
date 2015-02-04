@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :assign_uid
+  before_action :ensure_email_confirmation
 
   def authenticate_admin_user!
     raise ActiveRecord::RecordNotFound unless current_user and current_user.is_admin
@@ -13,15 +14,19 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def ensure_email_confirmation
+    return if action_name == 'finish_signup' || controller_name.in?(['confirmations', 'sessions']) || root_path == request.path
+
+    if current_user && !current_user.email_verified?
+      redirect_to finish_signup_path(current_user)
+    end
+  end
+
   def after_sign_in_path_for(resource)
-    if resource.email_verified?
-      if session[:pending_registration]
-        bitshares_account_path
-      else
-        profile_path
-      end
+    if session[:pending_registration]
+      bitshares_account_path
     else
-      finish_signup_path(resource)
+      profile_path
     end
   end
 
