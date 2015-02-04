@@ -52,3 +52,7 @@ mandrill:
 mailchimp:
   api_key: 123
   list_id: 123
+
+exception_notification:
+  sender_address: faucet@example.com
+  exception_recipients: admin@example.com

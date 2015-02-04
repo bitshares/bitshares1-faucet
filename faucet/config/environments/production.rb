@@ -75,4 +75,12 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.middleware.use ExceptionNotification::Rack,
+    :ignore_if => lambda { |env, exception| !env[:rake?] },
+    :email => {
+        :email_prefix => '[FAUCET] ',
+        :sender_address => Rails.application.config.bitshares.exception_notification['sender_address'],
+        :exception_recipients => Rails.application.config.bitshares.exception_notification['exception_recipients']
+    }
 end

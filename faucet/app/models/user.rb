@@ -62,7 +62,15 @@ class User < ActiveRecord::Base
     sleep(0.4) # this is to prevent bots abuse
 
     account = self.bts_accounts.where(name: account_name).first
-    AccountRegistrator.new(self, account).register(account_name, account_key, referrer)
+    begin
+      res = AccountRegistrator.new(self, account).register(account_name, account_key, referrer)
+    rescue Errno::ECONNREFUSED => e
+      raise e if Rails.env.production?
+      logger.debug "---------> no rpc connection to bitshares toolkit: #{e.message}, creating fake account"
+      self.bts_accounts.create(name: account_name, key: account_key, referrer: referrer)
+      return {account_name: account_name}
+    end
+    return res
   end
 
   def subscribe(subscription_status)

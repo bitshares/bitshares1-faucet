@@ -62,7 +62,9 @@ gem 'omniauth-qq-oauth2', :git => 'git://github.com/dapic/omniauth-qq-oauth2.git
 gem 'mina'
 
 gem 'activeadmin', github: 'activeadmin'
-gem "haml-rails"
+gem 'haml-rails'
 gem 'gibbon'
 gem 'fakeweb'
 gem 'sidekiq'
+gem 'exception_notification', github: 'smartinez87/exception_notification'
+

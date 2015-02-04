@@ -29,6 +29,14 @@ GIT
     omniauth-reddit (0.0.2)
       omniauth-oauth2 (~> 1.1)
 
+GIT
+  remote: git://github.com/smartinez87/exception_notification.git
+  revision: f9dee5b5f6a1e1823bb274f719f1ae9c551e2f84
+  specs:
+    exception_notification (4.1.0.rc1)
+      actionmailer (>= 3.0.4)
+      activesupport (>= 3.0.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -335,6 +343,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   database_cleaner
   devise
+  exception_notification!
   execjs
   factory_girl_rails
   fakeweb
