@@ -1,7 +1,8 @@
 class AccountRegistrator
-  def initialize(user, account)
+  def initialize(user, account, logger)
     @user = user
     @account = account
+    @logger = logger
   end
 
   def register(account_name, account_key, referrer)
@@ -19,10 +20,17 @@ class AccountRegistrator
 
     begin
       account_key.start_with?('DVS') ? register_dvs(account_name, account_key) : register_bts(account_name, account_key)
-      user.bts_accounts.create(name: account_name, key: account_key, referrer: referrer)
+      @user.bts_accounts.create(name: account_name, key: account_key, referrer: referrer)
     rescue BitShares::API::Rpc::Error => ex
       @result[:error] = ex.to_s
-      logger.error("!!! Error. Cannot register account #{account_name} - #{ex.to_s}")
+      @logger.error("!!! Error. Cannot register account #{account_name} - #{ex.to_s}")
+    rescue Errno::ECONNREFUSED => e
+      @logger.error("!!! Error. No rpc connection to BitShares toolkit - (#{ex.to_s})")
+      if Rails.env.development?
+        @user.bts_accounts.create(name: account_name, key: account_key, referrer: referrer)
+      else
+        @result[:error] = "No rpc connection to BitShares toolkit"
+      end
     end
     @result
   end
@@ -31,14 +39,13 @@ class AccountRegistrator
 
   def register_bts(account_name, account_key)
     BitShares::API::Wallet.add_contact_account(account_name, account_key)
-    BitShares::API::Wallet.account_register(account_name, Rails.application.config.bitshares.bts_faucet_account)
+    BitShares::API::Wallet.account_register(account_name, Rails.application.config.bitshares.bts_faucet_account, nil, -1, 'public_account')
   end
 
   def register_dvs(account_name, account_key)
     dvs_rpc_instance = BitShares::API::Rpc.new(Rails.application.config.bitshares.dvs_rpc_port, Rails.application.config.bitshares.dvs_rpc_user, Rails.application.config.bitshares.dvs_rpc_password, logger: Rails.logger)
-
     dvs_rpc_instance.request('wallet_add_contact_account', [account_name, account_key])
-    dvs_rpc_instance.request('wallet_account_register', [account_name, Rails.application.config.bitshares.dvs_faucet_account])
+    dvs_rpc_instance.request('wallet_account_register', [account_name, Rails.application.config.bitshares.dvs_faucet_account, nil, -1, 'public_account'])
   end
 
 end

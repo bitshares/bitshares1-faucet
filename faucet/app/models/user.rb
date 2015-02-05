@@ -58,19 +58,10 @@ class User < ActiveRecord::Base
   end
 
   def register_account(account_name, account_key, referrer=nil)
-    logger.debug "---------> registering account #{account_name}, key: #{account_key}"
+    logger.info "---------> registering account #{account_name}, key: #{account_key}"
     sleep(0.4) # this is to prevent bots abuse
-
     account = self.bts_accounts.where(name: account_name).first
-    begin
-      res = AccountRegistrator.new(self, account).register(account_name, account_key, referrer)
-    rescue Errno::ECONNREFUSED => e
-      raise e if Rails.env.production?
-      logger.debug "---------> no rpc connection to bitshares toolkit: #{e.message}, creating fake account"
-      self.bts_accounts.create(name: account_name, key: account_key, referrer: referrer)
-      return {account_name: account_name}
-    end
-    return res
+    AccountRegistrator.new(self, account, logger).register(account_name, account_key, referrer)
   end
 
   def subscribe(subscription_status)
@@ -95,7 +86,11 @@ class User < ActiveRecord::Base
   private
 
   def subscribe_async
+    begin
     UserSubscribeWorker.perform_async(self.id, true) if self.email_verified?
+    rescue Redis::CannotConnectError => e
+      logger.error "---------> cannot connect to Redis"
+    end
   end
 
 end
