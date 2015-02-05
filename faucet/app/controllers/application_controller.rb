@@ -7,12 +7,21 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :assign_uid
   before_action :ensure_email_confirmation
+  before_action :set_locale
 
   def authenticate_admin_user!
     raise ActiveRecord::RecordNotFound unless current_user and current_user.is_admin
   end
 
   protected
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
+  end
+
+  def default_url_options(options={})
+    {:locale => set_locale}
+  end
 
   def ensure_email_confirmation
     return if action_name == 'finish_signup' || controller_name.in?(['confirmations', 'sessions']) || root_path == request.path
