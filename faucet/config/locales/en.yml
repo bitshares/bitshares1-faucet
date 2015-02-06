@@ -20,4 +20,22 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  users:
+    bitshares_account:
+      account_registered:
+        "Account <strong>%{account_name}</strong> was successfully registered."
+      share_bitshares_account:
+        Now you can share your BitShares account name with your friends so they can send you some funds.
+      join_me:
+        My official BitShares account name is %{account_name}. Please come and join me on BitShares.
+      subscribe_me:
+        Subscribe me to BitShares news letter
+      unsubscribe_me:
+        I don't want to subscribe to BitShares news letter
+      share_on_facebook:
+        Share on Facebook
+      share_on_twitter:
+        Share on Twitter
+      try_different_account:
+        You can try a different account name or key
+

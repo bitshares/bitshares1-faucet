@@ -1,44 +1,36 @@
 - if @reg_status and !@reg_status[:error]
   .alert.alert-info{:role => "alert"}
-    Account
-    %strong= @reg_status[:account_name]
-    was successfully
-    registered. 你的账号名
-    %strong= @reg_status[:account_name]
-    已经注册成功。
+    = raw t('.account_registered', account_name: @reg_status[:account_name])
   %br/
   .social-buttons
-    %h2.logo.text-center
-      Now you can share your BitShares account name with your friends so they can send you
-      some funds.
-    %h2.logo.text-center 现在你可以将你的比特股账号名告诉其他朋友，让他们可以发资金给你。
+    %h2.logo.text-center= t('.share_bitshares_account')
     %br/
     .row
       .col-md-4  
       .col-md-4.cell.text-center
         %a#fb_share_btn.btn.btn-block.btn-lg.btn-social.btn-facebook{:href => "#"}
           %i.fa.fa-facebook
-          Share on Facebook
+          = t('.share_on_facebook')
       .col-md-4  
     %br/
     .row
       .col-md-4  
       .col-md-4.cell.text-center
-        %a.btn.btn-block.btn-lg.btn-social.btn-twitter{:href => "https://twitter.com/intent/tweet?text=My official BitShares account name is #{@reg_status[:account_name]}. Please come and join me on BitShares."}
+        %a.btn.btn-block.btn-lg.btn-social.btn-twitter{:href => "https://twitter.com/intent/tweet?text=#{t('.join_me', account_name: @reg_status[:account_name])}"}
           %i.fa.fa-twitter
-          Share on Twitter
+          = t('.share_on_twitter')
       .col-md-4  
 
   %ul.newsletter_subscription{data: {url: "#{users_subscribe_path}"}}
     %li
       = radio_button('users', 'newsletter_subscribed', true)
-      Subscribe me to BitShares news letter
+      = t('.subscribe_me')
     %li
       = radio_button('users', 'newsletter_subscribed', false)
-      I don't want to subscribe to BitShares news letter
+      = t('.unsubscribe_me')
 
 - if @reg_status and @reg_status[:error]
-  %h4.text-center You can try a different account name or key
+  %h4.text-center= t('.try_different_account')
   = render partial: 'welcome/register_account_form'
 
 - if @reg_status and !@reg_status[:error]
@@ -73,7 +65,7 @@
         link: '#{root_url}',
         display: 'popup',
         picture: '#{image_url('logo-ico-blue.svg')}',
-        description: 'My official BitShares account name is #{@reg_status[:account_name]}. Please come and join me on BitShares.'
+        description: "#{t('.join_me', account_name: @reg_status[:account_name])}"
       };
 
       function callback(response) {

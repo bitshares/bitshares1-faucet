@@ -1,0 +1,9 @@
+# Please use en.yml as an example for translations
+
+zh:
+  users:
+    bitshares_account:
+      account_registered:
+        "你的账号名 <strong>%{account_name}</strong> 已经注册成功。"
+      share_bitshares_account:
+         现在你可以将你的比特股账号名告诉其他朋友，让他们可以发资金给你。

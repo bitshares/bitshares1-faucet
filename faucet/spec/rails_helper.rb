@@ -7,6 +7,8 @@ require 'rspec/rails'
 require 'fakeweb'
 require 'sidekiq/testing'
 
+OmniAuth.config.test_mode = true
+
 FakeWeb.allow_net_connect = false
 
 FakeWeb.register_uri(:post, "https://us10.api.mailchimp.com/2.0/lists/subscribe", body: {email: '123@email.ru'}.to_json)

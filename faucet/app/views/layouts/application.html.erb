@@ -29,20 +29,30 @@
             <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a href="/" class="navbar-brand">BitShares</a>
+          <%= link_to "BitShares", root_path, class: "navbar-brand" %>
         </div>
         <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
           <ul class="nav navbar-nav navbar-right">
-            <% if user_signed_in? %>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                <span class="glyphicon glyphicon-user"></span>
-                <span class="caret"></span></a>
+                <%= request.params[:locale] == 'zh' ? 'Zh' : 'En' %>
+                <span class="caret"></span>
+              </a>
               <ul class="dropdown-menu" role="menu">
-                <li><%= link_to('Profile', profile_path) %></li>
-                <li><%= link_to('Sign out', sign_out_path) %></li>
+                <li><%= link_to('En', request.path) %></li>
+                <li><%= link_to('Zh', '?locale=zh') %></li>
               </ul>
             </li>
+            <% if current_user && current_user.email_verified?  %>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                  <span class="glyphicon glyphicon-user"></span>
+                  <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><%= link_to('Profile', profile_path) %></li>
+                  <li><%= link_to('Sign out', sign_out_path) %></li>
+                </ul>
+              </li>
             <% else %>
               <li><%= link_to('Sign in', new_user_session_path) %></li>
             <% end %>
