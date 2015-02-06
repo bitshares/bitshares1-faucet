@@ -7,7 +7,10 @@ Rails.application.routes.draw do
   post '/account_registration_step2', to: 'welcome#account_registration_step2', as: 'account_registration_step2'
 
   #devise_for :users, ActiveAdmin::Devise.config.merge(controllers: {omniauth_callbacks: 'users/omniauth_callbacks'})
-  devise_for :users, controllers: {omniauth_callbacks: 'users/omniauth_callbacks'}
+  devise_for :users, controllers: {
+      omniauth_callbacks: 'users/omniauth_callbacks',
+      confirmations: 'users/confirmations'
+  }
 
   get 'user/profile', to: 'users#profile', as: 'profile'
   match 'finish_signup/:id', to: 'users#finish_signup', as: 'finish_signup', via: [:get, :patch]
