@@ -8,7 +8,7 @@ module Api
 
       def redeem
         @referral = ReferralCode.where(code: params[:referral_code_id]).first || ReferralCode.new
-        @referral.redeem(params[:account_name], params[:account_key])
+        @referral.redeem(params[:account_name], params[:account_key] || params[:active_key])
         render action: 'show'
       end
 

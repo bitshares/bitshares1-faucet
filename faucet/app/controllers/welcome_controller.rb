@@ -4,9 +4,9 @@ class WelcomeController < ApplicationController
   def index
     write_referral_cookie(params[:r]) if params[:r]
 
-    if params[:account_name] and params[:account_key]
+    if params[:account_name] and (params[:account_key] or params[:active_key])
       @account_name = params[:account_name]
-      session[:pending_registration] = {account_name: params[:account_name], account_key: params[:account_key]}
+      session[:pending_registration] = {account_name: params[:account_name], account_key: params[:account_key] || params[:active_key]}
       redirect_to bitshares_account_path if user_signed_in?
     else
       @account = BtsAccount.new(name: '', key: '')
