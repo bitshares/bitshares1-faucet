@@ -39,6 +39,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def after_confirmation(resource)
+    if session[:pending_registration]
+      bitshares_account_path
+    else
+      profile_path
+    end
+  end
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
     devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:name, :email, :password, :password_confirmation) }
