@@ -20,6 +20,48 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  continue:
+    Continue
+  close:
+    Close
+  here:
+    here
+  account:
+   account
+  sign_in:
+    Sign in
+  sign_out:
+    Sign out
+  profile:
+    Profile
+
+  welcome:
+    index:
+      about_to_register:
+        You are about to register account
+      authenticate:
+        please authenticate with one of the following identity providers to proceed
+      note: |
+        Note: This step is only necessary to prevent abuse of the faucet. There
+            is no link whatsoever between these services and your BitShares account.
+      claim_account: |
+        To claim your free BitShares account registration, please enter account name and your public key in the form below:
+      need_help:
+        Need help? Read %{link}
+      how_to_register:
+        How to Register a BitShares Account
+      faucet_balance:
+        Faucet Balance
+      donate:
+        you can donate to this faucet by sending %{symbol} to
+    register_account_form:
+      register_account:
+        Register Account
+      account_name:
+        Account Name
+      public_key:
+        Public Key
+
   users:
     bitshares_account:
       account_registered:
@@ -38,4 +80,23 @@ en:
         Share on Twitter
       try_different_account:
         You can try a different account name or key
+    finish_signup:
+      please_confirm_to_finish:
+        Please confirm your email address to finish account registration process.
+      resend_confirmation:
+        Click %{here} if you want to resend confirmation email
+      add_email:
+        Add Email
+      please_confirm:
+        Please confirm your email address. No spam.
+    profile:
+      login_with_another_identity:
+        Log in with another identity provider
+      select_identity:
+        Please select identity provider
+
+  activerecord:
+    errors:
+      models:
+
 
