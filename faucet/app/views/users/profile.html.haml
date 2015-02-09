@@ -1,0 +1,90 @@
+.row
+  .col-md-6
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title= t('profile')
+      .panel-body
+        %ul.list-group
+          %li.list-group-item
+            Id: #{@user.id}
+          %li.list-group-item= @user.name
+          %li.list-group-item= @user.email
+  .col-md-6
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title Identities
+      .panel-body
+        %table.table.table-striped.col-md-4
+          %thead
+            %tr
+              %th Provider
+              %th Email
+          %tbody
+            - @user.identities.each do |i|
+              %tr
+                %td
+                  = i.provider
+                %td
+                  = i.email
+        %button.btn.btn-primary.btn-lg{"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"}
+          %a{:href => "#"}
+            = t('.login_with_another_identity')
+  / Modal
+  #myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+          %h4#myModalLabel.modal-title= t('.select_identity')
+        .modal-body
+          %ul.list-group
+            - if !has_identity?('bitshares')
+              - bts_login = bitshares_login_url(); if bts_login
+                %li.list-group-item
+                  %a.btn.btn-block.btn-lg.btn-social.btn-bitshares{:href => bitshares_login_url}
+                    = image_tag('logo-ico.svg', size: '42x42')
+                    BitShares
+            - if !has_identity?('facebook')
+              %li.list-group-item
+                %a.btn.btn-block.btn-lg.btn-social.btn-facebook{:href => user_omniauth_authorize_path(:facebook)}
+                  %i.fa.fa-facebook
+                  Facebook
+            - if !has_identity?('twitter')
+              %li.list-group-item
+                %a.btn.btn-block.btn-lg.btn-social.btn-twitter{:href => user_omniauth_authorize_path(:twitter)}
+                  %i.fa.fa-twitter
+                  Twitter
+            - if !has_identity?('linkedin')
+              %li.list-group-item
+                %a.btn.btn-block.btn-lg.btn-social.btn-linkedin{:href => user_omniauth_authorize_path(:linkedin)}
+                  %i.fa.fa-linkedin
+                  LinkedIn
+            - if !has_identity?('google_oauth2')
+              %li.list-group-item
+                %a.btn.btn-block.btn-lg.btn-social.btn-google-plus{:href => user_omniauth_authorize_path(:google_oauth2)}
+                  %i.fa.fa-google
+                  Google
+            - if !has_identity?('github')
+              %li.list-group-item
+                %a.btn.btn-block.btn-lg.btn-social.btn-github{:href => user_omniauth_authorize_path(:github)}
+                  %i.fa.fa-github
+                  Github
+            - if !has_identity?('reddit')
+              %li.list-group-item
+                %a.btn.btn-block.btn-lg.btn-social.btn-reddit{:href => user_omniauth_authorize_path(:reddit)}
+                  %i.fa.fa-reddit
+                  Sign in with Reddit
+            - if !has_identity?('weibo')
+              %li.list-group-item
+                %a.btn.btn-block.btn-lg.btn-social.btn-pinterest{:href => user_omniauth_authorize_path(:weibo)}
+                  %i.fa.fa-weibo
+                  使用 新浪微博 登录
+            - if !has_identity?('qq')
+              %li.list-group-item
+                %a.btn.btn-block.btn-lg.btn-social.btn-tencent-weibo{:href => user_omniauth_authorize_path(:qq)}
+                  %i.fa.fa-tencent-weibo
+                  使用 QQ 登录
+        .modal-footer
+          %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
+            = t('close')

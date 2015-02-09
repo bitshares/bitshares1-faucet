@@ -1,6 +1,13 @@
 # Please use en.yml as an example for translations
 
 zh:
+  about_to_register:
+    你将要注册这个帐户名
+  authenticate:
+    请用以下任何一种服务的账号登陆并继续这个流程
+  note: |
+    注意: 这个步骤只是为了防止滥用赠送注册费的行为，你登陆的这些服务商都不会跟你的比特股账号产生任何关联。
+
   users:
     bitshares_account:
       account_registered:

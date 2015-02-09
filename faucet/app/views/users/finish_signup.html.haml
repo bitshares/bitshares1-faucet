@@ -1,9 +1,9 @@
 - if current_user.unconfirmed_email?
-  Please confirm your email address to finish account registration process.
-  Click #{link_to 'here', user_confirmation_path} if you want to resend confirmation email
+  = t('.please_confirm_to_finish')
+  = t('.resend_confirmation', here: "#{link_to t('here'), user_confirmation_path}")
 - else
   #add-email.container
-    %h1 Add Email
+    %h1= t('.add_email')
     = form_for(current_user, :as => 'user', :url => finish_signup_path(current_user), :html => { role: 'form'}) do |f|
       - if current_user.errors.any?
         #error_explanation
@@ -14,6 +14,6 @@
         = f.label :email
         .controls
           = f.text_field :email, :autofocus => true, :value => '', class: 'form-control input-lg', placeholder: 'Example: email@me.com'
-          %p.help-block Please confirm your email address. No spam.
+          %p.help-block= t('.please_confirm')
       .actions
-        = f.submit 'Continue', :class => 'btn btn-primary'
+        = f.submit "#{t('continue')}", :class => 'btn btn-primary'

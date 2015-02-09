@@ -1,0 +1,23 @@
+- if @account.valid?
+  .header
+    %h2.logo.text-center
+      = t('.about_to_register')
+      = succeed "," do
+        %b= @account_name
+      = succeed ":" do
+        = t('.authenticate')
+    %br/
+  = render partial: 'social_buttons'
+  %br/
+  .alert.alert-warning{:role => "alert"}
+    = t('.note')
+- else
+  .header
+    %h2.logo.text-center Please enter correct account name and your public key in the form below:
+    %br/
+  = render partial: 'register_account_form'
+%br/
+%br/
+%br/
+.text-center
+  = raw t('.need_help', link: link_to(t('.how_to_register'), 'http://bytemaster.bitshares.org/tutorial/2015/01/03/How-to-Register-a-BitShares-Account/'))

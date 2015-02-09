@@ -1,0 +1,8 @@
+ -#= render partial: 'identity', locals: { identities: %w(facebook twitter linkedin google_oauth2 github reddit) }
+
+- identities.each do |identity|
+  - if !has_identity?(identity)
+    %li.list-group-item
+      %a.btn.btn-block.btn-lg.btn-social{class: "btn-#{identity}", :href => user_omniauth_authorize_path(identity)}
+        %i.fa{class: "fa-#{identity}"}
+        = identity.capitalize
