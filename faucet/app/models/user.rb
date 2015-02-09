@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :confirmable, :omniauthable,
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :omniauthable, #:confirmable
          :omniauth_providers => [
              :facebook, :twitter, :linkedin, :google_oauth2, :github, :reddit, :weibo, :qq
          ]
@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
           password: Devise.friendly_token[0, 20],
           uid: uid
       )
-      user.skip_confirmation!
+      #user.skip_confirmation!
       user.save!
     end
 
@@ -57,11 +57,11 @@ class User < ActiveRecord::Base
     user
   end
 
-  def register_account(account_name, account_key, referrer=nil)
-    logger.info "---------> registering account #{account_name}, key: #{account_key}"
+  def register_account(account_name, account_key, owner_key, referrer=nil)
+    logger.info "---------> registering account #{account_name}, key: #{account_key}, owner_key: #{owner_key}"
     sleep(0.4) # this is to prevent bots abuse
     account = self.bts_accounts.where(name: account_name).first
-    AccountRegistrator.new(self, account, logger).register(account_name, account_key, referrer)
+    AccountRegistrator.new(self, account, logger).register(account_name, account_key, owner_key, referrer)
   end
 
   def subscribe(subscription_status)

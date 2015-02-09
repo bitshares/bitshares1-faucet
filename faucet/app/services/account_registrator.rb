@@ -5,7 +5,7 @@ class AccountRegistrator
     @logger = logger
   end
 
-  def register(account_name, account_key, referrer)
+  def register(account_name, account_key, owner_key, referrer)
     @result = {account_name: account_name}
 
     if @account
@@ -19,7 +19,7 @@ class AccountRegistrator
     end
 
     begin
-      account_key.start_with?('DVS') ? register_dvs(account_name, account_key) : register_bts(account_name, account_key)
+      account_key.start_with?('DVS') ? register_dvs(account_name, account_key, owner_key) : register_bts(account_name, account_key, owner_key)
       @user.bts_accounts.create(name: account_name, key: account_key, referrer: referrer)
     rescue BitShares::API::Rpc::Error => ex
       @result[:error] = ex.to_s
@@ -27,7 +27,7 @@ class AccountRegistrator
     rescue Errno::ECONNREFUSED => e
       @logger.error("!!! Error. No rpc connection to BitShares toolkit - (#{ex.to_s})")
       if Rails.env.development?
-        @user.bts_accounts.create(name: account_name, key: account_key, referrer: referrer)
+        @user.bts_accounts.create(name: account_name, key: account_key, owner_key: owner_key, referrer: referrer)
       else
         @result[:error] = "No rpc connection to BitShares toolkit"
       end
@@ -37,15 +37,21 @@ class AccountRegistrator
 
   private
 
-  def register_bts(account_name, account_key)
+  def register_bts(account_name, account_key, owner_key)
     BitShares::API::Wallet.add_contact_account(account_name, account_key)
-    BitShares::API::Wallet.account_register(account_name, Rails.application.config.bitshares.bts_faucet_account, nil, -1, 'public_account')
+    account = BitShares::API::Wallet.get_account(account_name)
+    account['owner_key'] = owner_key
+    account['meta_data'] = {'type' => 'public_account', 'data' => ''}
+    BitShares::API.rpc.request('request_register_account', [account])
   end
 
-  def register_dvs(account_name, account_key)
+  def register_dvs(account_name, account_key, owner_key)
     dvs_rpc_instance = BitShares::API::Rpc.new(Rails.application.config.bitshares.dvs_rpc_port, Rails.application.config.bitshares.dvs_rpc_user, Rails.application.config.bitshares.dvs_rpc_password, logger: Rails.logger)
     dvs_rpc_instance.request('wallet_add_contact_account', [account_name, account_key])
-    dvs_rpc_instance.request('wallet_account_register', [account_name, Rails.application.config.bitshares.dvs_faucet_account, nil, -1, 'public_account'])
+    account = BitShares::API::Wallet.get_account(account_name)
+    account['owner_key'] = owner_key
+    account['meta_data'] = {'type' => 'public_account', 'data' => ''}
+    dvs_rpc_instance.request('request_register_account', [account])
   end
 
 end

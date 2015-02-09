@@ -12,7 +12,7 @@ class UsersController < ApplicationController
 
     if session[:pending_registration]
       reg = session[:pending_registration]
-      do_register(reg['account_name'], reg['account_key'])
+      do_register(reg['account_name'], reg['account_key'], reg['owner_key'])
       session.delete(:pending_registration)
     end
     if params[:account]
@@ -50,11 +50,11 @@ class UsersController < ApplicationController
 
   private
 
-  def do_register(name, key)
-    @reg_status = current_user.register_account(name, key, cookies[:_ref_account])
+  def do_register(name, key, owner_key)
+    @reg_status = current_user.register_account(name, key, owner_key, cookies[:_ref_account])
     if @reg_status[:error]
       flash[:alert] = "We were unable to register account '#{name}' - #{@reg_status[:error]}"
-      @account = OpenStruct.new(name: name, key: key)
+      @account = OpenStruct.new(name: name, key: key, owner_key: owner_key)
     end
   end
 end
