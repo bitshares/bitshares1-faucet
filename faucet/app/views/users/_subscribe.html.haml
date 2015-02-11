@@ -1,0 +1,5 @@
+- if status
+  = raw t('.subscribed', link: link_to(t('here'), users_subscribe_path, class: 'subscription', data: { subscribe: false }) )
+- else
+  = raw t('.unsubscribed', link: link_to(t('here'), users_subscribe_path, class: 'subscription', data: { subscribe: true }) )
+
