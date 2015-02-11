@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
   def bitshares_account
     @reg_status = nil
-    @users = current_user
+    @subscription_status = current_user.newsletter_subscribed
 
     if session[:pending_registration]
       reg = session[:pending_registration]
@@ -37,14 +37,14 @@ class UsersController < ApplicationController
 
   def subscribe
     new_status = !current_user.newsletter_subscribed
-    subscription = current_user.subscribe(new_status)
+    status = params[:status] == new_status ? params[:status] : new_status
+    subscription = current_user.subscribe(status)
 
-    # todo: refactor this
     if subscription.is_a?(Hash)
-      current_user.update_attribute(:newsletter_subscribed, new_status)
-      render nothing: true
+      current_user.update_attribute(:newsletter_subscribed, status)
+      render json: {res: render_to_string('_subscribe', layout: false, locals: {status: status})}
     else
-      render json: { res: subscription }
+      render json: {res: subscription.to_s}
     end
   end
 

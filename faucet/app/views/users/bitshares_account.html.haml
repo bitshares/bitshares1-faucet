@@ -1,6 +1,8 @@
 - if @reg_status and !@reg_status[:error]
   .alert.alert-info{:role => "alert"}
     = raw t('.account_registered', account_name: @reg_status[:account_name])
+  .subscribe_notification.alert.alert-info{:role => "alert"}
+    = render 'subscribe', status: @subscription_status
   %br/
   .social-buttons
     %h2.logo.text-center= t('.share_bitshares_account')
@@ -20,14 +22,6 @@
           %i.fa.fa-twitter
           = t('.share_on_twitter')
       .col-md-4  
-
-  %ul.newsletter_subscription{data: {url: "#{users_subscribe_path}"}}
-    %li
-      = radio_button('users', 'newsletter_subscribed', true)
-      = t('.subscribe_me')
-    %li
-      = radio_button('users', 'newsletter_subscribed', false)
-      = t('.unsubscribe_me')
 
 - if @reg_status and @reg_status[:error]
   %h4.text-center= t('.try_different_account')

@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :omniauthable, #:confirmable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :omniauthable, :confirmable,
          :omniauth_providers => [
              :facebook, :twitter, :linkedin, :google_oauth2, :github, :reddit, :weibo, :qq
          ]
@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
           password: Devise.friendly_token[0, 20],
           uid: uid
       )
-      #user.skip_confirmation!
+      user.skip_confirmation!
       user.save!
     end
 
