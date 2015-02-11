@@ -1,10 +1,10 @@
 - if current_user.unconfirmed_email?
   = t('.please_confirm_to_finish')
-  = t('.resend_confirmation', here: "#{link_to t('here'), user_confirmation_path}")
+  = raw t('.resend_confirmation', here: "#{link_to t('here'), user_confirmation_path}")
 - else
-  #add-email.container
-    %h1= t('.add_email')
-    = form_for(current_user, :as => 'user', :url => finish_signup_path(current_user), :html => { role: 'form'}) do |f|
+  #add-email
+    %h4= t('.please_confirm')
+    = form_for(current_user, :as => 'user', :url => finish_signup_path(current_user), :html => { role: 'form', class: 'col-md-5'}) do |f|
       - if current_user.errors.any?
         #error_explanation
           - current_user.errors.full_messages.each do |msg|
@@ -13,7 +13,7 @@
       .form-group
         = f.label :email
         .controls
-          = f.text_field :email, :autofocus => true, :value => '', class: 'form-control input-lg', placeholder: 'Example: email@me.com'
-          %p.help-block= t('.please_confirm')
+          = f.text_field :email, :autofocus => true, :value => '', class: 'form-control input-lg', placeholder: 'address@example.com'
+          /%p.help-block= t('.please_confirm')
       .actions
         = f.submit "#{t('continue')}", :class => 'btn btn-primary'

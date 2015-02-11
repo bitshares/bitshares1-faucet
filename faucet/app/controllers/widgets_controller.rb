@@ -13,8 +13,7 @@ class WidgetsController < ApplicationController
     uri = get_uri_and_check_domain(@w, request.referer)
     return unless uri
     qpms = uri.query ? CGI::parse(uri.query) : {}
-    refurl = params[:ref] ? ActiveRecord::Base::sanitize(params[:ref]) : nil
-    action = create_user_action(@w, qpms, request, 'page_view', request.referer, refurl)
+    action = create_user_action(@w, qpms, request, 'page_view', request.referer, params[:ref])
     write_referral_cookie(action.referrer) if action.referrer
   end
 
@@ -35,9 +34,19 @@ class WidgetsController < ApplicationController
 
   private
 
-  def sanitize_sparam(sp, len=254)
+  def sanitize_str(str)
+    str = str.length() > 252 ? str[0..252] : str
+    return str if str  =~ /\A[\w\s\d\-\_\.]*\z/
+    ActiveRecord::Base::sanitize(str)
+  end
+
+  def sanitize_sparam(sp, len=nil)
     return nil if not (sp and sp.length > 0)
-    ActiveRecord::Base::sanitize(sp[0][0..(len-1)])
+    if len
+      sanitize_str(sp[0][0..(len-1)])
+    else
+      sanitize_str(sp[0])
+    end
   end
 
   def sanitize_iparam(sp)
@@ -64,17 +73,17 @@ class WidgetsController < ApplicationController
     action = UserAction.new ({
                                 widget_id: w.id,
                                 uid: @uid,
-                                action: action,
-                                value: value,
-                                refurl: refurl,
+                                action: sanitize_str(action),
+                                value: sanitize_str(value),
+                                refurl: sanitize_str(refurl),
                                 channel: sanitize_sparam(qpms['channel'], 64),
                                 referrer: sanitize_sparam(qpms['r'], 64),
                                 campaign: sanitize_sparam(qpms['campaign'], 64),
                                 adgroupid: sanitize_iparam(qpms['adgroupid']),
                                 adid: sanitize_iparam(qpms['adid']),
                                 keywordid: sanitize_iparam(qpms['keywordid']),
-                                ip: request.remote_ip,
-                                ua: request.user_agent
+                                ip: sanitize_sparam(request.remote_ip),
+                                ua: sanitize_sparam(request.user_agent)
                             })
     action.save
     return action

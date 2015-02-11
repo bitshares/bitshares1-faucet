@@ -16,7 +16,7 @@ class UsersController < ApplicationController
       session.delete(:pending_registration)
     end
     if params[:account]
-      do_register(params[:account][:name], params[:account][:key])
+      do_register(params[:account][:name], params[:account][:key], nil)
     end
   end
 
@@ -29,7 +29,7 @@ class UsersController < ApplicationController
       if request.patch? && params[:user] && params[:user][:email]
         if user.update_attribute(:email, params[:user][:email])
           sign_in(user, :bypass => true)
-          redirect_to profile_path, notice: 'We sent you a confirmation link. Please confirm your email'
+          redirect_to profile_path, notice: "We've sent you a confirmation link."
         end
       end
     end

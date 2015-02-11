@@ -1,6 +1,6 @@
 ActiveAdmin.register UserAction do
 
-  actions :all, except: [:update, :destroy, :edit]
+  actions :all, except: [:create, :update, :destroy, :edit]
 
   index do
     selectable_column

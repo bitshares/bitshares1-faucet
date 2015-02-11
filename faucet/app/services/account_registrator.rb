@@ -40,7 +40,7 @@ class AccountRegistrator
   def register_bts(account_name, account_key, owner_key)
     BitShares::API::Wallet.add_contact_account(account_name, account_key)
     account = BitShares::API::Wallet.get_account(account_name)
-    account['owner_key'] = owner_key
+    account['owner_key'] = owner_key if owner_key
     account['meta_data'] = {'type' => 'public_account', 'data' => ''}
     BitShares::API.rpc.request('request_register_account', [account])
   end
@@ -49,7 +49,7 @@ class AccountRegistrator
     dvs_rpc_instance = BitShares::API::Rpc.new(Rails.application.config.bitshares.dvs_rpc_port, Rails.application.config.bitshares.dvs_rpc_user, Rails.application.config.bitshares.dvs_rpc_password, logger: Rails.logger)
     dvs_rpc_instance.request('wallet_add_contact_account', [account_name, account_key])
     account = BitShares::API::Wallet.get_account(account_name)
-    account['owner_key'] = owner_key
+    account['owner_key'] = owner_key if owner_key
     account['meta_data'] = {'type' => 'public_account', 'data' => ''}
     dvs_rpc_instance.request('request_register_account', [account])
   end
