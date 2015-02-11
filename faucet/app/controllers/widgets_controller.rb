@@ -9,7 +9,7 @@ class WidgetsController < ApplicationController
     @w = Widget.find(params[:widget_id])
     logger.info "==> widget[#{@w.id}]: request from '#{request.referer}'"
     host = request.port && request.port != 80 ? "#{request.host}:#{request.port}" : request.host
-    @jsonp_url = "http://#{host}/widgets/#{@w.id}/action.js"
+    @jsonp_url = "https://#{host}/widgets/#{@w.id}/action.js"
     uri = get_uri_and_check_domain(@w, request.referer)
     return unless uri
     qpms = uri.query ? CGI::parse(uri.query) : {}
