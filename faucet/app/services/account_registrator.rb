@@ -46,9 +46,9 @@ class AccountRegistrator
   end
 
   def register_dvs(account_name, account_key, owner_key)
-    dvs_rpc_instance = BitShares::API::Rpc.new(Rails.application.config.bitshares.dvs_rpc_port, Rails.application.config.bitshares.dvs_rpc_user, Rails.application.config.bitshares.dvs_rpc_password, logger: Rails.logger)
+    dvs_rpc_instance = BitShares::API::Rpc.new(Rails.application.config.bitshares.dvs_rpc_port, Rails.application.config.bitshares.dvs_rpc_user, Rails.application.config.bitshares.dvs_rpc_password, logger: Rails.logger, instance_name: 'dvsrpc')
     dvs_rpc_instance.request('wallet_add_contact_account', [account_name, account_key])
-    account = BitShares::API::Wallet.get_account(account_name)
+    account = dvs_rpc_instance.request('wallet_get_account', [account_name])
     account['owner_key'] = owner_key if owner_key
     account['meta_data'] = {'type' => 'public_account', 'data' => ''}
     dvs_rpc_instance.request('request_register_account', [account])
