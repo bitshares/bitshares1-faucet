@@ -15,7 +15,8 @@ describe UsersController do
     end
 
     it "sends confirmation email" do
-      #expect { patch :finish_signup, id: user.id, user: {email: 'new@email.com'} }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      unconfirmed_user = create(:user)
+      expect { patch :finish_signup, id: unconfirmed_user.id, user: {email: 'new@email.com'} }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
   end
 

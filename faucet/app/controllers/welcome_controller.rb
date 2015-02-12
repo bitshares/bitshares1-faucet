@@ -6,12 +6,7 @@ class WelcomeController < ApplicationController
 
     if params[:account_name] and (params[:account_key] or params[:active_key])
       @account_name = params[:account_name]
-
-      if current_user
-        current_user.pending_intention[:pending_registration] = {account_name: params[:account_name], account_key: params[:account_key] || params[:active_key], owner_key: params[:owner_key]}
-        current_user.save
-      end
-
+      session[:pending_registration] = {account_name: params[:account_name], account_key: params[:account_key]}
       redirect_to bitshares_account_path if user_signed_in?
     else
       @account = BtsAccount.new(name: '', key: '')
@@ -33,12 +28,9 @@ class WelcomeController < ApplicationController
     @account = BtsAccount.new(bts_account_params)
     logger.debug "BtsAccount:"
     logger.debug "#{@account}; #{@account.valid?}; #{@account.errors}"
-
-    if current_user
-      current_user.pending_intention[:pending_registration] = {account_name: @account.name, account_key: @account.key, owner_key: @account.owner_key}
-      current_user.save
-      redirect_to bitshares_account_path
-    end
+    @account_name = @account.name
+    session[:pending_registration] = {account_name: @account.name, account_key: @account.key}
+    redirect_to bitshares_account_path if user_signed_in?
   end
 
   def test_widget

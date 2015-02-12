@@ -4,13 +4,16 @@ feature 'Omniauth sign in' do
   scenario 'sign in with twitter' do
     visit new_user_session_path
     click_link 'Sign in with Twitter'
-    expect(page).to have_content('Add Email')
+    User.last.confirm!
+
+    visit profile_path
+    expect(page).to have_content('Please confirm your email address')
 
     fill_in 'Email', with: 'test@email.ru'
     click_button 'Continue'
 
     expect(page).to_not have_content('Profile')
-    expect(page).to have_content('We sent you a confirmation link')
+    expect(page).to have_content("We've sent you a confirmation link")
   end
 
   scenario 'sign in with linkedin' do

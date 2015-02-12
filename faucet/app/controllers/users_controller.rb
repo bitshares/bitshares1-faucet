@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @reg_status = nil
     @subscription_status = current_user.newsletter_subscribed
 
-    if current_user.pending_intention[:pending_registration]
+    if current_user.pending_intention.try(:pending_registration)
       reg = current_user.pending_intention[:pending_registration]
       do_register(reg['account_name'], reg['account_key'], reg['owner_key'])
       current_user.pending_intention[:pending_registration] = {}
