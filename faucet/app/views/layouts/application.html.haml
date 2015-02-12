@@ -45,7 +45,7 @@
                   %li= link_to(t('profile'), profile_path)
                   %li= link_to(t('sign_out'), sign_out_path)
             - else
-              %li= link_to(t('sign_in'), new_user_session_path)
+              %li= link_to(t('sign_in'), new_user_session_path) unless @hide_sign_in
 
     .container
       - flash.each do |name, msg|

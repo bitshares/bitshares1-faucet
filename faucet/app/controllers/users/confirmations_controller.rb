@@ -4,7 +4,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   def after_confirmation_path_for(resource_name, resource)
     sign_in(resource, :bypass => true)
 
-    if session[:pending_registration]
+    if resource.pending_intention && resource.pending_intention[:pending_registration]
       bitshares_account_path
     else
       profile_path

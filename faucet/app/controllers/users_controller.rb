@@ -10,10 +10,11 @@ class UsersController < ApplicationController
     @reg_status = nil
     @subscription_status = current_user.newsletter_subscribed
 
-    if session[:pending_registration]
-      reg = session[:pending_registration]
+    if current_user.pending_intention[:pending_registration]
+      reg = current_user.pending_intention[:pending_registration]
       do_register(reg['account_name'], reg['account_key'], reg['owner_key'])
-      session.delete(:pending_registration)
+      current_user.pending_intention[:pending_registration] = {}
+      current_user.save
     end
     if params[:account]
       do_register(params[:account][:name], params[:account][:key], nil)
@@ -21,6 +22,7 @@ class UsersController < ApplicationController
   end
 
   def finish_signup
+    @hide_sign_in = true
     user = User.find(params[:id])
 
     if user.email_verified? && user.confirmed_at
