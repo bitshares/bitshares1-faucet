@@ -3,7 +3,7 @@
     %h2.logo.text-center
       = t('.about_to_register')
       = succeed "," do
-        %b= @account_name
+        %b= @account.name
       = succeed ":" do
         = t('.authenticate')
     %br/

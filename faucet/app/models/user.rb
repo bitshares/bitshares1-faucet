@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  serialize :pending_intention
+
   has_many :identities, dependent: :destroy
   has_many :bts_accounts
   has_many :dvs_accounts
