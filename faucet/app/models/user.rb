@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
     subscribe_async
   end
 
-  def self.find_for_oauth(auth, signed_in_resource, uid)
+  def self.find_for_oauth(auth, signed_in_resource, uid, pending_registration = nil)
     identity = Identity.find_for_oauth(auth)
     user = signed_in_resource || identity.user
 
@@ -55,6 +55,8 @@ class User < ActiveRecord::Base
 
     # Associate the identity with the user if needed
     identity.update_attribute(:user, user) unless identity.user == user
+
+    user.set_pending_registration(pending_registration) if pending_registration
 
     user
   end
@@ -83,6 +85,10 @@ class User < ActiveRecord::Base
     end
 
     result
+  end
+
+  def set_pending_registration(pending_registration)
+    self.pending_intention = {pending_registration: pending_registration}
   end
 
   private
