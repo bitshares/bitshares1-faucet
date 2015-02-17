@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
   def profile
     @user = current_user
+    @referral = ReferralCode.new
   end
 
   def bitshares_account

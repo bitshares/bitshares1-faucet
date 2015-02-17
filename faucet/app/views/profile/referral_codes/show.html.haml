@@ -1,0 +1,35 @@
+.page-header
+  %h1
+    Referral Code
+    %span.label.label-success= @referral.code
+%table.table.table-bordered
+  %tr
+    %td Id:
+    %td= @referral.id
+  %tr
+    %td Code:
+    %td= @referral.code
+  %tr
+    %td Expires at:
+    %td= @referral.expires_at
+  %tr
+    %td Redeemed at:
+    %td= @referral.redeemed_at
+  %tr
+    %td Account name:
+    %td= @referral.account_name
+  %tr
+    %td Ref referral:
+    %td= @referral.ref_code_id
+  %tr
+    %td Asset amount:
+    %td= @referral.asset_amount
+  %tr
+    %td Asset symbol:
+    %td= @referral.asset.symbol
+  %tr
+    %td Actions
+    %td
+      = link_to "Edit", edit_profile_referral_code_path(@referral), :class => "btn btn-default"
+      = link_to "Delete", profile_referral_code_path(@referral), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => "btn btn-danger"
+= link_to('All referral codes', profile_referral_codes_path)

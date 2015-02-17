@@ -2,7 +2,7 @@
   <h1>Referral codes</h1>
 </div>
 
-<%= search_form_for @q, :url => admin_referral_codes_path, :html => { :method => :get, :class => "well form-inline" } do |f| %>
+<%= search_form_for @q, :url => profile_referral_codes_path, :html => { :method => :get, :class => "well form-inline" } do |f| %>
   <div class="form-group">
     <%= f.text_field :code_cont, :type => "search", :class => "form-control", :placeholder => "Search by code" %>
   </div>
@@ -11,7 +11,7 @@
 <% end %>
 
 
-<p><%= link_to("Create a new Referral code", new_admin_referral_code_path) %></p>
+<p><%= link_to("Create a new Referral code", new_profile_referral_code_path) %></p>
 
 <table class="sortable table table-striped table-bordered table-condensed">
   <thead>
@@ -29,14 +29,14 @@
   <tbody>
     <% @referrals.each do |r| %>
       <tr class="referral_code">
-        <td><%= link_to(r.id, admin_referral_code_path(r)) %></td>
-        <td><%= link_to(r.code, admin_referral_code_path(r)) %></td>
+        <td><%= link_to(r.id, profile_referral_code_path(r)) %></td>
+        <td><%= link_to(r.code, profile_referral_code_path(r)) %></td>
         <td><%= r.expires_at %></td>
         <td><%= r.redeemed_at %></td>
         <td><%= r.account_name %></td>
         <td><%= r.asset_amount %> <%= r.asset.symbol %></td>
-        <td><%= link_to('Edit', edit_admin_referral_code_path(r)) %></td>
-        <td><%= link_to('Delete', admin_referral_code_path(r), :confirm => "Are you sure?", :method => :delete) %></td>
+        <td><%= link_to('Edit', edit_profile_referral_code_path(r)) %></td>
+        <td><%= link_to('Delete', profile_referral_code_path(r), :confirm => "Are you sure?", :method => :delete) %></td>
       </tr>
     <% end %>
   </tbody>

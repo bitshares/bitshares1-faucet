@@ -94,6 +94,12 @@ en:
       select_identity:
         Please select identity provider
 
+  referral_codes:
+    successfully_created:
+      Successfully created referral code.
+    successfully_updated:
+      Successfully updated referral code.
+
   activerecord:
     errors:
       models:
