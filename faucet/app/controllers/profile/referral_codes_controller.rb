@@ -1,6 +1,6 @@
 class Profile::ReferralCodesController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_referral, :only => [:edit, :update, :show, :destroy]
+  before_action :find_referral, :only => [:edit, :update, :show, :destroy, :send_mail]
 
   helper_method :sort_column, :sort_direction
 
@@ -41,6 +41,15 @@ class Profile::ReferralCodesController < ApplicationController
   def destroy
     @referral.destroy
     redirect_to admin_referral_codes_path, :notice => "Referral code deleted."
+  end
+
+  def send_mail
+    if ReferralRegistrator.new(current_user, @referral, params[:email]).send_mail
+      redirect_to profile_path, notice: 'Email sent'
+    else
+      # todo: add exception message
+      render :show, alert: 'Error occurred, try again'
+    end
   end
 
   protected

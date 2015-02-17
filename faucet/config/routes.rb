@@ -28,7 +28,11 @@ Rails.application.routes.draw do
 
   get 'profile', to: 'users#profile', as: 'profile'
   namespace :profile do
-    resources :referral_codes
+    resources :referral_codes do
+      member do
+        post 'send_mail'
+      end
+    end
   end
 
   namespace :api do
