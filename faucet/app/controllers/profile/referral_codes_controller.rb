@@ -44,7 +44,7 @@ class Profile::ReferralCodesController < ApplicationController
   end
 
   def send_mail
-    if ReferralRegistrator.new(current_user, @referral, params[:email]).send_mail
+    if ReferralRegistrator.new(@referral, params[:email]).send_mail
       redirect_to profile_path, notice: 'Email sent'
     else
       # todo: add exception message
@@ -56,6 +56,7 @@ class Profile::ReferralCodesController < ApplicationController
 
   def find_referral
     @referral = ReferralCode.find(params[:id])
+    raise ActiveRecord::RecordNotFound unless @referral.user == current_user
   end
 
   def find_referrals

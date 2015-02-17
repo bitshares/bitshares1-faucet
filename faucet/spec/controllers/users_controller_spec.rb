@@ -38,4 +38,13 @@ describe UsersController do
       expect(subject.current_user.newsletter_subscribed).to eq(true)
     end
   end
+
+  describe "#referral_login" do
+    it "should create user with email from registration link" do
+      create :referral_code, login_hash: 123, sent_to: 'email@email.com', user_id: user.id
+      get :referral_login, email: 'email@email.com', login_hash: 123
+
+      expect(User.last.email).to eq('email@email.com')
+    end
+  end
 end

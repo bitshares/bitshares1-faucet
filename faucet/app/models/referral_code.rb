@@ -6,6 +6,7 @@ class ReferralCode < ActiveRecord::Base
   validates :code, presence: true
   validates :amount, presence: true, numericality: true
   validates :asset_id, presence: true
+  validates :sent_to, uniqueness: true, on: :update
 
   def self.generate_code
     "#{Rails.application.config.bitshares.faucet_refcode_prefix}-#{SecureRandom.urlsafe_base64(8).upcase}"

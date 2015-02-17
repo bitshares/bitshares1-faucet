@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   match 'finish_signup/:id', to: 'users#finish_signup', as: 'finish_signup', via: [:get, :patch]
   match 'user/bitshares_account', to: 'users#bitshares_account', as: 'bitshares_account', via: [:get, :post]
   get 'users/subscribe', to: 'users#subscribe'
+  get 'users/referral_login', to: 'users#referral_login'
 
   devise_scope :user do
     get 'sign_out', to: 'devise/sessions#destroy', :as => :sign_out

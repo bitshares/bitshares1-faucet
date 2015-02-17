@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  skip_before_filter :authenticate_user!, only: [:finish_signup]
+  skip_before_filter :authenticate_user!, only: [:finish_signup, :referral_login]
 
   def profile
     @user = current_user
@@ -47,6 +47,18 @@ class UsersController < ApplicationController
       render json: {res: render_to_string('_subscribe', layout: false, locals: {status: status})}
     else
       render json: {res: subscription.to_s}
+    end
+  end
+
+  def referral_login
+    # todo: move to ReferralRegistrator
+    if params[:login_hash] && params[:login_hash] == ReferralCode.find_by(sent_to: params[:email]).login_hash
+      generated_password = Devise.friendly_token.first(8)
+      user = User.create!(name: params[:email], email: params[:email], password: generated_password)
+      sign_in(:user, user)
+      redirect_to after_referral_login_path
+    else
+      redirect_to root_path, alert: 'Wrong login hash'
     end
   end
 
