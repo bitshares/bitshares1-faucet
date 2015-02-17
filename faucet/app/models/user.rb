@@ -16,7 +16,8 @@ class User < ActiveRecord::Base
              :facebook, :twitter, :linkedin, :google_oauth2, :github, :reddit, :weibo, :qq
          ]
 
-  validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
+  validates :email, uniqueness: true
+  validates :email, format: { without: TEMP_EMAIL_REGEX }, on: :update
   validates :name, presence: true
   validates :password, presence: true, length: {minimum: 6}, on: :create
   validates :password, length: {minimum: 6}, allow_blank: true, on: :update
@@ -95,7 +96,7 @@ class User < ActiveRecord::Base
 
   def subscribe_async
     begin
-    UserSubscribeWorker.perform_async(self.id, true) if self.email_verified?
+      UserSubscribeWorker.perform_async(self.id, true) if self.email_verified?
     rescue Redis::CannotConnectError => e
       logger.error "---------> cannot connect to Redis"
     end

@@ -1,16 +1,14 @@
 class ReferralCode < ActiveRecord::Base
   belongs_to :asset
+  belongs_to :user
 
-  before_create :generate_code
+  validates :user_id, presence: true
   validates :code, presence: true
-  validates :amount, presence: true
+  validates :amount, presence: true, numericality: true
   validates :asset_id, presence: true
 
-  before_validation(on: :create) do
-    generate_code()
-    logger.debug "after_validation: #{self.inspect}"
-    a = Asset.find(self.asset_id)
-    self.amount *= a.precision
+  def self.generate_code
+    "#{Rails.application.config.bitshares.faucet_refcode_prefix}-#{SecureRandom.urlsafe_base64(8).upcase}"
   end
 
   def asset_amount
@@ -18,17 +16,13 @@ class ReferralCode < ActiveRecord::Base
   end
 
   def redeem(account_name, public_key)
-    if status() == 'ok'
+    if status == 'ok'
       account_name = add_contact_account(account_name, public_key)
       #BitShares::API::Wallet.account_register(account_name, 'angel')
       BitShares::API::Wallet.transfer(self.amount / asset.precision, asset.symbol, 'angel', account_name, "REF #{self.code}")
       #BitShares::API::Wallet.transfer_to_address(self.amount / asset.precision, asset.symbol, 'angel', public_key, "CPN #{self.code}")
       update_attribute(:redeemed_at, Time.now.to_s(:db))
     end
-  end
-
-  def generate_code
-    self.code = "#{Rails.application.config.bitshares.faucet_refcode_prefix}-#{SecureRandom.urlsafe_base64(8).upcase}"
   end
 
   def status
