@@ -34,6 +34,8 @@ en:
     Sign out
   profile:
     Profile
+  account_name:
+    Account Name
 
   welcome:
     index:
@@ -57,8 +59,6 @@ en:
     register_account_form:
       register_account:
         Register Account
-      account_name:
-        Account Name
       public_key:
         Public Key
 
@@ -93,6 +93,9 @@ en:
         Log in with another identity provider
       select_identity:
         Please select identity provider
+    after_referral_login:
+      enter_account_name:
+        Enter account name if you have it
 
   referral_codes:
     successfully_created:

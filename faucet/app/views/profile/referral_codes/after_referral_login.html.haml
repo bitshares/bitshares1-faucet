@@ -1,0 +1,5 @@
+= "#{t('.enter_account_name')}:"
+= form_tag(redeem_profile_referral_codes_path) do
+  = label_tag :account, t('account_name')
+  = text_field_tag :account
+  = submit_tag 'Ok'

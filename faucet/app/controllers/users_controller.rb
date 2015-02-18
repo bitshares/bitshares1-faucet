@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  skip_before_filter :authenticate_user!, only: [:finish_signup, :referral_login]
+  skip_before_filter :authenticate_user!, only: [:finish_signup]
 
   def profile
     @user = current_user
@@ -50,25 +50,16 @@ class UsersController < ApplicationController
     end
   end
 
-  def referral_login
-    # todo: move to ReferralRegistrator
-    if params[:login_hash] && params[:login_hash] == ReferralCode.find_by(sent_to: params[:email]).login_hash
-      generated_password = Devise.friendly_token.first(8)
-      user = User.create!(name: params[:email], email: params[:email], password: generated_password)
-      sign_in(:user, user)
-      redirect_to after_referral_login_path
-    else
-      redirect_to root_path, alert: 'Wrong login hash'
-    end
-  end
-
   private
 
-  def do_register(name, key, owner_key)
-    @reg_status = current_user.register_account(name, key, owner_key, cookies[:_ref_account])
+  def do_register(account_name, account_key, owner_key)
+    logger.info "---------> registering account #{account_name}, key: #{account_key}, owner_key: #{owner_key}"
+    sleep(0.4) # this is to prevent bots abuse
+    @reg_status = AccountRegistrator.new(current_user, logger).register(account_name, account_key, owner_key, cookies[:_ref_account])
+
     if @reg_status[:error]
-      flash[:alert] = "We were unable to register account '#{name}' - #{@reg_status[:error]}"
-      @account = OpenStruct.new(name: name, key: key, owner_key: owner_key)
+      flash[:alert] = "We were unable to register account '#{account_name}' - #{@reg_status[:error]}"
+      @account = OpenStruct.new(name: account_name, key: account_key, owner_key: owner_key)
     end
   end
 end

@@ -64,5 +64,6 @@ module BitSharesFaucet
         enable_starttls_auto: true
     }
 
+    routes.default_url_options = config.action_mailer.default_url_options
   end
 end

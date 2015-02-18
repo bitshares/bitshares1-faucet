@@ -13,4 +13,18 @@ describe WelcomeController do
     end
   end
 
+  describe "#index" do
+    before do
+      user = create :user, :confirmed
+      sign_in user
+    end
+
+    it "should set pending registration" do
+      get :index, account_name: 'name', account_key: 123
+
+      expect(subject.current_user.pending_intention).to eq({:pending_registration=>{"account_name"=>"name", "account_key"=>"123", "owner_key"=>nil}})
+    end
+
+  end
+
 end

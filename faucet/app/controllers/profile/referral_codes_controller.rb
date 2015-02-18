@@ -1,11 +1,12 @@
 class Profile::ReferralCodesController < ApplicationController
   before_action :authenticate_user!
+  skip_before_filter :authenticate_user!, only: [:referral_login]
   before_action :find_referral, :only => [:edit, :update, :show, :destroy, :send_mail]
 
   helper_method :sort_column, :sort_direction
 
   def index
-    @q = ReferralCode.search(params[:q])
+    @q = ReferralCode.where(user_id: current_user.id).search(params[:q])
     @referrals = find_referrals
   end
 
@@ -38,17 +39,47 @@ class Profile::ReferralCodesController < ApplicationController
     end
   end
 
-  def destroy
-    @referral.destroy
-    redirect_to admin_referral_codes_path, :notice => "Referral code deleted."
-  end
+  #def destroy
+  #  @referral.destroy
+  #  redirect_to admin_referral_codes_path, :notice => "Referral code deleted."
+  #end
 
   def send_mail
-    if ReferralRegistrator.new(@referral, params[:email]).send_mail
-      redirect_to profile_path, notice: 'Email sent'
+    result = ReferralRegistrator.new(@referral, params[:email]).send_mail
+
+    if result.is_a?(Hash) && result[:error]
+      flash[:error] = result[:error]
+      render :show
     else
-      # todo: add exception message
-      render :show, alert: 'Error occurred, try again'
+      redirect_to profile_path, notice: 'Email sent'
+    end
+  end
+
+  def referral_login
+    if user = ReferralAuthenticator.new(params[:login_hash], params[:email]).login
+      sign_in(:user, user)
+      redirect_to after_referral_login_profile_referral_codes_path
+    else
+      redirect_to root_path, alert: 'Cannot login'
+    end
+  end
+
+  def after_referral_login
+    redirect_to root_path unless current_user.from_referral?
+  end
+
+  def redeem
+    account = BtsAccount.where(name: params[:account]).first
+    referral = ReferralCode.where(sent_to: current_user.email).first
+
+    if account && referral
+      referral.redeem(account.name, account.key)
+      account.user_id = current_user.id
+      account.save!
+
+      redirect_to profile_path, notice: 'Money has been transferred to your bitshares account'
+    else
+      render 'after_referral_login'
     end
   end
 

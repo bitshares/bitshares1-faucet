@@ -30,9 +30,8 @@ class WelcomeController < ApplicationController
 
   def account_registration_step2
     @account = BtsAccount.new(bts_account_params)
-    logger.debug "BtsAccount:"
-    logger.debug "#{@account}; #{@account.valid?}; #{@account.errors}"
-    @account_name = @account.name
+    logger.debug "BtsAccount: \n #{@account}; #{@account.valid?}; #{@account.errors}"
+
     session[:pending_registration] = {account_name: @account.name, account_key: @account.key}
     redirect_to bitshares_account_path if user_signed_in?
   end

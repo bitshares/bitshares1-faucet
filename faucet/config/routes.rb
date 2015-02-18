@@ -15,7 +15,6 @@ Rails.application.routes.draw do
   match 'finish_signup/:id', to: 'users#finish_signup', as: 'finish_signup', via: [:get, :patch]
   match 'user/bitshares_account', to: 'users#bitshares_account', as: 'bitshares_account', via: [:get, :post]
   get 'users/subscribe', to: 'users#subscribe'
-  get 'users/referral_login', to: 'users#referral_login'
 
   devise_scope :user do
     get 'sign_out', to: 'devise/sessions#destroy', :as => :sign_out
@@ -29,9 +28,15 @@ Rails.application.routes.draw do
 
   get 'profile', to: 'users#profile', as: 'profile'
   namespace :profile do
-    resources :referral_codes do
+    resources :referral_codes, except: [:destroy] do
       member do
         post 'send_mail'
+      end
+
+      collection do
+        get 'referral_login'
+        get 'after_referral_login'
+        post 'redeem'
       end
     end
   end

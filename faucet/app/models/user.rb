@@ -24,6 +24,10 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password
   after_create :subscribe_async
 
+  def from_referral?
+    ReferralCode.where(sent_to: self.email).where.not(state: 'redeemed').exists?
+  end
+
   def email_verified?
     self.email && self.email !~ TEMP_EMAIL_REGEX
   end
@@ -60,13 +64,6 @@ class User < ActiveRecord::Base
     user.set_pending_registration(pending_registration) if pending_registration
 
     user
-  end
-
-  def register_account(account_name, account_key, owner_key, referrer=nil)
-    logger.info "---------> registering account #{account_name}, key: #{account_key}, owner_key: #{owner_key}"
-    sleep(0.4) # this is to prevent bots abuse
-    account = self.bts_accounts.where(name: account_name).first
-    AccountRegistrator.new(self, account, logger).register(account_name, account_key, owner_key, referrer)
   end
 
   def subscribe(subscription_status)

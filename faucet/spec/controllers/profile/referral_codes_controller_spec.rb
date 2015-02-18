@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Profile::ReferralCodesController do
   let(:user) { create :user, :confirmed }
-  let(:referral_code) { create :referral_code, user_id: user.id }
+  let(:referral_code) { create :referral_code, user_id: user.id, state: 'fulfilled' }
 
   before do
     sign_in user
@@ -15,11 +15,44 @@ describe Profile::ReferralCodesController do
       expect { send_mail }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
 
-    it "should set status to sent" do
+    it "should set state to sent" do
       send_mail
       referral_code.reload
       expect(referral_code.state).to eq('sent')
     end
+
+    it "should not sent email if the state of referral code not equal fulfilled" do
+      referral_code.state = 'not_fulfilled'
+      change { ActionMailer::Base.deliveries.count }.by(0)
+    end
   end
+
+  describe "#referral_login" do
+    it "should create user with email from registration link" do
+      create :referral_code, login_hash: 123, sent_to: 'email@email.com', user_id: user.id
+      get :referral_login, email: 'email@email.com', login_hash: 123
+
+      expect(User.last.email).to eq('email@email.com')
+    end
+  end
+
+  describe "#after_referral_login" do
+    it "should allow referred users to see this page" do
+      referral_code.sent_to = 'test@email.com'
+      referral_code.save
+
+      expect(get :after_referral_login).to_not redirect_to(root_path)
+    end
+  end
+
+  #describe "#redeem" do
+  #  it "should set redeemed_at to Time.now" do
+  #    bts_account = create :bts_account
+  #    referral_code.update_attribute(:sent_to, user.email)
+  #
+  #    post :redeem, account: bts_account.name
+  #    expect(referral_code.redeemed_at).to eq(Time.now)
+  #  end
+  #end
 
 end
