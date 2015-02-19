@@ -1,15 +1,15 @@
 require 'cgi'
 
 class WidgetsController < ApplicationController
-  before_action :authenticate_user!, except: [:w, :action]
-  skip_before_filter :verify_authenticity_token, only: [:w, :action]
+  before_action :authenticate_user!, except: [:w, :action, :get_current_user]
+  skip_before_filter :verify_authenticity_token, only: [:w, :action, :get_current_user]
 
   def w
     response.headers['Content-type'] = 'text/javascript; charset=utf-8'
     @w = Widget.find(params[:widget_id])
     logger.info "==> widget[#{@w.id}]: request from '#{request.referer}'"
-    host = request.port && request.port != 80 ? "#{request.host}:#{request.port}" : request.host
-    @jsonp_url = "https://#{host}/widgets/#{@w.id}/action.js"
+    host = request.port && !(request.port == 80 || request.port == 443) ? "#{request.host}:#{request.port}" : request.host
+    @jsonp_url = "//#{host}/widgets/#{@w.id}"
     uri = get_uri_and_check_domain(@w, request.referer)
     return unless uri
     qpms = uri.query ? CGI::parse(uri.query) : {}
@@ -31,6 +31,16 @@ class WidgetsController < ApplicationController
     end
     render :json => response.to_json, :callback => params['callback']
   end
+
+   def get_current_user
+     response.headers['Content-type'] = 'text/javascript; charset=utf-8'
+     logger.debug "get_current_user:::::: #{current_user}"
+     if current_user
+      render :json => {id: current_user.id, name: current_user.name}.to_json, :callback => params['callback']
+     else
+       render :json => false, :callback => params['callback']
+     end
+   end
 
   private
 

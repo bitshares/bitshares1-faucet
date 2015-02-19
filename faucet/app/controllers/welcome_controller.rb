@@ -6,7 +6,11 @@ class WelcomeController < ApplicationController
 
     if params[:account_name] and (params[:account_key] or params[:active_key])
       @account_name = params[:account_name]
-      session[:pending_registration] = {account_name: params[:account_name], account_key: params[:account_key]}
+      if current_user
+        current_user.set_pending_registration({'account_name' => params[:account_name], 'account_key' => params[:account_key] || params[:active_key], 'owner_key' => params[:owner_key]})
+      else
+        session[:pending_registration] = {account_name: params[:account_name], account_key: params[:account_key] || params[:active_key], owner_key: params[:owner_key]}
+      end
       redirect_to bitshares_account_path if user_signed_in?
     else
       @account = BtsAccount.new(name: '', key: '')

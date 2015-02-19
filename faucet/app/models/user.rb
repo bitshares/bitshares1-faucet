@@ -88,7 +88,7 @@ class User < ActiveRecord::Base
   end
 
   def set_pending_registration(pending_registration)
-    self.pending_intention = {pending_registration: pending_registration}
+    update_attribute(:pending_intention, pending_registration: pending_registration)
   end
 
   private

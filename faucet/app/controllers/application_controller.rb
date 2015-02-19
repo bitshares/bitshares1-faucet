@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :assign_uid
   before_action :ensure_email_confirmation
-  before_action :set_locale
+  #before_action :set_locale
 
   def authenticate_admin_user!
     raise ActiveRecord::RecordNotFound unless current_user and current_user.is_admin
@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    if resource.pending_intention.try(:pending_registration)
+    if resource.pending_intention and resource.pending_intention[:pending_registration]
       bitshares_account_path
     else
       profile_path

@@ -1,19 +1,29 @@
 <h1><a href="/test_widget">Test Widget</a></h1>
 <br/>
 
-<div class="pull-right" style="">
+  <script>
+    function check_current_user() {
+       BTSW.current_user(function(user){
+         console.log("---- check_current_user : ", user);
+       })
+    }
+  </script>
+
+<div class="pull-right">
   <script>
       var BTSW = window.BTSW || {};
       (function () {
           var script = document.createElement('script');
           script.type = 'text/javascript';
           script.async = true;
-          //script.src = 'http://faucet.bitshares.org/widgets/4/w.js?ref='+encodeURIComponent(document.referrer);
-          script.src = 'http://dev.bitsharestestdrive.com:3000//widgets/1/w.js?ref='+encodeURIComponent(document.referrer);
+          //script.src = '//faucet.bitshares.org/widgets/4/w.js?ref='+encodeURIComponent(document.referrer);
+          script.src = 'https://faucet.bitshares.org/widgets/1/w.js?ref='+encodeURIComponent(document.referrer);
+          script.onload = check_current_user;
           var entry = document.getElementsByTagName('script')[0];
           entry.parentNode.insertBefore(script, entry);
       }());
   </script>
+
 </div>
 
 <div>

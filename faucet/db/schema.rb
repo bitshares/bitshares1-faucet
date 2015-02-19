@@ -80,7 +80,6 @@ ActiveRecord::Schema.define(version: 20150211200132) do
     t.datetime "redeemed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
   end
 
   add_index "referral_codes", ["asset_id"], name: "index_referral_codes_on_asset_id", using: :btree
