@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :assign_uid
   before_action :ensure_email_confirmation
-  #before_action :set_locale
+  before_action :set_locale
 
   def authenticate_admin_user!
     raise ActiveRecord::RecordNotFound unless current_user and current_user.is_admin
@@ -15,12 +15,13 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def set_locale
-    I18n.locale = params[:locale] || I18n.default_locale
+  def get_locale
+    request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
   end
 
-  def default_url_options(options={})
-    {:locale => set_locale}
+  def set_locale
+    session[:locale] = params[:locale] || session[:locale] || get_locale
+    I18n.locale = session[:locale] || I18n.default_locale
   end
 
   def ensure_email_confirmation
