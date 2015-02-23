@@ -3,21 +3,23 @@ class UsersController < ApplicationController
   skip_before_filter :authenticate_user!, only: [:finish_signup]
 
   def profile
+    redirect_to bitshares_account_path if current_user.pending_intention and current_user.pending_intention[:pending_registration]
+
     @user = current_user
     @referral = ReferralCode.new
   end
 
   def bitshares_account
-    @reg_status = nil
     @subscription_status = current_user.newsletter_subscribed
 
     if current_user.pending_intention and current_user.pending_intention[:pending_registration]
       reg = current_user.pending_intention[:pending_registration]
       do_register(reg['account_name'], reg['account_key'], reg['owner_key'])
       current_user.set_pending_registration(nil)
-    end
-    if params[:account]
+    elsif params[:account]
       do_register(params[:account][:name], params[:account][:key], nil)
+    else
+      @reg_status = nil
     end
   end
 

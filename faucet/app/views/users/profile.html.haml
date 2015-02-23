@@ -93,3 +93,4 @@
   %h1 Create new referral code
 = form_for [:profile, @referral], :html => { :class => "form-horizontal", :role => "form" } do |f|
   = render "profile/referral_codes/form", { :f => f }
+= link_to('All referral codes', profile_referral_codes_path)
