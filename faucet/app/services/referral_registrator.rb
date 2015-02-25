@@ -7,8 +7,8 @@ class ReferralRegistrator
     @email = email
   end
 
-  def send_mail
-    return { error: 'Referral code is not funded yet' } unless referral_code.state == 'fulfilled'
+  def send_referral_mail
+    return { error: 'Referral code is not funded yet' } unless referral_code.state == 'funded'
 
     referral_code.sent_to = email
     referral_code.login_hash = generate_login_hash

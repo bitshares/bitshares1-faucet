@@ -15,6 +15,7 @@ class Profile::ReferralCodesController < ApplicationController
       r.user_id = current_user.id
       r.code = ReferralCode.generate_code
       r.amount *= r.asset.precision if r.amount
+      r.expires_at = r.set_expires_at(params[:referral_code][:expires_at])
     end
 
     if @referral.save
@@ -28,8 +29,8 @@ class Profile::ReferralCodesController < ApplicationController
   def show
   end
 
-  def edit
-  end
+  #def edit
+  #end
 
   def update
     if @referral.update_attributes(referral_code_params)
@@ -39,13 +40,13 @@ class Profile::ReferralCodesController < ApplicationController
     end
   end
 
-  #def destroy
-  #  @referral.destroy
-  #  redirect_to admin_referral_codes_path, :notice => "Referral code deleted."
-  #end
+  def destroy
+    @referral.destroy
+    redirect_to admin_referral_codes_path, :notice => "Referral code deleted."
+  end
 
   def send_mail
-    result = ReferralRegistrator.new(@referral, params[:email]).send_mail
+    result = ReferralRegistrator.new(@referral, params[:email]).send_referral_mail
 
     if result.is_a?(Hash) && result[:error]
       flash[:error] = result[:error]
@@ -56,11 +57,13 @@ class Profile::ReferralCodesController < ApplicationController
   end
 
   def referral_login
-    if user = ReferralAuthenticator.new(params[:login_hash], params[:email]).login
-      sign_in(:user, user)
-      redirect_to after_referral_login_profile_referral_codes_path
+    result = ReferralAuthenticator.new(params[:login_hash], params[:email]).login
+
+    if result.is_a?(Hash) && result[:error]
+      redirect_to root_path, alert: result[:error]
     else
-      redirect_to root_path, alert: 'Cannot login'
+      sign_in(:user, result)
+      redirect_to after_referral_login_profile_referral_codes_path
     end
   end
 

@@ -1,5 +1,9 @@
-= "#{t('.enter_account_name')}:"
+Enter Bitshares account name if you have it:
 = form_tag(redeem_profile_referral_codes_path) do
   = label_tag :account, t('account_name')
   = text_field_tag :account
   = submit_tag 'Ok'
+
+Otherwise, please install client and register an account.
+More info here:
+= link_to(t('how_to_register_account'), 'http://bytemaster.bitshares.org/tutorial/2015/01/03/How-to-Register-a-BitShares-Account/')

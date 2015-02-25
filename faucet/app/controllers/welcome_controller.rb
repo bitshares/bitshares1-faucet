@@ -13,10 +13,9 @@ class WelcomeController < ApplicationController
     end
 
     @asset = Asset.where(assetid: 0).first
-    @faucet_account = Rails.application.config.bitshares.bts_faucet_account
     @faucet_balance = Rails.cache.fetch('key', expires_in: 1.minute) do
       begin
-        res = BitShares::API::Wallet.account_balance(@faucet_account)
+        res = BitShares::API::Wallet.account_balance(faucet_account)
         res[0][1][0][1]/@asset.precision
       rescue
         0

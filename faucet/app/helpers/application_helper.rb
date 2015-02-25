@@ -15,4 +15,8 @@ module ApplicationHelper
     current_user and current_user.identities.find_by(provider: provider)
   end
 
+  def faucet_account
+    Rails.application.config.bitshares.bts_faucet_account
+  end
+
 end

@@ -36,6 +36,8 @@ en:
     Profile
   account_name:
     Account Name
+  how_to_register:
+    How to Register a BitShares Account
 
   welcome:
     index:
@@ -50,8 +52,6 @@ en:
         To claim your free BitShares account registration, please enter account name and your public key in the form below:
       need_help:
         Need help? Read %{link}
-      how_to_register:
-        How to Register a BitShares Account
       faucet_balance:
         Faucet Balance
       donate:
@@ -93,9 +93,11 @@ en:
         Log in with another identity provider
       select_identity:
         Please select identity provider
-    after_referral_login:
-      enter_account_name:
-        Enter account name if you have it
+#  profile:
+#    referral_codes:
+#      after_referral_login:
+#        enter_account_name:
+#          Enter Bitshares account name if you have it
 
   referral_codes:
     successfully_created:

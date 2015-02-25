@@ -2,10 +2,21 @@ require 'rails_helper'
 
 describe Profile::ReferralCodesController do
   let(:user) { create :user, :confirmed }
-  let(:referral_code) { create :referral_code, user_id: user.id, state: 'fulfilled' }
+  let(:referral_code) { create :referral_code, user_id: user.id, state: 'funded' }
 
   before do
     sign_in user
+  end
+
+  describe "#create" do
+    it "should set expires_at time to 24 hours from now when selected" do
+      time_now = DateTime.parse("Feb 25 2015")
+      Timecop.freeze(time_now)
+      asset = create :asset
+      get :create, referral_code: { expires_at: '24 hours', amount: 1, asset_id: asset.id }
+
+      expect(ReferralCode.last.expires_at).to eq(DateTime.now + 24.hours)
+    end
   end
 
   describe "#send_mail" do
@@ -21,8 +32,8 @@ describe Profile::ReferralCodesController do
       expect(referral_code.state).to eq('sent')
     end
 
-    it "should not sent email if the state of referral code not equal fulfilled" do
-      referral_code.state = 'not_fulfilled'
+    it "should not sent email if the state of referral code not equal funded" do
+      referral_code.state = 'not_funded'
       change { ActionMailer::Base.deliveries.count }.by(0)
     end
   end

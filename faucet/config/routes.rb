@@ -28,9 +28,10 @@ Rails.application.routes.draw do
 
   get 'profile', to: 'users#profile', as: 'profile'
   namespace :profile do
-    resources :referral_codes, except: [:destroy] do
+    resources :referral_codes, except: [:edit] do
       member do
         post 'send_mail'
+        get 'fund'
       end
 
       collection do

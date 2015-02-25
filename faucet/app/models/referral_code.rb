@@ -1,4 +1,7 @@
 class ReferralCode < ActiveRecord::Base
+  EXPIRED_AT = ['1 hour', '2 hours', '6 hours', '12 hours', '24 hours', '2 days', '3 days', '7 days']
+  AVAILABLE_ASSETS = Asset.where(symbol: [:USD, :CNY, :EUR, :GOLD, :SILVER]).pluck(:symbol, :id)
+
   belongs_to :asset
   belongs_to :user
 
@@ -38,6 +41,33 @@ class ReferralCode < ActiveRecord::Base
                 'ok'
               end
     return @status
+  end
+
+  def set_expires_at(expires_at)
+    return Time.now unless expires_at.in?(EXPIRED_AT)
+
+    case expires_at
+      when '1 hour'
+        DateTime.now + 1.hour
+      when '2 hours'
+        DateTime.now + 2.hours
+      when '6 hours'
+        DateTime.now + 6.hours
+      when '12 hours'
+        DateTime.now + 12.hours
+      when '24 hours'
+        DateTime.now + 24.hours
+      when '2 days'
+        DateTime.now + 2.days
+      when '3 days'
+        DateTime.now + 3.days
+      when '7 days'
+        DateTime.now + 7.days
+    end
+  end
+
+  def funded?
+    self.state == 'funded' || self.state == 'sent'
   end
 
   private
