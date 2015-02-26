@@ -73,7 +73,13 @@ class Profile::ReferralCodesController < ApplicationController
 
   def redeem
     account = BtsAccount.where(name: params[:account]).first
-    referral = ReferralCode.where(sent_to: current_user.email).first
+    referral = ReferralCode.where(state: 'sent')
+
+    if params[:code]
+      referral = referral.where(code: params[:code]).first
+    else
+      referral = referral.where(sent_to: current_user.email).first
+    end
 
     if account && referral
       referral.redeem(account.name, account.key)
@@ -82,7 +88,7 @@ class Profile::ReferralCodesController < ApplicationController
 
       redirect_to profile_path, notice: 'Money has been transferred to your bitshares account'
     else
-      render 'after_referral_login'
+      redirect_to :back, alert: 'Referral code has not been redeemed. Please check your account name and ensure that code has been funded.'
     end
   end
 

@@ -2,7 +2,7 @@ Enter Bitshares account name if you have it:
 = form_tag(redeem_profile_referral_codes_path) do
   = label_tag :account, t('account_name')
   = text_field_tag :account
-  = submit_tag 'Ok'
+  = submit_tag 'Ok', class: 'btn btn-primary'
 
 Otherwise, please install client and register an account.
 More info here:

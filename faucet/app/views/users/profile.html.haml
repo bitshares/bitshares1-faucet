@@ -89,8 +89,26 @@
           %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
             = t('close')
 
-.page-header
-  %h1 Create new referral code
-= form_for [:profile, @referral], :html => { :class => "form-horizontal", :role => "form" } do |f|
-  = render "profile/referral_codes/form", { :f => f }
 = link_to('All referral codes', profile_referral_codes_path)
+
+.page-header
+  .col-xs-6
+    %h1 Create new referral code
+  .col-xs-6
+    %h1 Redeem code
+.col-xs-6
+  = form_for [:profile, @referral], :html => { :class => "form-horizontal", :role => "form" } do |f|
+    = render "profile/referral_codes/form", { :f => f }
+.col-xs-6
+  = form_tag(redeem_profile_referral_codes_path, class: 'form-horizontal') do
+    .form-group
+      = label_tag :account, t('account_name'), class: 'col-sm-4 control-label'
+      .col-sm-6
+        = text_field_tag :account, nil, class: 'form-control'
+    .form-group
+      = label_tag :code, t('code'), class: 'col-sm-4 control-label'
+      .col-sm-6
+        = text_field_tag :code, nil, class: 'form-control'
+    .form-group
+      .col-sm-offset-8.col-sm-3.input-group
+        = submit_tag 'Redeem', class: 'btn btn-primary'
