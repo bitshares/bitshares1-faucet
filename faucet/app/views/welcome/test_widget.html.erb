@@ -16,8 +16,8 @@
           var script = document.createElement('script');
           script.type = 'text/javascript';
           script.async = true;
-          //script.src = '//faucet.bitshares.org/widgets/4/w.js?ref='+encodeURIComponent(document.referrer);
-          script.src = 'https://faucet.bitshares.org/widgets/1/w.js?ref='+encodeURIComponent(document.referrer);
+          script.src = '//faucet.bitshares.dev:3000/widgets/1/w.js?ref='+encodeURIComponent(document.referrer);
+          //script.src = 'https://faucet.bitshares.org/widgets/1/w.js?ref='+encodeURIComponent(document.referrer);
           script.onload = check_current_user;
           var entry = document.getElementsByTagName('script')[0];
           entry.parentNode.insertBefore(script, entry);

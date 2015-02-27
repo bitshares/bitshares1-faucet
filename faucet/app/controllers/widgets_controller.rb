@@ -34,7 +34,7 @@ class WidgetsController < ApplicationController
 
    def get_current_user
      response.headers['Content-type'] = 'text/javascript; charset=utf-8'
-     logger.debug "get_current_user:::::: #{current_user}"
+     #logger.debug "get_current_user:::::: #{current_user}"
      if current_user
       render :json => {id: current_user.id, name: current_user.name}.to_json, :callback => params['callback']
      else
@@ -92,8 +92,8 @@ class WidgetsController < ApplicationController
                                 adgroupid: sanitize_iparam(qpms['adgroupid']),
                                 adid: sanitize_iparam(qpms['adid']),
                                 keywordid: sanitize_iparam(qpms['keywordid']),
-                                ip: sanitize_sparam(request.remote_ip),
-                                ua: sanitize_sparam(request.user_agent)
+                                ip: sanitize_str(request.remote_ip),
+                                ua: sanitize_str(request.user_agent)
                             })
     action.save
     return action

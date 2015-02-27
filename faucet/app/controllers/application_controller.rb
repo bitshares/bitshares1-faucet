@@ -62,8 +62,6 @@ class ApplicationController < ActionController::Base
   private
 
   def assign_uid
-    return unless current_user
-
     if cookies[:_uid_]
       @uid = cookies[:_uid_]
     else
@@ -75,7 +73,10 @@ class ApplicationController < ActionController::Base
       }
     end
 
-    current_user.update_attribute(:uid, @uid) unless current_user.uid == @uid
+    user = current_user
+    if user
+      user.update_attribute(:uid, @uid) unless user.uid == @uid
+    end
   end
 
 end
