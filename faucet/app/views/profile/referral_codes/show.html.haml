@@ -2,7 +2,7 @@
   %h1
     Referral Code
     %span.label.label-success= @referral.code
-  - unless @referral.funded?
+  - unless @referral.funded? || @referral.sent?
     In order to fund this referral code, please send #{@referral.asset_amount} #{@referral.asset.symbol} to account #{faucet_account} and specify code #{@referral.code} in memo
 %table.table.table-bordered
   %tr

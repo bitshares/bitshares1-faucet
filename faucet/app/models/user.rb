@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   after_create :subscribe_async
 
   def from_referral?
-    ReferralCode.where(sent_to: self.email).where.not(state: 'redeemed').exists?
+    ReferralCode.where(sent_to: self.email).where.not(aasm_state: :redeemed).exists?
   end
 
   def email_verified?

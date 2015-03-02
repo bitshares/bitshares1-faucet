@@ -8,7 +8,7 @@ class ReferralRegistrator
   end
 
   def send_referral_mail
-    return { error: 'Referral code is not funded yet' } unless referral_code.state == 'funded'
+    return { error: 'Referral code is not funded yet' } unless referral_code.funded?
 
     referral_code.sent_to = email
     referral_code.login_hash = generate_login_hash
@@ -20,7 +20,7 @@ class ReferralRegistrator
     end
 
     if UserMailer.referral_code_email(user_name, email, amount, login_link).deliver
-      @referral_code.update_attribute(:state, 'sent')
+      referral_code.set_to_sent
     else
       { error: 'E-mail with referral code was not send, please try again' }
     end

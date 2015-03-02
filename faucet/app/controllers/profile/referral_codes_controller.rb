@@ -73,7 +73,7 @@ class Profile::ReferralCodesController < ApplicationController
 
   def redeem
     account = BtsAccount.where(name: params[:account]).first
-    referral = ReferralCode.where(state: 'sent')
+    referral = ReferralCode.where(aasm_state: :sent)
 
     if params[:code]
       referral = referral.where(code: params[:code]).first

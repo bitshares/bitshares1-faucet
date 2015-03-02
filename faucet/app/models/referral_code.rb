@@ -1,4 +1,23 @@
 class ReferralCode < ActiveRecord::Base
+  include AASM
+
+  aasm do
+    state :ok, initial: true
+    state :sent
+    state :funded
+    state :redeemed
+    state :expired
+
+    event :fund do
+      transitions from: :ok, to: :funded
+    end
+
+    event :set_to_sent do
+      transitions from: :funded, to: :sent
+    end
+
+  end
+
   EXPIRED_AT = ['1 hour', '2 hours', '6 hours', '12 hours', '24 hours', '2 days', '3 days', '7 days']
   AVAILABLE_ASSETS = Asset.where(symbol: [:USD, :CNY, :EUR, :GOLD, :SILVER]).pluck(:symbol, :id)
 
@@ -11,6 +30,10 @@ class ReferralCode < ActiveRecord::Base
   validates :asset_id, presence: true
   validates :sent_to, uniqueness: true, on: :update
 
+  def aasm_state
+    self[:aasm_state] || :ok
+  end
+
   def self.generate_code
     "#{Rails.application.config.bitshares.faucet_refcode_prefix}-#{SecureRandom.urlsafe_base64(8).upcase}"
   end
@@ -20,27 +43,13 @@ class ReferralCode < ActiveRecord::Base
   end
 
   def redeem(account_name, public_key)
-    if status == 'ok'
-      account_name = add_contact_account(account_name, public_key)
-      #BitShares::API::Wallet.account_register(account_name, 'angel')
-      BitShares::API::Wallet.transfer(self.amount / asset.precision, asset.symbol, 'angel', account_name, "REF #{self.code}")
-      #BitShares::API::Wallet.transfer_to_address(self.amount / asset.precision, asset.symbol, 'angel', public_key, "CPN #{self.code}")
-      update_attribute(:redeemed_at, Time.now.to_s(:db))
-    end
-  end
+    return unless self.sent? || self.funded?
 
-  def status
-    return @status if @status
-    @status = if !self.code
-                'notfound'
-              elsif self.redeemed_at
-                'redeemed'
-              elsif self.expires_at and self.expires_at < DateTime.now
-                'expired'
-              else
-                'ok'
-              end
-    return @status
+    account_name = add_contact_account(account_name, public_key)
+    #BitShares::API::Wallet.account_register(account_name, 'angel')
+    BitShares::API::Wallet.transfer(self.amount / asset.precision, asset.symbol, 'angel', account_name, "REF #{self.code}")
+    #BitShares::API::Wallet.transfer_to_address(self.amount / asset.precision, asset.symbol, 'angel', public_key, "CPN #{self.code}")
+    update_attribute(:redeemed_at, Time.now.to_s(:db))
   end
 
   def set_expires_at(expires_at)
@@ -64,10 +73,6 @@ class ReferralCode < ActiveRecord::Base
       when '7 days'
         DateTime.now + 7.days
     end
-  end
-
-  def funded?
-    self.state == 'funded' || self.state == 'sent'
   end
 
   private
