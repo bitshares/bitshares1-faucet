@@ -52,7 +52,7 @@ class ReferralCode < ActiveRecord::Base
     update_attribute(:redeemed_at, Time.now.to_s(:db))
   end
 
-  def set_expires_at(expires_at)
+  def mutate_expires_at(expires_at)
     return Time.now unless expires_at.in?(EXPIRED_AT)
 
     case expires_at

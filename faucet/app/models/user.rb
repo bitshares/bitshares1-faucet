@@ -16,7 +16,6 @@ class User < ActiveRecord::Base
              :facebook, :twitter, :linkedin, :google_oauth2, :github, :reddit, :weibo, :qq
          ]
 
-  validates :email, uniqueness: true
   validates :email, format: { without: TEMP_EMAIL_REGEX }, on: :update
   validates :name, presence: true
   validates :password, presence: true, length: {minimum: 6}, on: :create
