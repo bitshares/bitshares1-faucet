@@ -13,15 +13,14 @@
   .header
     %h2.logo.text-center
       = t('.about_to_register')
-      = succeed "," do
-        %b= @account_name
-      = succeed ":" do
-        = t('.authenticate')
+      %b= @account_name
+      = t('.on_the_blockchain')
     %br/
+    .alert.alert-warning{:role => "alert"}
+      = simple_format t('.note')
   = render partial: 'social_buttons'
   %br/
-  .alert.alert-warning{:role => "alert"}
-    = t('.note')
+
 .text-center
   = raw t('.need_help', link: link_to(t('.how_to_register'), 'http://bytemaster.bitshares.org/tutorial/2015/01/03/How-to-Register-a-BitShares-Account/'))
 - content_for :footer do

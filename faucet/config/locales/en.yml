@@ -38,12 +38,13 @@ en:
   welcome:
     index:
       about_to_register:
-        You are about to register account
-      authenticate:
-        please authenticate with one of the following identity providers to proceed
+        Congratulations! You are about to register
+      on_the_blockchain:
+        on the blockchain.
       note: |
-        Note: This step is only necessary to prevent abuse of the faucet. There
-            is no link whatsoever between these services and your BitShares account.
+        <b>Note.</b> Some generous BitShares community members have donated a small amount of bitshares to this faucet so you can register your first account for free. <b>To prevent abuse of their generosity please authenticate with one of the following identity providers to proceed.</b>
+        There is no link whatsoever between these services and your BitShares account.
+        If you cannot see any options with which to authenticate below this box, please turn off any adblocker plugins you may be running.
       claim_account: |
         To claim your free BitShares account registration, please enter account name and your public key in the form below:
       need_help:
