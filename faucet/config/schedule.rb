@@ -20,6 +20,7 @@
 # Learn more: http://github.com/javan/whenever
 
 every 10.minutes do
+  runner 'ReferralCodesUpdater.set_expired'
   runner 'ReferralCodesUpdater.set_funded'
 end
 
