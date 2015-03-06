@@ -8,6 +8,11 @@ class Profile::ReferralCodesController < ApplicationController
   def index
     @q = ReferralCode.where(user_id: current_user.id).search(params[:q])
     @referrals = find_referrals
+
+    respond_to do |format|
+      format.html
+      format.json { render partial: 'codes' }
+    end
   end
 
   def create

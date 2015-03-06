@@ -1,0 +1,18 @@
+%thead
+  %tr
+    %th= sortable "code"
+    %th= sortable "amount"
+    %th= sortable "created_at"
+    %th= sortable "expires_at"
+    %th= sortable "status"
+%tbody
+  - @referrals.each do |r|
+    %tr.referral_code
+      %td= link_to(r.code, profile_referral_code_path(r))
+      %td
+        = r.asset_amount
+        = r.asset.symbol
+      %td= r.created_at
+      %td= r.expires_at
+      %td= r.aasm_state
+= paginate @referrals
