@@ -1,0 +1,9 @@
+.page-header
+  %h1 Referral codes
+= search_form_for @q, :url => profile_referral_codes_path, :html => { :method => :get, :class => "well form-inline" } do |f|
+  .form-group
+    = f.text_field :code_cont, :type => "search", :class => "form-control", :placeholder => "Search by code"
+  = f.submit "Search", :class => "btn btn-default"
+%p= link_to("Back to profile", profile_path)
+%table.sortable.table.table-striped.table-bordered.table-condensed#referral_codes{data: {url: profile_referral_codes_path} }
+  = render 'codes.json'

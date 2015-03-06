@@ -39,6 +39,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'capybara'
+  gem 'timecop'
 end
 
 gem 'bootstrap-sass'
@@ -69,3 +70,5 @@ gem 'fakeweb'
 gem 'sidekiq'
 gem 'exception_notification', github: 'smartinez87/exception_notification'
 gem 'devise-i18n'
+gem 'aasm'
+gem 'whenever'

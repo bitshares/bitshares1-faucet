@@ -33,11 +33,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    if resource.pending_intention and resource.pending_intention[:pending_registration]
-      bitshares_account_path
-    else
-      profile_path
-    end
+    profile_path
   end
 
   def configure_permitted_parameters

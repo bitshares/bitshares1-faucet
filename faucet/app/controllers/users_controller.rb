@@ -3,20 +3,23 @@ class UsersController < ApplicationController
   skip_before_filter :authenticate_user!, only: [:finish_signup]
 
   def profile
+    redirect_to bitshares_account_path if current_user.pending_intention and current_user.pending_intention[:pending_registration]
+
     @user = current_user
+    @referral = ReferralCode.new
   end
 
   def bitshares_account
-    @reg_status = nil
     @subscription_status = current_user.newsletter_subscribed
 
     if current_user.pending_intention and current_user.pending_intention[:pending_registration]
       reg = current_user.pending_intention[:pending_registration]
       do_register(reg['account_name'], reg['account_key'], reg['owner_key'])
       current_user.set_pending_registration(nil)
-    end
-    if params[:account]
+    elsif params[:account]
       do_register(params[:account][:name], params[:account][:key], nil)
+    else
+      @reg_status = nil
     end
   end
 
@@ -51,11 +54,14 @@ class UsersController < ApplicationController
 
   private
 
-  def do_register(name, key, owner_key)
-    @reg_status = current_user.register_account(name, key, owner_key, cookies[:_ref_account])
+  def do_register(account_name, account_key, owner_key)
+    logger.info "---------> registering account #{account_name}, key: #{account_key}, owner_key: #{owner_key}"
+    sleep(0.4) # this is to prevent bots abuse
+    @reg_status = AccountRegistrator.new(current_user, logger).register(account_name, account_key, owner_key, cookies[:_ref_account])
+
     if @reg_status[:error]
-      flash[:alert] = "We were unable to register account '#{name}' - #{@reg_status[:error]}"
-      @account = OpenStruct.new(name: name, key: key, owner_key: owner_key)
+      flash[:alert] = "We were unable to register account '#{account_name}' - #{@reg_status[:error]}"
+      @account = OpenStruct.new(name: account_name, key: account_key, owner_key: owner_key)
     end
   end
 end

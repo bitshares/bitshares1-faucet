@@ -1,6 +1,6 @@
 = simple_form_for(@account, as: 'account', url: account_registration_step2_path, html: {role: 'form', class: 'register_account_form'}) do |f|
   .form-group
-    = f.input :name, required: false, autofocus: true, label: t('.account_name')
+    = f.input :name, required: false, autofocus: true, label: t('account_name')
   .form-group
     = f.input :key, required: false, label: t('.public_key')
   = f.button :submit, t('.register_account')

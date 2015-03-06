@@ -1,7 +1,7 @@
 class AccountRegistrator
-  def initialize(user, account, logger)
+  def initialize(user, logger)
     @user = user
-    @account = account
+    @account = user.bts_accounts.where(name: account_name).first
     @logger = logger
   end
 

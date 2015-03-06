@@ -12,7 +12,6 @@ Rails.application.routes.draw do
       confirmations: 'users/confirmations'
   }
 
-  get 'user/profile', to: 'users#profile', as: 'profile'
   match 'finish_signup/:id', to: 'users#finish_signup', as: 'finish_signup', via: [:get, :patch]
   match 'user/bitshares_account', to: 'users#bitshares_account', as: 'bitshares_account', via: [:get, :post]
   get 'users/subscribe', to: 'users#subscribe'
@@ -27,9 +26,21 @@ Rails.application.routes.draw do
     get 'get_current_user'
   end
 
-  # namespace :admin do
-  #   resources :referral_codes
-  # end
+  get 'profile', to: 'users#profile', as: 'profile'
+  namespace :profile do
+    resources :referral_codes, except: [:edit] do
+      member do
+        post 'send_mail'
+        get 'fund'
+      end
+
+      collection do
+        get 'referral_login'
+        get 'after_referral_login'
+        post 'redeem'
+      end
+    end
+  end
 
   namespace :api do
     namespace :v1 do

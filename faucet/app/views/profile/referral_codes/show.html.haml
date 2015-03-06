@@ -1,0 +1,35 @@
+.page-header
+  %h1
+    Referral Code
+    %span.label.label-success= @referral.code
+  - unless @referral.funded? || @referral.sent?
+    %strong
+      In order to fund this referral code, please send #{@referral.asset_amount} #{@referral.asset.symbol} to account #{faucet_account} before #{@referral.expires_at} and specify code #{@referral.code} in memo
+%table.table.table-bordered
+  %tr
+    %td Code:
+    %td= @referral.code
+  %tr
+    %td Amount:
+    %td= "#{@referral.asset_amount} #{@referral.asset.symbol}"
+  %tr
+    %td Created at:
+    %td= @referral.created_at
+  %tr
+    %td Expires at:
+    %td= @referral.expires_at
+  %tr
+    %td State:
+    %td= @referral.aasm_state
+  %tr
+    %td Actions
+    %td
+      = link_to "Delete", profile_referral_code_path(@referral), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => "btn btn-danger"
+
+= form_tag(send_mail_profile_referral_code_path, class: 'well') do
+  .form-group
+    = label_tag :email, 'Send referral code to'
+    = email_field_tag :email, nil, class: 'control-group'
+    = submit_tag 'Send', class: 'btn btn-default'
+
+= link_to('All referral codes', profile_referral_codes_path)

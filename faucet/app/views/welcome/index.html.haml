@@ -22,7 +22,7 @@
   %br/
 
 .text-center
-  = raw t('.need_help', link: link_to(t('.how_to_register'), 'http://bytemaster.bitshares.org/tutorial/2015/01/03/How-to-Register-a-BitShares-Account/'))
+  = raw t('.need_help', link: link_to(t('how_to_register_account'), 'http://bytemaster.bitshares.org/tutorial/2015/01/03/How-to-Register-a-BitShares-Account/'))
 - content_for :footer do
   %p
     = "#{t('.faucet_balance')}:"
@@ -32,5 +32,5 @@
         = @asset.symbol
     = t('.donate', symbol: @asset_symbol)
     %b
-      %a{:href => "bts:#{@faucet_account}/transfer"}
-      = "#{@faucet_account} #{t('account')}."
+      %a{:href => "bts:#{faucet_account}/transfer"}
+      = "#{faucet_account} #{t('account')}."

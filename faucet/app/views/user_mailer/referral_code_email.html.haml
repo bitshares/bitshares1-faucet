@@ -1,0 +1,9 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+  %body
+    %h2
+      #{@user_name} has sent you #{@amount}
+    %p
+      click on the #{link_to 'link', @link} to retrieve it

@@ -16,12 +16,16 @@ class User < ActiveRecord::Base
              :facebook, :twitter, :linkedin, :google_oauth2, :github, :reddit, :weibo, :qq
          ]
 
-  validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
+  validates :email, format: { without: TEMP_EMAIL_REGEX }, on: :update
   validates :name, presence: true
   validates :password, presence: true, length: {minimum: 6}, on: :create
   validates :password, length: {minimum: 6}, allow_blank: true, on: :update
   validates_confirmation_of :password
   after_create :subscribe_async
+
+  def from_referral?
+    ReferralCode.where(sent_to: self.email).where.not(aasm_state: :redeemed).exists?
+  end
 
   def email_verified?
     self.email && self.email !~ TEMP_EMAIL_REGEX
@@ -61,13 +65,6 @@ class User < ActiveRecord::Base
     user
   end
 
-  def register_account(account_name, account_key, owner_key, referrer=nil)
-    logger.info "---------> registering account #{account_name}, key: #{account_key}, owner_key: #{owner_key}"
-    sleep(0.4) # this is to prevent bots abuse
-    account = self.bts_accounts.where(name: account_name).first
-    AccountRegistrator.new(self, account, logger).register(account_name, account_key, owner_key, referrer)
-  end
-
   def subscribe(subscription_status)
     return unless self.email
 
@@ -95,7 +92,7 @@ class User < ActiveRecord::Base
 
   def subscribe_async
     begin
-    UserSubscribeWorker.perform_async(self.id, true) if self.email_verified?
+      UserSubscribeWorker.perform_async(self.id, true) if self.email_verified?
     rescue Redis::CannotConnectError => e
       logger.error "---------> cannot connect to Redis"
     end
