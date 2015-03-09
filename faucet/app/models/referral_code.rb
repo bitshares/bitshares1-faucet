@@ -2,14 +2,14 @@ class ReferralCode < ActiveRecord::Base
   include AASM
 
   aasm do
-    state :ok, initial: true
+    state :empty, initial: true
     state :sent
     state :funded
     state :redeemed
     state :expired
 
     event :fund do
-      transitions from: :ok, to: :funded
+      transitions from: :empty, to: :funded
     end
 
     event :set_to_sent do
@@ -31,7 +31,7 @@ class ReferralCode < ActiveRecord::Base
   validates :sent_to, uniqueness: true, on: :update
 
   def aasm_state
-    self[:aasm_state] || :ok
+    self[:aasm_state] || :empty
   end
 
   def self.generate_code

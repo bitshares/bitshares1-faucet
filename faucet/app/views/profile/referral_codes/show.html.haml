@@ -4,7 +4,7 @@
     %span.label.label-success= @referral.code
   - unless @referral.funded? || @referral.sent?
     %strong
-      In order to fund this referral code, please send #{@referral.asset_amount} #{@referral.asset.symbol} to account #{faucet_account} before #{@referral.expires_at} and specify code #{@referral.code} in memo
+      In order to fund this referral code, please send #{@referral.asset_amount} #{@referral.asset.symbol} to account #{faucet_account} before #{@referral.expires_at.to_formatted_s(:long)} and specify code #{@referral.code} in memo field.
 %table.table.table-bordered
   %tr
     %td Code:
@@ -14,10 +14,10 @@
     %td= "#{@referral.asset_amount} #{@referral.asset.symbol}"
   %tr
     %td Created at:
-    %td= @referral.created_at
+    %td= @referral.created_at.to_formatted_s(:long)
   %tr
     %td Expires at:
-    %td= @referral.expires_at
+    %td= @referral.expires_at.to_formatted_s(:long)
   %tr
     %td State:
     %td= @referral.aasm_state
@@ -31,7 +31,7 @@
 = form_tag(send_mail_profile_referral_code_path, class: 'well form-inline') do
   .form-group
     .input-group
-      = email_field_tag :email, nil, class: 'form-control', placeholder: 'example@email.com'
+      = email_field_tag :email, nil, class: 'form-control', placeholder: 'address@example.com'
   = submit_tag 'Send', class: 'btn btn-primary'
 
 = link_to('All referral codes', profile_referral_codes_path)

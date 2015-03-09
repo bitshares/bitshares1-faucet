@@ -24,7 +24,7 @@ class Profile::ReferralCodesController < ApplicationController
     end
 
     if @referral.save
-      redirect_to profile_referral_code_path(@referral), :notice => I18n.t('referral_codes.successfully_created')
+      redirect_to profile_referral_code_path(@referral)
     else
       @user = current_user
       render 'users/profile'

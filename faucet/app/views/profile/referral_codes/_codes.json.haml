@@ -12,7 +12,7 @@
       %td
         = r.asset_amount
         = r.asset.symbol
-      %td= r.created_at
-      %td= r.expires_at
+      %td= r.created_at.to_formatted_s(:long)
+      %td= r.expires_at.to_formatted_s(:long)
       %td= r.aasm_state
 = paginate @referrals

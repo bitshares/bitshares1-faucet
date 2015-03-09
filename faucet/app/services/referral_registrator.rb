@@ -8,7 +8,7 @@ class ReferralRegistrator
   end
 
   def send_referral_mail
-    return { error: 'Referral code is not funded yet' } unless referral_code.funded?
+    return { error: 'You need to fund referral code before you can send it' } unless referral_code.funded?
 
     referral_code.sent_to = email
     referral_code.login_hash = generate_login_hash
@@ -22,7 +22,7 @@ class ReferralRegistrator
     if UserMailer.referral_code_email(user_name, email, amount, login_link).deliver
       referral_code.set_to_sent
     else
-      { error: 'E-mail with referral code was not send, please try again' }
+      { error: "We couldn't send referral code at this time, please try again later or report this error to the faucet owner" }
     end
   end
 

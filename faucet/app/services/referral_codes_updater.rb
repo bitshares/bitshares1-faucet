@@ -2,7 +2,7 @@ class ReferralCodesUpdater
   def self.set_funded
     transactions = get_transactions
     return unless transactions.present?
-    codes = ReferralCode.where(aasm_state: [:ok, nil]).where(code: [transactions.keys])
+    codes = ReferralCode.where(aasm_state: [:empty, nil]).where(code: [transactions.keys])
     return unless codes
 
     codes.each do |code|
