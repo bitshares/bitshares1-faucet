@@ -26,10 +26,12 @@
     %td
       = link_to "Delete", profile_referral_code_path(@referral), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => "btn btn-danger"
 
-= form_tag(send_mail_profile_referral_code_path, class: 'well') do
+%h3
+  Send referral code
+= form_tag(send_mail_profile_referral_code_path, class: 'well form-inline') do
   .form-group
-    = label_tag :email, 'Send referral code to'
-    = email_field_tag :email, nil, class: 'control-group'
-    = submit_tag 'Send', class: 'btn btn-default'
+    .input-group
+      = email_field_tag :email, nil, class: 'form-control', placeholder: 'example@email.com'
+  = submit_tag 'Send', class: 'btn btn-primary'
 
 = link_to('All referral codes', profile_referral_codes_path)

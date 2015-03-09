@@ -3,15 +3,16 @@
     - @referral.errors.full_messages.each do |msg|
       %li= msg
 .form-group
-  = f.label 'Amount', :class => "col-sm-3 control-label"
+  = f.label 'Amount', class: 'col-sm-3 control-label'
   .col-sm-3.input-group
-    = f.text_field :amount, :class => "form-control", :placeholder => "0.0"
-    %span.input-group-addon= f.select(:asset_id, ReferralCode::AVAILABLE_ASSETS, selected: '279')
+    = f.text_field :amount, class: 'form-control', placeholder: '0.0'
+    %span.input-group-addon
+      = f.select :asset_id, ReferralCode::AVAILABLE_ASSETS, selected: '279'
 .form-group
-  = f.label :expires_at, :class => "col-sm-3 control-label"
+  = f.label :expires_at, class: 'col-sm-3 control-label'
   .col-sm-3.input-group
-    = f.select "expires_at", options_for_select(ReferralCode::EXPIRED_AT, '24 hours')
-- label = @referral.new_record? ? "Create" : "Update"
+    = f.select :expires_at, options_for_select(ReferralCode::EXPIRED_AT, '24 hours'), {}, class: 'form-control'
+- label = @referral.new_record? ? 'Create' : 'Update'
 .form-group
   .col-sm-offset-4.col-sm-3.input-group
-    %button.btn.btn-primary{:type => "submit"}= label
+    %button.btn.btn-primary{type: 'submit'}= label
