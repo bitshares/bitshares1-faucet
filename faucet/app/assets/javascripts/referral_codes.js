@@ -1,17 +1,27 @@
 $(function () {
-  setTimeout(updateReferralCodesStatus, 5000);
+  var timeout = 5000;
+
+  if ($('#referral_codes').length) {
+    setTimeout(updateReferralCodesStatus, timeout);
+  } else if ($('#referral_code').length) {
+    setTimeout(updateReferralCodeStatus, timeout);
+  }
 });
 
 function updateReferralCodesStatus() {
-  var $table_wrapper = $('#referral_codes');
+  sendRequest($('#referral_codes').data('url'))
+  setTimeout(updateReferralCodesStatus, timeout);
+}
 
+function updateReferralCodeStatus() {
+  sendRequest($('#referral_code').data('url'))
+  setTimeout(updateReferralCodesStatus, timeout);
+}
+
+function sendRequest(url) {
   $.ajax({
-    dataType: 'json',
-    url: $table_wrapper.data('url'),
-    complete: function (data) {
-      $table_wrapper.html(data.responseText);
-    }
+    dataType: 'script',
+    url: url
   });
-  setTimeout(updateReferralCodesStatus, 5000);
 }
 

@@ -1,0 +1,23 @@
+- unless @referral.funded? || @referral.sent?
+  %strong
+    In order to fund this referral code, please send #{@referral.asset_amount} #{@referral.asset.symbol} to account #{faucet_account} before #{@referral.expires_at.to_formatted_s(:long)} and specify code #{@referral.code} in memo field.
+%table.table.table-bordered
+  %tr
+    %td Code:
+    %td= @referral.code
+  %tr
+    %td Amount:
+    %td= "#{@referral.asset_amount} #{@referral.asset.symbol}"
+  %tr
+    %td Created at:
+    %td= @referral.created_at.to_formatted_s(:long)
+  %tr
+    %td Expires at:
+    %td= @referral.expires_at.to_formatted_s(:long)
+  %tr
+    %td Status:
+    %td= @referral.aasm_state
+  %tr
+    %td Actions
+    %td
+      = link_to "Delete", profile_referral_code_path(@referral), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => "btn btn-danger"

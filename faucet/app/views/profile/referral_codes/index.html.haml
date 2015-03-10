@@ -6,4 +6,17 @@
   = f.submit "Search", :class => "btn btn-default"
 %p= link_to("Back to profile", profile_path)
 %table.sortable.table.table-striped.table-bordered.table-condensed#referral_codes{data: {url: profile_referral_codes_path} }
-  = render 'codes.json'
+  %thead
+    %tr
+      %th= sortable "code"
+      %th= sortable "amount"
+      %th= sortable "created_at"
+      %th= sortable "expires_at"
+      %th= sortable "status"
+  = render 'codes'
+  = paginate @referrals
+
+.page-header
+  %h1 Create new referral code
+.col-xs-6
+  = render 'form'

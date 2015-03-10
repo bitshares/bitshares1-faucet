@@ -1,10 +1,3 @@
-%thead
-  %tr
-    %th= sortable "code"
-    %th= sortable "amount"
-    %th= sortable "created_at"
-    %th= sortable "expires_at"
-    %th= sortable "status"
 %tbody
   - @referrals.each do |r|
     %tr.referral_code
@@ -15,4 +8,4 @@
       %td= r.created_at.to_formatted_s(:long)
       %td= r.expires_at.to_formatted_s(:long)
       %td= r.aasm_state
-= paginate @referrals
+

@@ -97,8 +97,7 @@
   .col-xs-6
     %h1 Redeem code
 .col-xs-6
-  = form_for [:profile, @referral], :html => { :class => "form-horizontal", :role => "form" } do |f|
-    = render "profile/referral_codes/form", { :f => f }
+  = render "profile/referral_codes/form"
 .col-xs-6
   = form_tag(redeem_profile_referral_codes_path, class: 'form-horizontal') do
     .form-group
