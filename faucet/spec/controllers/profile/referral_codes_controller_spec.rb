@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Profile::ReferralCodesController do
   let(:user) { create :user, :confirmed }
-  let(:referral_code) { create :referral_code, user_id: user.id, aasm_state: 'ok' }
+  let(:referral_code) { create :referral_code, user_id: user.id, aasm_state: 'empty' }
 
   before do
     sign_in user
