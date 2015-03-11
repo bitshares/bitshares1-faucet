@@ -10,8 +10,7 @@ describe Profile::ReferralCodesController do
 
   describe "#create" do
     it "should set expires_at time to 24 hours from now when selected" do
-      time_now = DateTime.parse("Feb 25 2015")
-      Timecop.freeze(time_now)
+      Timecop.freeze(Date.today)
       asset = create :asset
       get :create, referral_code: { expires_at: '24 hours', amount: 1, asset_id: asset.id }
 
