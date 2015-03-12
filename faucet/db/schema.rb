@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150301085021) do
+ActiveRecord::Schema.define(version: 20150312140520) do
 
   create_table "assets", force: true do |t|
     t.integer  "assetid"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 20150301085021) do
     t.string   "sent_to"
     t.string   "login_hash"
     t.string   "aasm_state"
+    t.string   "funded_by"
   end
 
   add_index "referral_codes", ["asset_id"], name: "index_referral_codes_on_asset_id", using: :btree

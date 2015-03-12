@@ -29,6 +29,7 @@ class ReferralCode < ActiveRecord::Base
   validates :amount, presence: true, numericality: true
   validates :asset_id, presence: true
   validates :sent_to, uniqueness: true, on: :update
+  validates :funded_by, presence: true, on: :update
 
   def aasm_state
     self[:aasm_state] || :empty
@@ -40,16 +41,6 @@ class ReferralCode < ActiveRecord::Base
 
   def asset_amount
     self.amount / asset.precision
-  end
-
-  def redeem(account_name, public_key)
-    return unless self.sent? || self.funded?
-
-    account_name = add_contact_account(account_name, public_key)
-    #BitShares::API::Wallet.account_register(account_name, 'angel')
-    BitShares::API::Wallet.transfer(self.amount / asset.precision, asset.symbol, 'angel', account_name, "REF #{self.code}")
-    #BitShares::API::Wallet.transfer_to_address(self.amount / asset.precision, asset.symbol, 'angel', public_key, "CPN #{self.code}")
-    update_attribute(:redeemed_at, Time.now.to_s(:db))
   end
 
   def mutate_expires_at(expires_at)
@@ -73,22 +64,6 @@ class ReferralCode < ActiveRecord::Base
       when '7 days'
         DateTime.now + 7.days
     end
-  end
-
-  private
-
-  def add_contact_account(account_name, public_key)
-    begin
-      BitShares::API::Wallet.add_contact_account(account_name, public_key)
-    rescue BitShares::API::Rpc::Error => ex
-      if ex.to_s =~ /Account name is already registered/
-        account_name = "#{account_name}-cpn-#{self.id}"
-        BitShares::API::Wallet.add_contact_account(account_name, public_key)
-      else
-        raise ex
-      end
-    end
-    return account_name
   end
 
 end

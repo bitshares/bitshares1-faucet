@@ -42,8 +42,16 @@ class Profile::ReferralCodesController < ApplicationController
   end
 
   def destroy
-    @referral.destroy
-    redirect_to admin_referral_codes_path, :notice => "Referral code deleted."
+    if @referral.funded?
+      ReferralCodesUpdater.refund(@referral)
+      @referral.destroy
+      redirect_to profile_referral_codes_path, :notice => "Referral code deleted and refunded"
+    else
+      @referral.destroy
+      redirect_to profile_referral_codes_path, :notice => "Referral code was deleted."
+    end
+  rescue ReferralCodesUpdater::FundedByNotSet
+    redirect_to profile_referral_codes_path, :alert => "Referral code was not deleted."
   end
 
   def send_mail
@@ -83,7 +91,8 @@ class Profile::ReferralCodesController < ApplicationController
     end
 
     if account && referral
-      referral.redeem(account.name, account.key)
+      # TODO: move to worker
+      ReferralCodesUpdater.redeem(referral, account.name, account.key)
       account.user_id = current_user.id
       account.save!
 

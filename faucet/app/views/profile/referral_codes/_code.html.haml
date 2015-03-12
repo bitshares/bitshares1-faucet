@@ -20,4 +20,4 @@
   %tr
     %td Actions
     %td
-      = link_to "Delete", profile_referral_code_path(@referral), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => "btn btn-danger"
+      = link_to @referral.funded? ? "Delete and refund" : "Delete", profile_referral_code_path(@referral), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => "btn btn-danger"

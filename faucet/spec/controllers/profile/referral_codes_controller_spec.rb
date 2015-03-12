@@ -20,7 +20,7 @@ describe Profile::ReferralCodesController do
 
   describe "#send_mail" do
     subject(:send_mail) {
-      referral_code.update_attribute(:aasm_state, 'funded')
+      referral_code.update_attributes(aasm_state: 'funded', funded_by: 'some_account')
       post :send_mail, id: referral_code.id, email: 'new@email.com'
     }
 
@@ -51,6 +51,7 @@ describe Profile::ReferralCodesController do
 
   describe "#after_referral_login" do
     it "should allow referred users to see this page" do
+      referral_code.funded_by = 'some_account'
       referral_code.sent_to = 'test@email.com'
       referral_code.save
 
