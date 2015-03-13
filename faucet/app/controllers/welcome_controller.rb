@@ -15,9 +15,13 @@ class WelcomeController < ApplicationController
     @asset = Asset.where(assetid: 0).first
     @faucet_balance = Rails.cache.fetch('key', expires_in: 1.minute) do
       begin
-        res = BitShares::API::Wallet.account_balance(faucet_account)
+        res = BitShares::API::Wallet.account_balance(Rails.application.config.bitshares.bts_faucet_account)
         res[0][1][0][1]/@asset.precision
-      rescue
+      rescue BitShares::API::Rpc::Error => ex
+        logger.error "Error! can't get faucet's balance: #{ex.message}"
+        0
+      rescue Errno::ECONNREFUSED => ex
+        logger.error "Error! can't get faucet's balance: connection refused"
         0
       end
     end

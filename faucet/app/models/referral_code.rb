@@ -19,7 +19,9 @@ class ReferralCode < ActiveRecord::Base
   end
 
   EXPIRED_AT = ['1 hour', '2 hours', '6 hours', '12 hours', '24 hours', '2 days', '3 days', '7 days']
-  AVAILABLE_ASSETS = Asset.where(symbol: [:USD, :CNY, :EUR, :GOLD, :SILVER]).pluck(:symbol, :id)
+
+  BASE_ASSET_SYMBOL = Rails.env.production? ? :BTS : :XTS
+  AVAILABLE_ASSETS = Asset.where(symbol: [BASE_ASSET_SYMBOL, :USD, :CNY, :EUR, :GOLD, :SILVER]).pluck(:symbol, :id)
 
   belongs_to :asset
   belongs_to :user

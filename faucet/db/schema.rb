@@ -80,16 +80,15 @@ ActiveRecord::Schema.define(version: 20150312140520) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.string   "aasm_state"
     t.string   "sent_to"
     t.string   "login_hash"
-    t.string   "aasm_state"
     t.string   "funded_by"
   end
 
   add_index "referral_codes", ["asset_id"], name: "index_referral_codes_on_asset_id", using: :btree
   add_index "referral_codes", ["code"], name: "index_referral_codes_on_code", unique: true, using: :btree
   add_index "referral_codes", ["ref_code_id"], name: "index_referral_codes_on_ref_code_id", using: :btree
-  add_index "referral_codes", ["sent_to"], name: "index_referral_codes_on_sent_to", unique: true, using: :btree
 
   create_table "user_actions", force: true do |t|
     t.integer  "widget_id"

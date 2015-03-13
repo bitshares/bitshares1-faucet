@@ -1,6 +1,6 @@
 - unless @referral.funded? || @referral.sent?
-  %strong
-    In order to fund this referral code, please send #{@referral.asset_amount} #{@referral.asset.symbol} to account #{faucet_account} before #{@referral.expires_at.to_formatted_s(:long)} and specify code #{@referral.code} in memo field.
+  %br
+  In order to fund this referral code, please send #{@referral.asset_amount} #{@referral.asset.symbol} to account name <b>#{faucet_account}</b> before #{@referral.expires_at.to_formatted_s(:long)} and specify code #{@referral.code} in memo field.
 %table.table.table-bordered
   %tr
     %td Code:

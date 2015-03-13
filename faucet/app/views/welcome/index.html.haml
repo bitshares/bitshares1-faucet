@@ -31,6 +31,7 @@
         = number_to_currency(@faucet_balance, unit: '')
         = @asset.symbol
     = t('.donate', symbol: @asset_symbol)
+    %a{:href => "bts:#{faucet_account}/transfer"}
     %b
-      %a{:href => "bts:#{faucet_account}/transfer"}
-      = "#{faucet_account} #{t('account')}."
+      = faucet_account
+    = " #{t('account')}."
