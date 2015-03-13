@@ -59,15 +59,4 @@ describe Profile::ReferralCodesController do
     end
   end
 
-  #describe "#redeem" do
-  #  it "should set redeemed_at to Time.now" do
-  #    request.env["HTTP_REFERER"] = Rails.application.config.bitshares.default_url
-  #    bts_account = create :bts_account
-  #    referral_code.update_attributes(sent_to: user.email, aasm_state: :sent)
-  #    post :redeem, account: bts_account.name, code: referral_code.code
-  #
-  #    expect(referral_code.redeemed_at).to eq(Time.now)
-  #  end
-  #end
-
 end

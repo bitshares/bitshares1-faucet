@@ -21,7 +21,7 @@ class ReferralCodesUpdater
     funded_codes = ReferralCode.where("expires_at < ?", DateTime.now).where(aasm_state: :funded)
     funded_codes.each do |code|
       code.update_attribute(:aasm_state, 'expired')
-      ReferralCodesUpdater.refund(code)
+      self.refund(code)
     end
 
     ReferralCode.where("expires_at < ?", DateTime.now).where.not(aasm_state: :expired).update_all(aasm_state: 'expired')
@@ -33,15 +33,15 @@ class ReferralCodesUpdater
     #Account should be already added to contact?
     #account = referral_code.user.bts_accounts.where(name: referral_code.funded_by).first
     #add_contact_account(account.name, account.key)
-    transfer(referral_code, "refunding of faucet referral code: #{referral_code.code}")
+    transfer(referral_code, "refunding of faucet referral code #{referral_code.code}")
   end
 
   def self.redeem(referral_code, account_name, public_key)
     return unless referral_code.sent? || referral_code.funded?
 
     add_contact_account(account_name, public_key)
-    transfer(referral_code, "REF #{self.code}")
-    update_attribute(:redeemed_at, Time.now.to_s(:db))
+    transfer(referral_code, "REF #{referral_code.code}")
+    referral_code.update_attribute(:redeemed_at, Time.now.to_s(:localdb))
   end
 
   private

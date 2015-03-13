@@ -13,7 +13,7 @@ FakeWeb.allow_net_connect = false
 
 FakeWeb.register_uri(:post, "https://us10.api.mailchimp.com/2.0/lists/subscribe", body: {email: '123@email.ru'}.to_json)
 FakeWeb.register_uri(:post, "https://us10.api.mailchimp.com/2.0/lists/unsubscribe", body: {complete: true}.to_json)
-#FakeWeb.register_uri(:post, "http://#{Rails.application.config.bitshares.bts_rpc_user}:#{Rails.application.config.bitshares.bts_rpc_password}@localhost:#{Rails.application.config.bitshares.bts_rpc_port}/rpc")
+FakeWeb.register_uri(:post, "http://user:pass@localhost:5691/rpc", body: {result: 'result'}.to_json)
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
