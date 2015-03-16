@@ -2,12 +2,14 @@ class ReferralCodesUpdater
   class FundedByNotSet < StandardError; end
 
   def self.set_funded
+    Rails.logger.info "#{Time.now} Setting funded referral codes"
+
     transactions = get_transactions
     return unless transactions.present?
-    codes = ReferralCode.where(aasm_state: [:empty, nil]).where(code: [transactions.keys])
-    return unless codes
+    referral_codes = ReferralCode.where(aasm_state: [:empty, nil]).where(code: [transactions.keys])
+    return unless referral_codes
 
-    codes.each do |code|
+    referral_codes.each do |code|
       memo = transactions[code.code]
       if code.amount == memo[0]['amount'] && code.asset_id == memo[0]['asset_id']
         code.fund do
@@ -18,6 +20,8 @@ class ReferralCodesUpdater
   end
 
   def self.set_expired
+    Rails.logger.info "#{Time.now} Setting expired referral codes"
+
     funded_codes = ReferralCode.where("expires_at < ?", DateTime.now).where(aasm_state: :funded)
     funded_codes.each do |code|
       code.update_attribute(:aasm_state, 'expired')
@@ -29,6 +33,7 @@ class ReferralCodesUpdater
 
   def self.refund(referral_code)
     raise FundedByNotSet unless referral_code.funded_by
+    Rails.logger.info "#{Time.now} Refunding referral code #{referral_code.code}"
 
     #Account should be already added to contact?
     #account = referral_code.user.bts_accounts.where(name: referral_code.funded_by).first
@@ -38,6 +43,7 @@ class ReferralCodesUpdater
 
   def self.redeem(referral_code, account_name, public_key)
     return unless referral_code.sent? || referral_code.funded?
+    Rails.logger.info "#{Time.now} Redeeming referral code #{referral_code.code}"
 
     add_contact_account(account_name, public_key)
     transfer(referral_code, "REF #{referral_code.code}")
@@ -47,6 +53,8 @@ class ReferralCodesUpdater
   private
 
   def self.get_transactions
+    Rails.logger.info "#{Time.now} Getting #{Rails.application.config.bitshares.faucet_refcode_prefix} transactions history"
+
     transaction_history = BitShares::API::Wallet.account_transaction_history
     transactions = transaction_history.each_with_object({}) do |transaction, hash|
       entry = transaction['ledger_entries'][0]
