@@ -10,11 +10,12 @@ class ReferralCodesUpdater
     return unless referral_codes
 
     referral_codes.each do |code|
-      memo = transactions[code.code]
-      if code.amount == memo[0]['amount'] && code.asset_id == memo[0]['asset_id']
+      trx = transactions[code.code]
+      if code.amount == trx[0]['amount'].to_i && code.asset.assetid == trx[0]['asset_id'].to_i
         code.fund do
-          code.funded_by = memo[1]
+          code.funded_by = trx[1]
         end
+        code.save!
       end
     end
   end
@@ -62,6 +63,7 @@ class ReferralCodesUpdater
       next unless memo.start_with?(Rails.application.config.bitshares.faucet_refcode_prefix)
       hash[memo] = [entry['amount'], entry['from_account']]
     end
+    Rails.logger.info "------- transactions -----> #{transactions}"
     transactions
   end
 

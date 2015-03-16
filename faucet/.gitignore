@@ -7,3 +7,4 @@ config/bitshares.yml
 .ruby-version
 .ruby-gemset
 .DS_Store
+dump.rdb

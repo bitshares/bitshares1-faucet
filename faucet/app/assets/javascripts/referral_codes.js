@@ -1,5 +1,6 @@
+var timeout = 5000;
+
 $(function () {
-  var timeout = 5000;
 
   if ($('#referral_codes').length) {
     setTimeout(updateReferralCodesStatus, timeout);
