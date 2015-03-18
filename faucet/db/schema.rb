@@ -80,9 +80,9 @@ ActiveRecord::Schema.define(version: 20150312140520) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.string   "aasm_state"
     t.string   "sent_to"
     t.string   "login_hash"
+    t.string   "aasm_state"
     t.string   "funded_by"
   end
 

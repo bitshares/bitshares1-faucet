@@ -23,8 +23,8 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password
   after_create :subscribe_async
 
-  def from_referral?
-    ReferralCode.where(sent_to: self.email).where.not(aasm_state: :redeemed).exists?
+  def pending_referral_code?
+    ReferralCode.where(sent_to: self.email, aasm_state: :sent).exists?
   end
 
   def email_verified?

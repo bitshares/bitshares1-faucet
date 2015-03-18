@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Profile::ReferralCodesController do
   let(:user) { create :user, :confirmed }
-  let(:referral_code) { create :referral_code, user_id: user.id, aasm_state: 'empty' }
+  let(:referral_code) { create :referral_code, :funded, user_id: user.id }
 
   before do
     sign_in user
@@ -20,7 +20,6 @@ describe Profile::ReferralCodesController do
 
   describe "#send_mail" do
     subject(:send_mail) {
-      referral_code.update_attributes(aasm_state: 'funded', funded_by: 'some_account')
       post :send_mail, id: referral_code.id, email: 'new@email.com'
     }
 
@@ -28,15 +27,12 @@ describe Profile::ReferralCodesController do
       expect { send_mail }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
 
-    #it "should set state to sent" do
-    #  ref = create :referral_code, user_id: user.id, aasm_state: 'funded'
-    #  post :send_mail, id: ref.id, email: 'new@email.com'
-    #
-    #  expect(ref.aasm_state).to eq('sent')
-    #end
+    it "should set state to sent" do
+      ref = create :referral_code, :funded, user_id: user.id
+      post :send_mail, id: ref.id, email: 'new@email.com'
+      ref.reload
 
-    it "should not sent email if the state of referral code not equal funded" do
-      change { ActionMailer::Base.deliveries.count }.by(0)
+      expect(ref.aasm_state).to eq('sent')
     end
   end
 
@@ -51,9 +47,8 @@ describe Profile::ReferralCodesController do
 
   describe "#after_referral_login" do
     it "should allow referred users to see this page" do
-      referral_code.funded_by = 'some_account'
       referral_code.sent_to = 'test@email.com'
-      referral_code.save
+      referral_code.set_to_sent!
 
       expect(get :after_referral_login).to_not redirect_to(root_path)
     end

@@ -31,7 +31,7 @@ GIT
 
 GIT
   remote: git://github.com/smartinez87/exception_notification.git
-  revision: f9dee5b5f6a1e1823bb274f719f1ae9c551e2f84
+  revision: b5d7262cb1f896f40c7c8705304f79fa631e912c
   specs:
     exception_notification (4.1.0.rc1)
       actionmailer (>= 3.0.4)
@@ -40,7 +40,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    aasm (4.0.8)
+    aasm (4.1.0)
     actionmailer (4.1.8)
       actionpack (= 4.1.8)
       actionview (= 4.1.8)
@@ -106,7 +106,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.8.0)
-    connection_pool (2.1.1)
+    connection_pool (2.1.2)
     database_cleaner (1.4.0)
     devise (3.4.1)
       bcrypt (~> 3.0)
@@ -115,7 +115,7 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
-    devise-i18n (0.11.3)
+    devise-i18n (0.11.4)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.2.2)
@@ -271,7 +271,7 @@ GEM
       polyamorous (~> 1.1)
     rdoc (4.2.0)
       json (~> 1.4)
-    redis (3.2.0)
+    redis (3.2.1)
     redis-namespace (1.5.1)
       redis (~> 3.0, >= 3.0.4)
     ref (1.0.5)
@@ -308,7 +308,7 @@ GEM
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
     sexp_processor (4.4.4)
-    sidekiq (3.3.1)
+    sidekiq (3.3.2)
       celluloid (>= 0.16.0)
       connection_pool (>= 2.1.1)
       json

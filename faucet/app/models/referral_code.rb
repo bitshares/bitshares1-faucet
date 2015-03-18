@@ -30,8 +30,9 @@ class ReferralCode < ActiveRecord::Base
   validates :code, presence: true
   validates :amount, presence: true, numericality: true
   validates :asset_id, presence: true
-  #validates :sent_to, uniqueness: true, on: :update
+  validates :sent_to, email: true, on: :update, allow_nil: true
   validates :funded_by, presence: true, on: :update
+  validates :expires_at, presence: true
 
   def aasm_state
     self[:aasm_state] || :empty

@@ -77,7 +77,7 @@ class Profile::ReferralCodesController < ApplicationController
   end
 
   def after_referral_login
-    redirect_to root_path unless current_user.from_referral?
+    redirect_to root_path unless current_user.pending_referral_code?
   end
 
   def redeem

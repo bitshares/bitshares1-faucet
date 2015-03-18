@@ -13,18 +13,7 @@ class WelcomeController < ApplicationController
     end
 
     @asset = Asset.where(assetid: 0).first
-    @faucet_balance = Rails.cache.fetch('key', expires_in: 1.minute) do
-      begin
-        res = BitShares::API::Wallet.account_balance(Rails.application.config.bitshares.bts_faucet_account)
-        res[0][1][0][1]/@asset.precision
-      rescue BitShares::API::Rpc::Error => ex
-        logger.error "Error! can't get faucet's balance: #{ex.message}"
-        0
-      rescue Errno::ECONNREFUSED => ex
-        logger.error "Error! can't get faucet's balance: connection refused"
-        0
-      end
-    end
+    @faucet_balance = faucet_balance(@asset)
   end
 
   def account_registration_step2
@@ -110,6 +99,21 @@ class WelcomeController < ApplicationController
       current_user.set_pending_registration({'account_name' => account_name, 'account_key' => account_key, 'owner_key' => owner_key})
     else
       session[:pending_registration] = {account_name: account_name, account_key: account_key, owner_key: owner_key}
+    end
+  end
+
+  def faucet_balance(asset)
+    Rails.cache.fetch('key', expires_in: 1.minute) do
+      begin
+        res = BitShares::API::Wallet.account_balance(Rails.application.config.bitshares.bts_faucet_account)
+        res[0][1][0][1]/asset.precision
+      rescue BitShares::API::Rpc::Error => ex
+        logger.error "Error! can't get faucet's balance: #{ex.message}"
+        0
+      rescue Errno::ECONNREFUSED => ex
+        logger.error "Error! can't get faucet's balance: connection refused"
+        0
+      end
     end
   end
 

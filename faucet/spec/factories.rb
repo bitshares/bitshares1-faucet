@@ -22,7 +22,12 @@ FactoryGirl.define do
     code '123-123123'
     amount 10
     asset_id { create(:asset).id }
-  end
+    expires_at Time.now + 1.day
 
+    trait :funded do
+      aasm_state 'funded'
+      funded_by 'some_guy'
+    end
+  end
 
 end

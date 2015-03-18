@@ -1,9 +1,10 @@
-Enter Bitshares account name if you have it:
-= form_tag(redeem_profile_referral_codes_path) do
-  = label_tag :account, t('account_name')
-  = text_field_tag :account
+In order to redeem your referral code, please enter BitShares account name:
+= form_tag redeem_profile_referral_codes_path, class: 'well form-inline' do
+  .form-group
+    = label_tag :account, t('account_name')
+    = text_field_tag :account
   = submit_tag 'Ok', class: 'btn btn-primary'
 
-Otherwise, please install client and register an account.
+If you don't have an account, please install client and register an account.
 More info here:
 = link_to(t('how_to_register_account'), 'http://bytemaster.bitshares.org/tutorial/2015/01/03/How-to-Register-a-BitShares-Account/')
