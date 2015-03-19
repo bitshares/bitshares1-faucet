@@ -12,7 +12,7 @@ class ReferralCodesUpdater
     referral_codes.each do |code|
       trx = transactions[code.code]
       if code.amount == trx[0]['amount'].to_i && code.asset.assetid == trx[0]['asset_id'].to_i
-        code.fund! do
+        code.fund do
           code.funded_by = trx[1]
         end
         code.save!
@@ -39,15 +39,15 @@ class ReferralCodesUpdater
     #Account should be already added to contact?
     #account = referral_code.user.bts_accounts.where(name: referral_code.funded_by).first
     #add_contact_account(account.name, account.key)
-    transfer(referral_code, "refunding of faucet referral code #{referral_code.code}")
+    transfer(referral_code, referral_code.funded_by, "referral code #{referral_code.code} refund")
   end
 
-  def self.redeem(referral_code, account_name, public_key)
+  def self.redeem(referral_code, to_account_name)
     return unless referral_code.sent? || referral_code.funded?
     Rails.logger.info "#{Time.now} Redeeming referral code #{referral_code.code}"
 
-    add_contact_account(account_name, public_key)
-    if transfer(referral_code, "REF #{referral_code.code}")
+    #add_contact_account(account_name, public_key)
+    if transfer(referral_code, to_account_name, "REF #{referral_code.code}")
       referral_code.update_attribute(:redeemed_at, Time.now.to_s(:localdb))
     end
   end
@@ -72,8 +72,8 @@ class ReferralCodesUpdater
     {}
   end
 
-  def self.transfer(referral_code, message)
-    BitShares::API::Wallet.transfer referral_code.amount/referral_code.asset.precision, referral_code.asset.symbol, Rails.application.config.bitshares.bts_faucet_account, referral_code.funded_by, message
+  def self.transfer(referral_code, to_account_name, message)
+    BitShares::API::Wallet.transfer referral_code.amount/referral_code.asset.precision, referral_code.asset.symbol, Rails.application.config.bitshares.bts_faucet_account, to_account_name, message
   rescue Errno::ECONNREFUSED => ex
     Rails.logger.error "Error! can't transfer referral code id##{referral_code.id}: connection refused"
     false
