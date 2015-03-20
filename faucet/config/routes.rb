@@ -36,7 +36,6 @@ Rails.application.routes.draw do
 
       collection do
         get 'referral_login'
-        get 'after_referral_login'
         post 'redeem'
       end
     end

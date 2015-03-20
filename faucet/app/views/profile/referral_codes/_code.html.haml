@@ -2,22 +2,32 @@
   %br
   In order to fund this referral code, please send #{@referral.asset_amount} #{@referral.asset.symbol} to account name <b>#{faucet_account}</b> before #{@referral.expires_at.to_formatted_s(:long)} and specify code #{@referral.code} in memo field.
 %table.table.table-bordered
-  %tr
-    %td Code:
-    %td= @referral.code
+  - unless @referral.user_is_receiver?(current_user)
+    %tr
+      %td Code:
+      %td= @referral.code
   %tr
     %td Amount:
     %td= "#{@referral.asset_amount} #{@referral.asset.symbol}"
-  %tr
-    %td Created at:
-    %td= @referral.created_at.to_formatted_s(:long)
+  - unless @referral.user_is_receiver?(current_user)
+    %tr
+      %td Created at:
+      %td= @referral.created_at.to_formatted_s(:long)
   %tr
     %td Expires at:
     %td= @referral.expires_at.to_formatted_s(:long)
   %tr
     %td Status:
     %td= @referral.aasm_state
-  %tr
-    %td Actions
-    %td
-      = link_to @referral.funded? ? "Delete and refund" : "Delete", profile_referral_code_path(@referral), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => "btn btn-danger"
+  - unless @referral.user_is_receiver?(current_user)
+    %tr
+      %td Actions
+      %td
+        = link_to @referral.funded? ? "Delete and refund" : "Delete", profile_referral_code_path(@referral), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => "btn btn-danger"
+
+- if @referral.user_is_receiver?(current_user)
+  = form_tag redeem_profile_referral_codes_path, class: 'well form-inline' do
+    .form-group
+      = label_tag :account, t('account_name')
+      = text_field_tag :account
+    = submit_tag 'Redeem', class: 'btn btn-primary'

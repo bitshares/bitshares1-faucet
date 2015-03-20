@@ -38,20 +38,10 @@ describe Profile::ReferralCodesController do
 
   describe "#referral_login" do
     it "should create user with email from registration link" do
-      create :referral_code, login_hash: 123, sent_to: 'email@email.com', user_id: user.id
-      get :referral_login, email: 'email@email.com', login_hash: 123
+      ref = create :referral_code, login_hash: 123, sent_to: 'email@email.com', user_id: user.id
+      get :referral_login, email: 'email@email.com', login_hash: 123, code_id: ref.id
 
       expect(User.last.email).to eq('email@email.com')
     end
   end
-
-  describe "#after_referral_login" do
-    it "should allow referred users to see this page" do
-      referral_code.sent_to = 'test@email.com'
-      referral_code.set_to_sent!
-
-      expect(get :after_referral_login).to_not redirect_to(root_path)
-    end
-  end
-
 end

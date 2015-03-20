@@ -8,7 +8,7 @@ describe 'ReferralCodesUpdater' do
     it "should set redeemed_at to Time.now" do
       bts_account = create :bts_account
       referral_code.update_attributes(aasm_state: :sent)
-      ReferralCodesUpdater.redeem(referral_code, bts_account.name, bts_account.key)
+      ReferralCodesUpdater.redeem(referral_code, bts_account.name)
 
       expect(referral_code.redeemed_at).to eq(Time.now.to_s(:localdb))
     end

@@ -94,11 +94,6 @@ en:
         Log in with another identity provider
       select_identity:
         Please select identity provider
-#  profile:
-#    referral_codes:
-#      after_referral_login:
-#        enter_account_name:
-#          Enter Bitshares account name if you have it
 
   referral_codes:
     successfully_created:

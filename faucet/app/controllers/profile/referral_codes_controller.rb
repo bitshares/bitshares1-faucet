@@ -72,18 +72,13 @@ class Profile::ReferralCodesController < ApplicationController
       redirect_to root_path, alert: result[:error]
     else
       sign_in(:user, result)
-      redirect_to after_referral_login_profile_referral_codes_path
+      redirect_to profile_referral_code_path(params[:code_id])
     end
   end
 
-  def after_referral_login
-    redirect_to root_path unless current_user.pending_referral_code?
-  end
-
   def redeem
-    #account = BtsAccount.where(name: params[:account]).first
     account_name = params[:account]
-    referral = ReferralCode.where("aasm_state='sent' or aasm_state='funded'")
+    referral = ReferralCode.where(aasm_state: [:sent, :funded])
 
     if params[:code]
       referral = referral.where(code: params[:code]).first
@@ -92,10 +87,7 @@ class Profile::ReferralCodesController < ApplicationController
     end
 
     if referral
-      # TODO: move to worker
-      ReferralCodesUpdater.redeem(referral, account_name)
-      #account.user_id = current_user.id
-      #account.save!
+      ReferralCodesRedeemWorker.perform_async(referral.id, account_name)
 
       redirect_to profile_path, notice: "Your account was credited with #{referral.amount/referral.asset.precision} #{referral.asset.symbol}"
     else
@@ -107,7 +99,7 @@ class Profile::ReferralCodesController < ApplicationController
 
   def find_referral
     @referral = ReferralCode.find(params[:id])
-    raise ActiveRecord::RecordNotFound unless @referral.user == current_user
+    raise ActiveRecord::RecordNotFound unless @referral.user == current_user || @referral.user_is_receiver?(current_user)
   end
 
   def find_referrals

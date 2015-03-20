@@ -7,6 +7,7 @@ class ReferralCode < ActiveRecord::Base
     state :funded
     state :redeemed
     state :expired
+    state :closed
 
     event :fund do
       transitions from: :empty, to: :funded
@@ -14,6 +15,10 @@ class ReferralCode < ActiveRecord::Base
 
     event :set_to_sent do
       transitions from: :funded, to: :sent
+    end
+
+    event :close do
+      transitions from: [:funded, :sent, :expired], to: :closed
     end
 
   end
@@ -33,6 +38,10 @@ class ReferralCode < ActiveRecord::Base
   validates :sent_to, email: true, on: :update, allow_nil: true
   validates :funded_by, presence: true, on: :update
   validates :expires_at, presence: true
+
+  def user_is_receiver?(user)
+    sent_to == user.email
+  end
 
   def aasm_state
     self[:aasm_state] || :empty

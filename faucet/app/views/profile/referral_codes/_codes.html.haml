@@ -1,11 +1,10 @@
-%tbody
-  - @referrals.each do |r|
-    %tr.referral_code
-      %td= link_to(r.code, profile_referral_code_path(r))
-      %td
-        = r.asset_amount
-        = r.asset.symbol
-      %td= r.created_at.to_formatted_s(:long)
-      %td= r.expires_at.to_formatted_s(:long)
-      %td= r.aasm_state
+- @referrals.each do |r|
+  %tr.referral_code
+    %td= link_to(r.code, profile_referral_code_path(r))
+    %td
+      = r.asset_amount
+      = r.asset.symbol
+    %td= r.created_at.to_formatted_s(:long)
+    %td= r.expires_at.to_formatted_s(:long)
+    %td= r.aasm_state
 

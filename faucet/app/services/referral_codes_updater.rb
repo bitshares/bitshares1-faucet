@@ -40,15 +40,15 @@ class ReferralCodesUpdater
     #account = referral_code.user.bts_accounts.where(name: referral_code.funded_by).first
     #add_contact_account(account.name, account.key)
     transfer(referral_code, referral_code.funded_by, "referral code #{referral_code.code} refund")
+    referral_code.close!
   end
 
   def self.redeem(referral_code, to_account_name)
     return unless referral_code.sent? || referral_code.funded?
     Rails.logger.info "#{Time.now} Redeeming referral code #{referral_code.code}"
 
-    #add_contact_account(account_name, public_key)
     if transfer(referral_code, to_account_name, "REF #{referral_code.code}")
-      referral_code.update_attribute(:redeemed_at, Time.now.to_s(:localdb))
+      referral_code.update_attributes(aasm_state: :closed, redeemed_at: Time.now.to_s(:localdb))
     end
   end
 

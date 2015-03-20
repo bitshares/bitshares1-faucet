@@ -5,7 +5,7 @@
     = f.text_field :code_cont, :type => "search", :class => "form-control", :placeholder => "Search by code"
   = f.submit "Search", :class => "btn btn-default"
 %p= link_to("Back to profile", profile_path)
-%table.sortable.table.table-striped.table-bordered.table-condensed#referral_codes{data: {url: profile_referral_codes_path} }
+%table.sortable.table.table-striped.table-bordered.table-condensed
   %thead
     %tr
       %th= sortable "code"
@@ -13,7 +13,8 @@
       %th= sortable "created_at"
       %th= sortable "expires_at"
       %th= sortable "status"
-  = render 'codes'
+  %tbody#referral_codes{data: {url: profile_referral_codes_path} }
+    = render 'codes'
   = paginate @referrals
 
 .page-header

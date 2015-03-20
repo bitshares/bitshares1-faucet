@@ -34,7 +34,7 @@ class ReferralRegistrator
   end
 
   def login_link
-    "#{Rails.application.routes.url_helpers.referral_login_profile_referral_codes_url}?login_hash=#{referral_code.login_hash}&email=#{email}"
+    "#{Rails.application.routes.url_helpers.referral_login_profile_referral_codes_url}?login_hash=#{referral_code.login_hash}&email=#{email}&code_id=#{referral_code.id}"
   end
 
   def amount
