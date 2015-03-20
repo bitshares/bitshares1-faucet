@@ -80,9 +80,9 @@ ActiveRecord::Schema.define(version: 20150320161339) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.string   "aasm_state"
     t.string   "sent_to"
     t.string   "login_hash"
-    t.string   "aasm_state"
     t.string   "funded_by"
   end
 
@@ -139,7 +139,6 @@ ActiveRecord::Schema.define(version: 20150320161339) do
     t.string   "unconfirmed_email"
     t.boolean  "newsletter_subscribed"
     t.text     "pending_intention"
-    t.integer  "balance"
     t.boolean  "pending_codes"
   end
 

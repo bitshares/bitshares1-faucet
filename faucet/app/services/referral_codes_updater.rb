@@ -47,11 +47,13 @@ class ReferralCodesUpdater
     return unless referral_code.sent? || referral_code.funded?
     Rails.logger.info "#{Time.now} Redeeming referral code #{referral_code.code}"
 
-    if transfer(referral_code, to_account_name, "REF #{referral_code.code}")
-      referral_code.close! do
-        referral_code.update_attributes(redeemed_at: Time.now.to_s(:localdb))
-      end
+    res = transfer(referral_code, to_account_name, "REF #{referral_code.code}")
+    return res if res[:error]
+
+    referral_code.close! do
+      referral_code.update_attributes(redeemed_at: Time.now.to_s(:localdb))
     end
+    return {}
   end
 
   private
@@ -78,7 +80,10 @@ class ReferralCodesUpdater
     BitShares::API::Wallet.transfer referral_code.amount/referral_code.asset.precision, referral_code.asset.symbol, Rails.application.config.bitshares.bts_faucet_account, to_account_name, message
   rescue Errno::ECONNREFUSED => ex
     Rails.logger.error "Error! can't transfer referral code id##{referral_code.id}: connection refused"
-    false
+    {error: ex['message']}
+  rescue BitShares::API::Rpc::Error => ex
+    Rails.logger.error "Error! can't transfer referral code id##{referral_code.id}: #{ex['message']}"
+    {error: 'connection refused'}
   end
 
   def self.add_contact_account(account_name, public_key)

@@ -80,6 +80,8 @@ class Profile::ReferralCodesController < ApplicationController
     account_name = params[:account]
     redirect_to :back, alert: 'Please provide account name.' unless account_name.present?
 
+    # TODO: check if account name is registered on the blockchain (will do it myself later)
+
     referral = ReferralCode.where(aasm_state: [:sent, :funded])
 
     if params[:code]
@@ -89,11 +91,15 @@ class Profile::ReferralCodesController < ApplicationController
     end
 
     if referral
-      ReferralCodesUpdater.redeem(referral, account_name)
-
-      redirect_to profile_path, notice: "Your account was credited with #{referral.amount/referral.asset.precision} #{referral.asset.symbol}"
+      res = ReferralCodesUpdater.redeem(referral, account_name)
+      if res[:error]
+        logger.error("!!! Error in ReferralCodesUpdater.redeem: #{res[:error]}")
+        redirect_to :back, alert: "We couldn't make a transfer at this time. This issue will be reported to website admins. Please try again later."
+      else
+        redirect_to profile_path, notice: "Your account was credited with #{referral.amount/referral.asset.precision} #{referral.asset.symbol}"
+      end
     else
-      redirect_to :back, alert: 'Referral code not found. Please make sure you entered correct name.'
+      redirect_to :back, alert: 'Referral code not found. Please make sure you entered correct code.'
     end
   end
 
