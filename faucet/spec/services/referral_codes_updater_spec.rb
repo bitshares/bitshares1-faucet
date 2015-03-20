@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'ReferralCodesUpdater' do
   let(:user) { create :user }
-  let(:referral_code) { create :referral_code, user_id: user.id, sent_to: user.email }
+  let(:referral_code) { create :referral_code, user_id: user.id, sent_to: user.email, funded_by: 'some_account' }
 
   describe 'self.redeem' do
     it "should set redeemed_at to Time.now" do
@@ -16,7 +16,7 @@ describe 'ReferralCodesUpdater' do
 
   describe 'self.set_expired' do
     it "should refund funded codes" do
-      referral_code.update_attributes(aasm_state: :funded, expires_at: DateTime.now - 1.hour, funded_by: 'some_account')
+      referral_code.update_attributes(aasm_state: :funded, expires_at: DateTime.now - 1.hour)
       ReferralCodesUpdater.set_expired
       referral_code.reload
 

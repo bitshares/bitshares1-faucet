@@ -78,6 +78,8 @@ class Profile::ReferralCodesController < ApplicationController
 
   def redeem
     account_name = params[:account]
+    redirect_to :back, alert: 'Please provide account name.' unless account_name.present?
+
     referral = ReferralCode.where(aasm_state: [:sent, :funded])
 
     if params[:code]
@@ -87,7 +89,7 @@ class Profile::ReferralCodesController < ApplicationController
     end
 
     if referral
-      ReferralCodesRedeemWorker.perform_async(referral.id, account_name)
+      ReferralCodesUpdater.redeem(referral, account_name)
 
       redirect_to profile_path, notice: "Your account was credited with #{referral.amount/referral.asset.precision} #{referral.asset.symbol}"
     else
@@ -99,7 +101,7 @@ class Profile::ReferralCodesController < ApplicationController
 
   def find_referral
     @referral = ReferralCode.find(params[:id])
-    raise ActiveRecord::RecordNotFound unless @referral.user == current_user || @referral.user_is_receiver?(current_user)
+    raise ActiveRecord::RecordNotFound unless @referral.user == current_user || @referral.user_is_receiver?(current_user) && !@referral.expired?
   end
 
   def find_referrals

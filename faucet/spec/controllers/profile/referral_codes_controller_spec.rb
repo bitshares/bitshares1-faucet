@@ -29,10 +29,18 @@ describe Profile::ReferralCodesController do
 
     it "should set state to sent" do
       ref = create :referral_code, :funded, user_id: user.id
-      post :send_mail, id: ref.id, email: 'new@email.com'
+      post :send_mail, id: ref.id, email: 'test@email.com'
       ref.reload
 
       expect(ref.aasm_state).to eq('sent')
+    end
+
+    it "should set pending_codes to true for receiving user" do
+      ref = create :referral_code, :funded, user_id: user.id
+      post :send_mail, id: ref.id, email: 'test@email.com'
+      user.reload
+
+      expect(user.pending_codes).to eq(true)
     end
   end
 

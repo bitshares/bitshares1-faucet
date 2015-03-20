@@ -25,7 +25,7 @@
       %td
         = link_to @referral.funded? ? "Delete and refund" : "Delete", profile_referral_code_path(@referral), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => "btn btn-danger"
 
-- if @referral.user_is_receiver?(current_user)
+- if @referral.user_is_receiver?(current_user) && @referral.funded? || @referral.sent?
   = form_tag redeem_profile_referral_codes_path, class: 'well form-inline' do
     .form-group
       = label_tag :account, t('account_name')

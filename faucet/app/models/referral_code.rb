@@ -15,10 +15,16 @@ class ReferralCode < ActiveRecord::Base
 
     event :set_to_sent do
       transitions from: :funded, to: :sent
+      after do
+        update_pending_codes_status(true)
+      end
     end
 
     event :close do
       transitions from: [:funded, :sent, :expired], to: :closed
+      after do
+        update_pending_codes_status(false)
+      end
     end
 
   end
@@ -45,6 +51,14 @@ class ReferralCode < ActiveRecord::Base
 
   def aasm_state
     self[:aasm_state] || :empty
+  end
+
+  def update_pending_codes_status(status)
+    user_sent_to = User.includes(:identities).where('identities.email = ? or users.email = ?', sent_to, sent_to).references(:identities).uniq.first
+    if user_sent_to
+      user_sent_to.assign_attributes(pending_codes: status)
+      user_sent_to.save if user_sent_to.changed?
+    end
   end
 
   def self.generate_code

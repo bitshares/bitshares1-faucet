@@ -48,7 +48,9 @@ class ReferralCodesUpdater
     Rails.logger.info "#{Time.now} Redeeming referral code #{referral_code.code}"
 
     if transfer(referral_code, to_account_name, "REF #{referral_code.code}")
-      referral_code.update_attributes(aasm_state: :closed, redeemed_at: Time.now.to_s(:localdb))
+      referral_code.close! do
+        referral_code.update_attributes(redeemed_at: Time.now.to_s(:localdb))
+      end
     end
   end
 

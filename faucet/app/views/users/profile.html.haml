@@ -1,3 +1,7 @@
+- if @user.pending_codes?
+  .well
+    You have referral codes pending, please check your E-mail.
+
 .row
   .col-md-6
     .panel.panel-default
@@ -102,11 +106,11 @@
   = form_tag(redeem_profile_referral_codes_path, class: 'form-horizontal') do
     .form-group
       = label_tag :account, t('account_name'), class: 'col-sm-4 control-label'
-      .col-sm-6
+      .col-sm-6.input-group
         = text_field_tag :account, nil, class: 'form-control'
     .form-group
       = label_tag :code, t('code'), class: 'col-sm-4 control-label'
-      .col-sm-6
+      .col-sm-6.input-group
         = text_field_tag :code, nil, class: 'form-control'
     .form-group
       .col-sm-offset-4.col-sm-3.input-group
