@@ -4,13 +4,5 @@
     %span.label.label-success= @referral.code
 %div#referral_code{data: {url: profile_referral_code_path(@referral)} }
   = render 'code'
-- if @referral.funded?
-  %h3
-    Send referral code
-  = form_tag(send_mail_profile_referral_code_path, class: 'well form-inline') do
-    .form-group
-      .input-group
-        = email_field_tag :email, nil, class: 'form-control', placeholder: 'address@example.com'
-    = submit_tag 'Send', class: 'btn btn-primary'
 
 = link_to('All referral codes', profile_referral_codes_path)

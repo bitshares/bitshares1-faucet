@@ -55,6 +55,11 @@ class Profile::ReferralCodesController < ApplicationController
   end
 
   def send_mail
+    unless @referral.funded?
+      flash[:error] = 'You can not send referral code. It is not funded yet'
+      render :show
+    end
+
     result = ReferralRegistrator.new(@referral, params[:email]).send_referral_mail
 
     if result.is_a?(Hash) && result[:error]

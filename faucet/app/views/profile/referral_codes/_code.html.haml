@@ -1,4 +1,4 @@
-- if @referral.aasm_state == :empty
+- if @referral.aasm_state == "empty"
   %br
   In order to fund this referral code, please send #{@referral.asset_amount} #{@referral.asset.symbol} to account name <b>#{faucet_account}</b> before #{@referral.expires_at.to_formatted_s(:long)} and specify code #{@referral.code} in memo field.
 %table.table.table-bordered
@@ -31,3 +31,12 @@
       = label_tag :account, t('account_name')
       = text_field_tag :account
     = submit_tag 'Redeem', class: 'btn btn-primary'
+
+- if @referral.open?
+  %h3
+    Send referral code
+  = form_tag(send_mail_profile_referral_code_path, class: 'well form-inline') do
+    .form-group
+      .input-group
+        = email_field_tag :email, nil, class: 'form-control', placeholder: 'address@example.com', disabled: !@referral.funded?
+    = submit_tag 'Send', class: 'btn btn-primary'

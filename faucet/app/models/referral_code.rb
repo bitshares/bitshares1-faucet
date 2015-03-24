@@ -49,8 +49,12 @@ class ReferralCode < ActiveRecord::Base
     sent_to == user.email
   end
 
+  def open?
+    aasm_state.in?(["empty", "funded"])
+  end
+
   def aasm_state
-    self[:aasm_state] || :empty
+    self[:aasm_state] || "empty"
   end
 
   def update_pending_codes_status(status)

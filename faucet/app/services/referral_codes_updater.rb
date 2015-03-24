@@ -6,16 +6,14 @@ class ReferralCodesUpdater
 
     transactions = get_transactions
     return unless transactions.present?
-    referral_codes = ReferralCode.where(aasm_state: [:empty, nil]).where(code: [transactions.keys])
+    referral_codes = ReferralCode.where(aasm_state: ["empty", nil]).where(code: [transactions.keys])
     return unless referral_codes
 
     referral_codes.each do |code|
       trx = transactions[code.code]
       if code.amount == trx[0]['amount'].to_i && code.asset.assetid == trx[0]['asset_id'].to_i
-        code.fund do
-          code.funded_by = trx[1]
-        end
-        code.save!
+        code.funded_by = trx[1]
+        code.fund!
       end
     end
   end
@@ -50,9 +48,8 @@ class ReferralCodesUpdater
     res = transfer(referral_code, to_account_name, "REF #{referral_code.code}")
     return res if res.try(:error)
 
-    referral_code.close! do
-      referral_code.update_attributes(redeemed_at: Time.now.to_s(:localdb))
-    end
+    referral_code.redeemed_at = Time.now.to_s(:localdb)
+    referral_code.close!
     return {}
   end
 
