@@ -1,91 +1,10 @@
 /*
- *= require fonts
- *= require bootstrap-social
  *= require_self
  */
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "bootstrap-social";
+@import "fonts";
 @import "font-awesome-sprockets";
 @import "font-awesome";
-
-body {
-  font-family: 'OpenSans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 26px;
-  margin-bottom: 60px;
-}
-
-.flash {
-  margin-top: 6px;
-}
-
-h2 {
-  font-weight: 300;
-}
-
-.btn {
-  a, a:hover {
-    color: #fff;
-    text-decoration: none;
-  }
-}
-
-.btn:hover, .btn:focus, .btn.focus {
-  color: #fff;
-  text-decoration: none;
-}
-
-.control-group.error {
-  label, .help-inline {
-    color: #e00;
-  }
-  input {
-    border: 1px solid #e00;
-  }
-}
-
-.sbtns {
-  .cell {
-    padding: 16px 64px;
-    .btn {
-      text-align: left;
-      &:hover, &:active, &:focus {
-        color: #fff;
-      }
-    }
-  }
-}
-
-.footer {
-  text-align: center;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 48px;
-  background-color: #f5f5f5;
-
-  p {
-    color: #999;
-    font-size: 14px;
-    line-height: 48px;
-    margin: 0;
-  }
-}
-
-.register_account_form {
-  width: 320px;
-  margin: 0 auto;
-  input[type=text] { width: 320px; }
-}
-
-.btn-bitshares {
-  color: #fff;
-  background-color: #01bbf4;
-  &:hover {
-    background-color: #30c7f5;
-  }
-}
-
-.newsletter_subscription li {
-  list-style-type: none;
-}
+@import "common";
