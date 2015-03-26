@@ -45,7 +45,7 @@ class ReferralCodesUpdater
     return unless referral_code.sent? || referral_code.funded?
     Rails.logger.info "#{Time.now} Redeeming referral code #{referral_code.code}"
 
-    res = transfer(referral_code, to_account_name, "REF #{referral_code.code}")
+    res = transfer(referral_code, to_account_name, "referral code credit #{referral_code.code}")
     return res if res.try(:error)
 
     referral_code.redeemed_at = Time.now.to_s(:localdb)

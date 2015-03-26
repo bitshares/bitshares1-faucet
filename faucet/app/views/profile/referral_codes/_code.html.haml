@@ -40,3 +40,5 @@
       .input-group
         = email_field_tag :email, nil, class: 'form-control', placeholder: 'address@example.com', disabled: !@referral.funded?
     = submit_tag 'Send', class: 'btn btn-primary'
+    - unless @referral.funded?
+      %span.text-warning.bg-warning.add-some-padding You need to fund referral code before you can send it.
