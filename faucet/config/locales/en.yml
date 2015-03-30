@@ -83,12 +83,11 @@ en:
       unsubscribed:
         You unsubscribed from the newsletter, please click %{link} to subscribe.
     finish_signup:
-      please_confirm_to_finish:
+      please_confirm_to_finish: |
         Please confirm your email address to finish account registration.
-      resend_confirmation:
-        Click %{here} if you want to resend confirmation email
-      please_confirm:
-        Please confirm your email address
+        Use the form below if you want to resend confirmation.
+      please_enter_email:
+        Please enter your email address
     profile:
       login_with_another_identity:
         Log in with another identity provider

@@ -16,16 +16,12 @@ class User < ActiveRecord::Base
              :facebook, :twitter, :linkedin, :google_oauth2, :github, :reddit, :weibo, :qq
          ]
 
-  validates :email, format: { without: TEMP_EMAIL_REGEX }, on: :update
+  validates :email, email: true, format: { without: TEMP_EMAIL_REGEX }, on: :update
   validates :name, presence: true
   validates :password, presence: true, length: {minimum: 6}, on: :create
   validates :password, length: {minimum: 6}, allow_blank: true, on: :update
   validates_confirmation_of :password
   after_create :subscribe_async
-
-  def pending_referral_code?
-    ReferralCode.where(sent_to: self.email, aasm_state: :sent).exists?
-  end
 
   def email_verified?
     self.email && self.email !~ TEMP_EMAIL_REGEX

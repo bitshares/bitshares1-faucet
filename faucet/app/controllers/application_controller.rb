@@ -68,10 +68,8 @@ class ApplicationController < ActionController::Base
           domain: request_domain()
       }
     end
-
-    user = current_user
-    if user
-      user.update_attribute(:uid, @uid) unless user.uid == @uid
+    if current_user && current_user.uid != @uid
+      current_user.update_attribute(:uid, @uid)
     end
   end
 

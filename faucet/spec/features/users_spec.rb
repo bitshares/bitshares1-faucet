@@ -7,7 +7,7 @@ feature 'Omniauth sign in' do
     User.last.confirm!
 
     visit profile_path
-    expect(page).to have_content('Please confirm your email address')
+    expect(page).to have_content('Please enter your email address')
 
     fill_in 'Email', with: 'test@email.ru'
     click_button 'Continue'
