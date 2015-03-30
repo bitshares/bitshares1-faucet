@@ -72,7 +72,7 @@ module BitShares
           response = http.request(@req)
           result = JSON.parse(response.body)
           if result['error']
-            log "error: #{result['error']}"
+            log "[#{@instance_name}] error: #{result['error']}"
             unless @ignore_errors
               raise Error, JSON.pretty_generate(result['error']), "#{method} #{params ? params.join(' ') : ''}"
             else

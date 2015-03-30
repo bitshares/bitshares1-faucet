@@ -1,20 +1,20 @@
 class AccountRegistrator
   def initialize(user, logger)
     @user = user
-    @account = user.bts_accounts.where(name: account_name).first
     @logger = logger
   end
 
   def register(account_name, account_key, owner_key, referrer)
     @result = {account_name: account_name}
 
+    @account = @user.bts_accounts.where(name: account_name).first
     if @account
       @result[:error] = "Account '#{account_name}' is already registered"
       return @result
     end
 
     if @user.bts_accounts.count >= Rails.application.config.bitshares.registrations_limit
-      @result[:error] = 'Account cannot be registered. You are running out of your limit of free account registrations.'
+      @result[:error] = 'We cannot register this account - you ran out of your free account registrations.'
       return @result
     end
 
