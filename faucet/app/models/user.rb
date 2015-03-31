@@ -65,7 +65,7 @@ class User < ActiveRecord::Base
     return unless self.email
 
     gb = Gibbon::API.new
-    list_id = Rails.application.config.bitshares.mailchimp['list_id']
+    list_id = APPCONFIG.mailchimp['list_id']
 
     begin
       result = if subscription_status

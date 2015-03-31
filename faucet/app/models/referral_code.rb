@@ -66,7 +66,7 @@ class ReferralCode < ActiveRecord::Base
   end
 
   def self.generate_code
-    "#{Rails.application.config.bitshares.faucet_refcode_prefix}-#{SecureRandom.urlsafe_base64(8).upcase}"
+    "#{APPCONFIG.faucet_refcode_prefix}-#{SecureRandom.urlsafe_base64(8).upcase}"
   end
 
   def asset_amount

@@ -80,7 +80,7 @@ Rails.application.configure do
     :ignore_if => lambda { |env, exception| !env[:rake?] },
     :email => {
         :email_prefix => '[FAUCET] ',
-        :sender_address => Rails.application.config.bitshares.exception_notification['sender_address'],
-        :exception_recipients => Rails.application.config.bitshares.exception_notification['exception_recipients']
+        :sender_address => APPCONFIG.exception_notification['sender_address'],
+        :exception_recipients => APPCONFIG.exception_notification['exception_recipients']
     }
 end

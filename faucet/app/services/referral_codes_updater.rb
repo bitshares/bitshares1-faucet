@@ -62,7 +62,7 @@ class ReferralCodesUpdater
     transactions = transaction_history.each_with_object({}) do |transaction, hash|
       entry = transaction['ledger_entries'][0]
       memo = entry['memo']
-      next unless memo.start_with?(Rails.application.config.bitshares.faucet_refcode_prefix)
+      next unless memo.start_with?(APPCONFIG.faucet_refcode_prefix)
 
       hash[memo] = [entry['amount'], entry['from_account']]
     end
@@ -74,7 +74,7 @@ class ReferralCodesUpdater
   end
 
   def self.transfer(referral_code, to_account_name, message)
-    BitShares::API::Wallet.transfer referral_code.amount/referral_code.asset.precision, referral_code.asset.symbol, Rails.application.config.bitshares.bts_faucet_account, to_account_name, message
+    BitShares::API::Wallet.transfer referral_code.amount/referral_code.asset.precision, referral_code.asset.symbol, APPCONFIG.bts_faucet_account, to_account_name, message
   rescue Errno::ECONNREFUSED => ex
     Rails.logger.error "Error! can't transfer referral code id##{referral_code.id}: connection refused"
     {error: ex['message']}

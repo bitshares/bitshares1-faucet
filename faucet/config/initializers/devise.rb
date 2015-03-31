@@ -258,7 +258,7 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 
-  oauth = Rails.application.config.bitshares.oauth
+  oauth = APPCONFIG.oauth
   config.omniauth :facebook, oauth['facebook']['app_id'], oauth['facebook']['secret'], { scope: 'email' }
   config.omniauth :twitter, oauth['twitter']['app_id'], oauth['twitter']['secret']
   config.omniauth :linkedin, oauth['linkedin']['app_id'], oauth['linkedin']['secret']

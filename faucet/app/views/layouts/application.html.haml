@@ -6,9 +6,9 @@
     %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}/
     %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
     %meta{:content => "BitShares Facuet", :name => "description"}/
-    - if Rails.application.config.bitshares.meta_wb_webmaster
-      %meta{:content => Rails.application.config.bitshares.meta_wb_webmaster, :property => "wb:webmaster"}/
-      %meta{:content => Rails.application.config.bitshares.meta_wb_webmaster, :property => "qc:admins"}/
+    - if APPCONFIG.meta_wb_webmaster
+      %meta{:content => APPCONFIG.meta_wb_webmaster, :property => "wb:webmaster"}/
+      %meta{:content => APPCONFIG.meta_wb_webmaster, :property => "qc:admins"}/
     = favicon_link_tag 'favicon.ico'
     = csrf_meta_tags
     = stylesheet_link_tag 'application', media: 'all'

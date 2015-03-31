@@ -105,7 +105,7 @@ class WelcomeController < ApplicationController
   def faucet_balance(asset)
     Rails.cache.fetch('key', expires_in: 1.minute) do
       begin
-        res = BitShares::API::Wallet.account_balance(Rails.application.config.bitshares.bts_faucet_account)
+        res = BitShares::API::Wallet.account_balance(APPCONFIG.bts_faucet_account)
         return 0 if res.empty?
         res[0][1][0][1]/asset.precision
       rescue BitShares::API::Rpc::Error => ex

@@ -31,7 +31,7 @@
   :javascript
     window.fbAsyncInit = function () {
       FB.init({
-        appId: #{Rails.application.config.bitshares.oauth['facebook']['app_id']},
+        appId: #{APPCONFIG.oauth['facebook']['app_id']},
         xfbml: true,
         version: 'v2.1'
       });
