@@ -27,6 +27,10 @@ group :development do
   gem 'spring'
   gem 'quiet_assets'
   gem "letter_opener"
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-passenger'
+  gem 'capistrano-sidekiq'
 end
 
 group :development, :test do
@@ -62,7 +66,6 @@ gem 'omniauth-reddit', :git => 'git://github.com/jackdempsey/omniauth-reddit.git
 gem 'omniauth-weibo-oauth2'
 # gem 'weibo_2'
 gem 'omniauth-qq-oauth2', :git => 'git://github.com/dapic/omniauth-qq-oauth2.git'
-gem 'mina'
 
 gem 'activeadmin', github: 'activeadmin'
 gem 'haml-rails'
@@ -73,3 +76,4 @@ gem 'exception_notification', github: 'smartinez87/exception_notification'
 gem 'devise-i18n'
 gem 'aasm'
 gem 'clockwork'
+gem 'rvm1-capistrano3', require: false
