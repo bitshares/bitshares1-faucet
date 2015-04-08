@@ -4,6 +4,7 @@ lock '3.4.0'
 set :application, 'faucet'
 set :repo_url, 'git@github.com:BitShares/web_services.git'
 set :repo_tree, '/faucet'
+set :rvm1_ruby_version, "2.1.3"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -24,7 +25,7 @@ set :deploy_to, '/www/faucet'
 # set :pty, true
 
 # Default value for :linked_files is []
-# set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
+set :linked_files, fetch(:linked_files, []).push('config/bitshares.yml', 'config/secrets.yml')
 
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
@@ -34,8 +35,6 @@ set :deploy_to, '/www/faucet'
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
-
-before 'deploy', 'rvm1:install:rvm'
 
 namespace :deploy do
 
