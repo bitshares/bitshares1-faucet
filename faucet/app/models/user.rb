@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   after_create :subscribe_async
 
   def email_verified?
-    self.email && self.email !~ TEMP_EMAIL_REGEX
+    email && email !~ TEMP_EMAIL_REGEX
   end
 
   # devise email confirmation
@@ -62,16 +62,16 @@ class User < ActiveRecord::Base
   end
 
   def subscribe(subscription_status)
-    return unless self.email
+    return unless email
 
     gb = Gibbon::API.new
     list_id = APPCONFIG.mailchimp['list_id']
 
     begin
       result = if subscription_status
-                 gb.lists.subscribe({:id => list_id, :email => {:email => self.email}, :merge_vars => {:FNAME => self.name}, :double_optin => false})
+                 gb.lists.subscribe({:id => list_id, :email => {:email => email}, :merge_vars => {:FNAME => name}, :double_optin => false})
                else
-                 gb.lists.unsubscribe(:id => list_id, :email => {:email => self.email}, :delete_member => true, :send_notify => true)
+                 gb.lists.unsubscribe(:id => list_id, :email => {:email => email}, :delete_member => true, :send_notify => true)
                end
     rescue Gibbon::MailChimpError => e
       result = e
@@ -88,7 +88,7 @@ class User < ActiveRecord::Base
 
   def subscribe_async
     begin
-      UserSubscribeWorker.perform_async(self.id, true) if self.email_verified?
+      UserSubscribeWorker.perform_async(id, true) if email_verified?
     rescue Redis::CannotConnectError => e
       logger.error "---------> cannot connect to Redis"
     end

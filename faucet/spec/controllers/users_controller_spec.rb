@@ -3,26 +3,28 @@ require 'rails_helper'
 describe UsersController do
   let(:user) { create(:user) }
 
+  before(:each) do
+    sign_in user
+  end
+
   describe "#finish_signup" do
     it "should render template with form to fill in email" do
-      expect(get :finish_signup, id: user.id).to render_template('finish_signup')
+      expect(get :finish_signup).to render_template('finish_signup')
     end
 
     it "should add email to unconfirmed" do
-      patch :finish_signup, id: user.id, user: {email: 'new@email.com'}
+      patch :finish_signup, user: {email: 'new@email.com'}
       user.reload
       expect(user.unconfirmed_email).to eq('new@email.com')
     end
 
     it "sends confirmation email" do
-      unconfirmed_user = create(:user)
-      expect { patch :finish_signup, id: unconfirmed_user.id, user: {email: 'new@email.com'} }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { patch :finish_signup, user: {email: 'new@email.com'} }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
   end
 
   describe "#subscribe" do
     before(:each) do
-      sign_in user
       user.confirm!
     end
 

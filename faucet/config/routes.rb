@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       confirmations: 'users/confirmations'
   }
 
-  match 'finish_signup/:id', to: 'users#finish_signup', as: 'finish_signup', via: [:get, :patch]
+  match 'finish_signup/', to: 'users#finish_signup', as: 'finish_signup', via: [:get, :patch]
   match 'user/bitshares_account', to: 'users#bitshares_account', as: 'bitshares_account', via: [:get, :post]
   get 'users/subscribe', to: 'users#subscribe'
 

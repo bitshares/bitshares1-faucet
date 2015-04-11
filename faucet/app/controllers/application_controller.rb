@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     return if action_name == 'finish_signup' || controller_name.in?(['confirmations', 'sessions']) || root_path == request.path
 
     if current_user && !current_user.email_verified?
-      redirect_to finish_signup_path(current_user)
+      redirect_to finish_signup_path
     end
   end
 

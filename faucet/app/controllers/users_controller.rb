@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  skip_before_filter :authenticate_user!, only: [:finish_signup]
 
   def profile
     redirect_to bitshares_account_path if current_user.pending_intention and current_user.pending_intention[:pending_registration]
@@ -25,7 +24,7 @@ class UsersController < ApplicationController
 
   def finish_signup
     @hide_sign_in = true
-    user = User.find(params[:id])
+    user = current_user
 
     if user.email_verified? && user.confirmed_at
       redirect_to root_path, notice: 'You have already confirmed your email.'

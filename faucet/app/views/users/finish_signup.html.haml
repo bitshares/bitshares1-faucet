@@ -5,7 +5,7 @@
     - else
       %h4= t('.please_enter_email')
 
-    = form_for(current_user, :as => 'user', :url => finish_signup_path(current_user), :html => { role: 'form', class: 'col-md-5'}) do |f|
+    = form_for(current_user, :as => 'user', :url => finish_signup_path, :html => { role: 'form', class: 'col-md-5'}) do |f|
       .form-group
         = f.label :email
         .controls
