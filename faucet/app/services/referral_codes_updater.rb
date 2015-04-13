@@ -56,7 +56,7 @@ class ReferralCodesUpdater
   private
 
   def self.get_transactions
-    Rails.logger.info "#{Time.now} Getting #{Rails.application.config.bitshares.faucet_refcode_prefix} transactions history"
+    Rails.logger.info "#{Time.now} Getting #{APPCONFIG.faucet_refcode_prefix} transactions history"
 
     transaction_history = BitShares::API::Wallet.account_transaction_history
     transactions = transaction_history.each_with_object({}) do |transaction, hash|
