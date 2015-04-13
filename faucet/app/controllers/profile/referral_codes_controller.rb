@@ -15,7 +15,7 @@ class Profile::ReferralCodesController < ApplicationController
     @referral = ReferralCode.new(referral_code_params) do |r|
       r.user_id = current_user.id
       r.code = ReferralCode.generate_code
-      r.amount *= r.asset.precision if r.amount
+      r.amount = referral_code_params[:amount].to_f * r.asset.precision if referral_code_params[:amount]
       r.expires_at = r.mutate_expires_at(params[:referral_code][:expires_at])
     end
 

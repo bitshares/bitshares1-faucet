@@ -70,7 +70,7 @@ class ReferralCode < ActiveRecord::Base
   end
 
   def asset_amount
-    self.amount / asset.precision
+    BigDecimal(amount) / BigDecimal(asset.precision)
   end
 
   def mutate_expires_at(expires_at)

@@ -1,6 +1,6 @@
 - if @referral.aasm_state == "empty"
-  %br
-  In order to fund this referral code, please send #{@referral.asset_amount} #{@referral.asset.symbol} to account name <b>#{faucet_account}</b> before #{@referral.expires_at.to_formatted_s(:long)} and specify code #{@referral.code} in memo field.
+  %p
+    In order to fund this referral code, please send #{@referral.asset_amount} #{@referral.asset.symbol} to account name <b>#{faucet_account}</b> before #{@referral.expires_at.to_formatted_s(:long)} and specify code #{@referral.code} in memo field.
 %table.table.table-bordered
   - unless @referral.user_is_receiver?(current_user)
     %tr
