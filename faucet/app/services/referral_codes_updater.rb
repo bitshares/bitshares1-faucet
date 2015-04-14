@@ -77,9 +77,9 @@ class ReferralCodesUpdater
     BitShares::API::Wallet.transfer referral_code.amount/referral_code.asset.precision, referral_code.asset.symbol, APPCONFIG.bts_faucet_account, to_account_name, message
   rescue Errno::ECONNREFUSED => ex
     Rails.logger.error "Error! can't transfer referral code id##{referral_code.id}: connection refused"
-    {error: ex['message']}
+    {error: ex}
   rescue BitShares::API::Rpc::Error => ex
-    Rails.logger.error "Error! can't transfer referral code id##{referral_code.id}: #{ex['message']}"
+    Rails.logger.error "Error! can't transfer referral code id##{referral_code.id}: #{ex}"
     {error: 'connection refused'}
   end
 
