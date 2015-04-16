@@ -7,5 +7,5 @@ module Clockwork
     config[:logger] = Logger.new('log/clockwork.log')
   end
 
-  every(20.seconds, 'Updating referral codes') { ReferralCodesWorker.perform_async }
+  every(2.minutes, 'Updating referral codes') { ReferralCodesWorker.perform_async }
 end

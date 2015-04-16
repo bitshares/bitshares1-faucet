@@ -83,7 +83,7 @@ class Profile::ReferralCodesController < ApplicationController
 
   def redeem
     account_name = params[:account]
-    redirect_to :back, alert: 'Please provide account name.' unless account_name.present?
+    redirect_to :back, alert: 'Please provide account name.' and return unless account_name.present?
 
     # TODO: check if account name is registered on the blockchain (will do it myself later)
 
