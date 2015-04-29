@@ -98,6 +98,7 @@ class WelcomeController < ApplicationController
     if current_user
       current_user.set_pending_registration({'account_name' => account_name, 'account_key' => account_key, 'owner_key' => owner_key})
     else
+      session.delete(:pending_registration)
       session[:pending_registration] = {account_name: account_name, account_key: account_key, owner_key: owner_key}
     end
   end
