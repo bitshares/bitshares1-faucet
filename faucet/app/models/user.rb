@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
   end
 
   def subscribe(subscription_status)
-    return unless email
+    return if !email or email.start_with?(TEMP_EMAIL_PREFIX)
 
     gb = Gibbon::API.new
     list_id = APPCONFIG.mailchimp['list_id']
